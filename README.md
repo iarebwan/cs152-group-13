@@ -1,4 +1,7 @@
 # cs152-group-13
+> Language Name: Bajj-er Bajjer
+
+> File Extension: .bajj
 
 >Language Name: BAJJ-er
 >Extension: .BAJJ
