@@ -14,13 +14,19 @@
 | Functions  | function(num a, num b) {return a;} |
 
 > Comments begin after "#"
+
 > Identifiers cannot start with number or contain special characters
+
 > Is case sensitive
+
 > Whitespaces ignored
 
+
 | Symbol in Language | Token Name |
+| ------------- | ------------- |
 | num | NUMBER |
 | "+" | PLUS |
 | "-" | MINUS |
 | "/" | DIVISION |
 | "*" | MULTI |
+
