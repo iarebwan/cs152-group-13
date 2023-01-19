@@ -29,4 +29,20 @@
 | "-" | MINUS |
 | "/" | DIVISION |
 | "*" | MULTI |
-
+| "<" | LESS |
+| ">" | GREATER |
+| "==" | EQUAL |
+| "!=" | NOT_EQUAL |
+| "<=" | LE_EQ |
+| ">=" | GE_EQ |
+| "#" | COMMENT |
+| "while" | WHILE |
+| "if" | IF |
+| "elif" | ELIF |
+| "else" | ELSE |
+| "function" | FUNC |
+| "return" | RETURN |
+| "input" | INPUT |
+| "output" | OUTPUT |
+| "[]" | ARRAY |
+| "=" | ASSIGN |
