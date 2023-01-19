@@ -1,5 +1,9 @@
 # cs152-group-13
 
+>Language Name: BAJJ-er
+>Extension: .BAJJ
+>Compiler: BAJJ-er-C
+
 | Language Feature  | Code Example |
 | ------------- | ------------- |
 | Integer Scalar Variables  | num b; num number; |
