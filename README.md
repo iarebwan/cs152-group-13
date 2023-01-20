@@ -3,8 +3,6 @@
 
 > File Extension: .bajj
 
->Language Name: BAJJ-er
->Extension: .BAJJ
 >Compiler: BAJJ-er-C
 
 | Language Feature  | Code Example |
