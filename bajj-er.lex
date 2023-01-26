@@ -12,6 +12,11 @@ NUM {DIGIT}+("."{DIGIT}+)?
 "intput"    {printf("INPUT %s\n", yytext);}
 "output"    {printf("OUTPUT %s\n", yytext);}
 "num" {printf("NUM %s\n", yytext);}
+"while" {printf("WHILE %s\n", yytext);}
+"if" {printf("IF %s\n", yytext);}
+"elif" {printf("ELIF %s\n", yytext);}
+"else" {printf("ELSE %s\n", yytext);}
+"function" {printf("FUNC %s\n", yytext);} 
 {NUM} {printf("NUMBER %s\n", yytext);}
 {ID} {printf("ID %s\n", yytext);}
 "+"  {printf("PLUS  %s\n", yytext);}
@@ -25,12 +30,6 @@ NUM {DIGIT}+("."{DIGIT}+)?
 "<="    {printf("LE_EQ %s\n", yytext);}
 ">="    {printf("GE_EQ %s\n", yytext);}
 "#" {printf("COMMENT %s\n", yytext);}
-"while" {printf("WHILE %s\n", yytext);}
-"if" {printf("IF %s\n", yytext);}
-"elif" {printf("ELIF %s\n", yytext);}
-"else" {printf("ELSE %s\n", yytext);}
-"function" {printf("FUNC %s\n", yytext);} 
-
 "["    {printf("L_BRACKET %s\n", yytext);}
 "]"    {printf("R_BRACKET %s\n", yytext);}
 "{"    {printf("L_C_BRACKET %s\n", yytext);}
