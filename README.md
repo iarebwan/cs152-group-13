@@ -51,3 +51,6 @@
 | "output" | OUTPUT |
 | "[]" | ARRAY |
 | "=" | ASSIGN |
+| ";" | SEMICOLON |
+| "{" | L BRACKET |
+| "}" | R BRACKET |
