@@ -1,0 +1,21 @@
+num happy = 143;
+num uhoh;
+if(happy == 143)
+{uhoh = 4;}
+elif(happy == 0)
+{uhoh = 1;}
+else
+{uhoh = 0;}
+
+num bob[];
+while(happy >= 5)
+{
+    uhoh = uhoh + 5;
+    uhoh = uhoh - 4;
+    uhoh = uhoh / 5;
+    uhoh = uhoh * 9;
+}
+
+function(num a, num b) {return a;}
+
+#commento
