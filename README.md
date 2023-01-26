@@ -3,6 +3,8 @@
 
 > File Extension: .bajj
 
+>Compiler: BAJJ-er-C
+
 | Language Feature  | Code Example |
 | ------------- | ------------- |
 | Integer Scalar Variables  | num b; num number; |
