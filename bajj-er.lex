@@ -34,9 +34,14 @@ NUM {DIGIT}+("."{DIGIT}+)?
 "]"    {printf("R_BRACKET %s\n", yytext);}
 "{"    {printf("L_C_BRACKET %s\n", yytext);}
 "}"    {printf("R_C_BRACKET %s\n", yytext);}
+"("    {printf("L_PAREN %s\n", yytext);}
+")"    {printf("R_PAREN %s\n", yytext);}
 "="    {printf("ASSIGN %s\n", yytext);}
 ";"    {printf("SEMICOLON %s\n", yytext);}
+","    {printf("COMMA %s\n", yytext);}
 
+[ \t\n]+ 
+. printf( "Unrecognized character: %s\n", yytext );
 %%
 
 
