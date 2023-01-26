@@ -13,6 +13,7 @@ NUM {DIGIT}+("."{DIGIT}+)?
 "output"    {printf("OUTPUT %s\n", yytext);}
 {NUM} {printf("NUMBER %s\n", yytext);}
 {ID} {printf("ID %s\n", yytext);}
+"num" {printf("NUM %s\n", yytext);}
 "+"  {printf("PLUS  %s\n", yytext);}
 "-" {printf("MINUS  %s\n", yytext);}
 "*" {printf("MULTI  %s\n", yytext);}
