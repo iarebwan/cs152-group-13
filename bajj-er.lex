@@ -11,9 +11,9 @@ NUM {DIGIT}+("."{DIGIT}+)?
 "return"    {printf("RETURN %s\n", yytext);}
 "intput"    {printf("INPUT %s\n", yytext);}
 "output"    {printf("OUTPUT %s\n", yytext);}
+"num" {printf("NUM %s\n", yytext);}
 {NUM} {printf("NUMBER %s\n", yytext);}
 {ID} {printf("ID %s\n", yytext);}
-"num" {printf("NUM %s\n", yytext);}
 "+"  {printf("PLUS  %s\n", yytext);}
 "-" {printf("MINUS  %s\n", yytext);}
 "*" {printf("MULTI  %s\n", yytext);}
