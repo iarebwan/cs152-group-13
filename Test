@@ -8,7 +8,7 @@ else
 {uhoh = 0;}
 
 num bob[];
-while(happy >= 5)
+while(happy >= 5) &
 {
     uhoh = uhoh + 5;
     uhoh = uhoh - 4;
@@ -16,6 +16,6 @@ while(happy >= 5)
     uhoh = uhoh * 9;
 }
 
-function(num a, num b) {return a;}
+function(num a, !num b) {return a;} 
 
 #commento
