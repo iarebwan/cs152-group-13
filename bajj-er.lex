@@ -6,8 +6,9 @@ int colnum = 1;
 
 DIGIT [0-9]
 ALPHA [a-zA-Z]
-ID {ALPHA}+
 NUM {DIGIT}+("."{DIGIT}+)?
+ID ({ALPHA}+{DIGIT}+)+
+NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
 "return"    {colnum+= yyleng; printf("RETURN %s\n", yytext);}
@@ -19,6 +20,7 @@ NUM {DIGIT}+("."{DIGIT}+)?
 "elif" {colnum+= yyleng; printf("ELIF %s\n", yytext);}
 "else" {colnum+= yyleng; printf("ELSE %s\n", yytext);}
 "function" {colnum+= yyleng; printf("FUNC %s\n", yytext);} 
+{NUMERROR} printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext, linenum, colnum);
 {NUM} {colnum+= yyleng; printf("NUMBER %s\n", yytext);}
 {ID} {colnum+= yyleng; printf("ID %s\n", yytext);}
 "+"  {colnum+= yyleng; printf("PLUS  %s\n", yytext);}
@@ -31,7 +33,7 @@ NUM {DIGIT}+("."{DIGIT}+)?
 "!="    {colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);}
 "<="    {colnum+= yyleng; printf("LE_EQ %s\n", yytext);}
 ">="    {colnum+= yyleng; printf("GE_EQ %s\n", yytext);}
-"#" {colnum+= yyleng; printf("COMMENT %s\n", yytext);}
+"#".* {colnum+= yyleng; printf("COMMENT %s\n", yytext);}
 "["    {colnum+= yyleng; printf("L_BRACKET %s\n", yytext);}
 "]"    {colnum+= yyleng; printf("R_BRACKET %s\n", yytext);}
 "{"    {colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);}
