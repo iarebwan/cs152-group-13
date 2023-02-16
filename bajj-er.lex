@@ -1,121 +1,54 @@
 %{
 #include <stdio.h>
-extern FILE* yyin;
+#include "y.tab.h"
+int linenum = 1;
+int colnum = 1;
 %}
-%start prog_start
-%token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
+
+DIGIT [0-9]
+ALPHA [a-zA-Z]
+NUM {DIGIT}+("."{DIGIT}+)?
+ID ({ALPHA}+{DIGIT}+)+
+NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
-prog_start : %empty {printf("prog_start->epsilon");}
-| functions {printf("prog_start->functions");}   
-;
+"return"    {colnum+= yyleng; printf("RETURN %s\n", yytext);return RETURN;}
+"intput"    {colnum+= yyleng; printf("INPUT %s\n", yytext);return INPUT;}
+"output"    {colnum+= yyleng; printf("OUTPUT %s\n", yytext);return OUTPUT;}
+"for"	{colnum+= yyleng; printf("FOR %s\n", yytext);return FOR;}
+"num" {colnum+= yyleng; printf("NUM %s\n", yytext);return NUM;}
+"while" {colnum+= yyleng; printf("WHILE %s\n", yytext);return WHILE;}
+"if" {colnum+= yyleng; printf("IF %s\n", yytext);return IF;}
+"elif" {colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
+"else" {colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
+"function" {colnum+= yyleng; printf("FUNC %s\n", yytext);return FUNC;} 
+{NUMERROR} {printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
+{NUM} {colnum+= yyleng; printf("NUMBER %s\n", yytext);return NUMBER;}
+{ID} {colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
+"+"  {colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
+"-" {colnum+= yyleng; printf("MINUS  %s\n", yytext);return MINUS;}
+"*" {colnum+= yyleng; printf("MULTI  %s\n", yytext);return MULTI;}
+"/" {colnum+= yyleng; printf("DIVISION  %s\n", yytext);return DIVISION;}
+"<" {colnum+= yyleng; printf("LESS  %s\n", yytext);return LESS;}
+">"     {colnum+= yyleng; printf("GREATER %s\n", yytext);return GREATER;}
+"=="    {colnum+= yyleng; printf("EQUAL %s\n", yytext);return EQUAL;}
+"!="    {colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);return NOT_EQUAL;}
+"<="    {colnum+= yyleng; printf("LE_EQ %s\n", yytext);return LE_EQ;}
+">="    {colnum+= yyleng; printf("GE_EQ %s\n", yytext);return GE_EQ;}
+"#".* {colnum+= yyleng; printf("COMMENT %s\n", yytext);return COMMENT;}
+"["    {colnum+= yyleng; printf("L_BRACKET %s\n", yytext);return L_BRACKET;}
+"]"    {colnum+= yyleng; printf("R_BRACKET %s\n", yytext);return R_BRACKET;}
+"{"    {colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);return L_C_BRACKET;}
+"}"    {colnum+= yyleng; printf("R_C_BRACKET %s\n", yytext);return R_C_BRACKET;}
+"("    {colnum+= yyleng; printf("L_PAREN %s\n", yytext);return L_PAREN;}
+")"    {colnum+= yyleng; printf("R_PAREN %s\n", yytext);return R_PAREN;}
+"="    {colnum+= yyleng; printf("ASSIGN %s\n", yytext);return ASSIGN;}
+";"    {colnum+= yyleng; printf("SEMICOLON %s\n", yytext);return SEMICOLON;}
+","    {colnum+= yyleng; printf("COMMA %s\n", yytext);return COMMA;}
 
-functions: function{printf("function -> function");}
-| function functions {printf("function -> function functions\n");}
-;
-
-function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  ");};
-
-args: arg COMMA args {printf("arguments -> COMMA arguments\n");}
-| arg {printf("arguments -> argument\n");}
-;
-
-arg: %empty /*epsilon*/ {printf("argument -> epsilon\n");}
-| NUM ID {printf("argument -> NUM ID\n");}
-;
-
-statements: statement SEMICOLON {printf("statements -> statement SEMICOLON\n");}
-| statement SEMICOLON statements {printf("statements -> statement SEMICOLON statement\n");}
-;
-
-statement: 	declaration 
-		{printf("statment -> declaration\n");}
-		| function_call
-		  {printf("statement-> function_call\n");}
-		| num
-	  	  {printf("statement->num\n");}
-	  	| if
-		  {printf("statement->if\n");}
-		| while
-		  {printf("statement->while\n");}
-		| for
-		  {printf("statement->for\n");}
-		| input
-		  {printf("statement->input\n");}
-		| output
-		  {printf("statement->output\n");}
-;
-
-num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}
-| NUM ID ASSIGN NUMBER {printf("num -> NUM ID ASSIGN NUMBER\n");}
-| NUM ID ASSIGN function_call {printf("num -> NUM ID ASSIGN function_call\n");}
-;
-
-if: IF bool_exp L_C_BRACKET statements R_C_BRACKET {printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET\n");}
-;
-
-while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");}
-;
-
-for: FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
-;
-
-input: INPUT L_PAREN num_list R_PAREN {printf("input -> INPUT L_PAREN num_list R_PAREN");}
-; 
-
-output: OUTPUT L_PAREN num_list R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");}
-;
-
-num_list: %empty /*epsilon*/ {printf("num_list -> epsilon\n");}
-| COMMA num num_list {printf("num_list -> COMMA num num_list\n");}
-;
-
-exp: exp add_op term
-|term {printf("exp -> term\n");}
-;
-
-bool_exp: bool_exp
-;
-
-add_op: PLUS 
-| MINUS
-;
-
-term: term mulop factor {printf("term -> term mulop factor\n");}
-| factor {printf("term -> factor\n");}
-;
-
-mulop: MULTI {printf("mulop -> MULTI");}
-| DIVISION {printf("mulop -> DIVISION");}
-;
-
-factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN");}
-| NUMBER {printf("factor->NUMBER");}
-;
-
-declaration: NUM ID {printf("declaration -> NUM ID\n");}
-;
-
-function_call: ID L_PAREN args R_PAREN {printf("function_call -> ID L_PAREN args R_PAREN\n");}
-;
-
-args: %empty {printf("args -> epsilon\n");}
-;
+[\n] {colnum = 1; linenum++;}
+[ \t] {colnum+= yyleng;}
+. printf( "Unrecognized character: %s at Line: %d Column: %d \n", yytext, linenum, colnum);
 %%
 
-void main(int argc, char** argv) {
-  if (argc >=2) {
-    yyin = fopen(argv[1],"r");
-      if (yyin == NULL) {
-	yyin = stdin;
-      }
-  }
-  else {
-    yyin = stdin;
-  }
-  yyparse();
-  return;
-}
- void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
- }
+
