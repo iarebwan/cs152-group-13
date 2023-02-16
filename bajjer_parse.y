@@ -3,7 +3,7 @@
 extern FILE* yyin;
 %}
 %start prog_start
-%token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA
+%token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
 
 %%
 prog_start : %empty {printf("prog_start->epsilon");}
@@ -14,7 +14,7 @@ functions: function{printf("function -> function");}
 | function functions {printf("function -> function functions\n");}
 ;
 
-function: FUNC ID L_PARENT args R_PARENT L_C_BRACKET statments R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PARENT args R_PARENT L_C_BRACKET statments R_C_BRACKET SEMICOLON  ");};
+function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  ");};
 
 args: arg COMMA args {printf("arguments -> COMMA arguments\n");}
 | arg {printf("arguments -> argument\n");}
@@ -70,18 +70,30 @@ num_list: /*epsilon*/ {printf("num_list -> epsilon\n");}
 | COMMA num num_list {printf("num_list -> COMMA num num_list\n");}
 ;
 
-exp: mul_op add_op {printf("exp -> mul_op add_op\n");}
+exp: exp add_op term
+|term {printf("exp -> term\n");}
 ;
 
-mul_op: term {printf("mul_op -> term\n");}
-| term MULTI exp {printf("mul_op -> term MULTI exp\n");}
-| term DIVIDSION exp {printf("mul_op -> term DIVISION exp\n");}
+add_op: PLUS 
+| MINUS
+;
+
+term: term mulop factor {printf("term -> term mulop factor\n");}
+| factor {printf("term -> factor\n");}
+;
+
+mulop: MULTI {printf("mulop -> MULTI");}
+| DIVISION {printf("mulop -> DIVISION");}
+;
+
+factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN");}
+| NUMBER {printf("factor->NUMBER");}
 ;
 
 declaration: NUM ID {printf("declaration -> NUM ID\n");}
 ;
 
-function_call: ID L_PARENT args R_PARENT {printf("function_call -> ID L_PARENT args R_PARENT\n");}
+function_call: ID L_PAREN args R_PAREN {printf("function_call -> ID L_PAREN args R_PAREN\n");}
 ;
 
 args: %empty {printf("args -> epsilon\n");}
