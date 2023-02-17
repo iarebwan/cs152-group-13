@@ -14,7 +14,8 @@ functions: function{printf("function -> function");}
 | function functions {printf("function -> function functions\n");}
 ;
 
-function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  ");};
+function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON\n");}
+;
 
 args: arg COMMA args {printf("arguments -> COMMA arguments\n");}
 | arg {printf("arguments -> argument\n");}
