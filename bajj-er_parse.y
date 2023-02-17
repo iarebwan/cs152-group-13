@@ -2,6 +2,8 @@
 #include <stdio.h>
 extern FILE* yyin;
 %}
+
+%define parse.error verbose
 %start prog_start
 %token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
 
@@ -29,22 +31,14 @@ statements: statement SEMICOLON {printf("statements -> statement SEMICOLON\n");}
 | statement SEMICOLON statements {printf("statements -> statement SEMICOLON statement\n");}
 ;
 
-statement: 	declaration 
-		{printf("statment -> declaration\n");}
-		| function_call
-		  {printf("statement-> function_call\n");}
-		| num
-	  	  {printf("statement->num\n");}
-	  	| if
-		  {printf("statement->if\n");}
-		| while
-		  {printf("statement->while\n");}
-		| for
-		  {printf("statement->for\n");}
-		| input
-		  {printf("statement->input\n");}
-		| output
-		  {printf("statement->output\n");}
+statement: declaration {printf("statment -> declaration\n");}
+| function_call {printf("statement-> function_call\n");}
+| num {printf("statement->num\n");}
+| if {printf("statement->if\n");}
+| while {printf("statement->while\n");}
+| for {printf("statement->for\n");}
+| input {printf("statement->input\n");}
+| output {printf("statement->output\n");}
 ;
 
 num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}

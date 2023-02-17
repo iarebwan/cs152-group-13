@@ -82,7 +82,11 @@ extern FILE* yyin;
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
+<<<<<<< HEAD
 # define YYERROR_VERBOSE 0
+=======
+# define YYERROR_VERBOSE 1
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 #endif
 
 /* In a future release of Bison, this section will be replaced
@@ -453,6 +457,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
+<<<<<<< HEAD
        0,     9,     9,    10,    13,    14,    17,    20,    21,    24,
       25,    28,    29,    32,    34,    36,    44,    46,    50,    51,
       52,    64,    67,    70,    71,    74,    75,    81,    82,    85,
@@ -461,6 +466,16 @@ static const yytype_uint8 yyrline[] =
 #endif
 
 #if YYDEBUG || YYERROR_VERBOSE || 0
+=======
+       0,    11,    11,    12,    15,    16,    19,    21,    22,    25,
+      26,    29,    30,    33,    34,    35,    39,    40,    43,    44,
+      45,    57,    60,    63,    64,    67,    68,    74,    75,    78,
+      79,    82,    83,    86,    87,    90,    93,    96
+};
+#endif
+
+#if YYDEBUG || YYERROR_VERBOSE || 1
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
@@ -1269,67 +1284,112 @@ yyreduce:
   switch (yyn)
     {
         case 2:
+<<<<<<< HEAD
 #line 9 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 11 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("prog_start->epsilon");}
 #line 1275 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
+<<<<<<< HEAD
 #line 10 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 12 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("prog_start->functions");}
 #line 1281 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
+<<<<<<< HEAD
 #line 13 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 15 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("function -> function");}
 #line 1287 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
+<<<<<<< HEAD
 #line 14 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 16 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("function -> function functions\n");}
 #line 1293 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
+<<<<<<< HEAD
 #line 17 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON\n");}
+=======
+#line 19 "bajj-er_parse.y" /* yacc.c:1646  */
+    {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  ");}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 #line 1299 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
+<<<<<<< HEAD
 #line 20 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 21 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("arguments -> COMMA arguments\n");}
 #line 1305 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
+<<<<<<< HEAD
 #line 21 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 22 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("arguments -> argument\n");}
 #line 1311 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
+<<<<<<< HEAD
 #line 24 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 25 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("argument -> epsilon\n");}
 #line 1317 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
+<<<<<<< HEAD
 #line 25 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 26 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("argument -> NUM ID\n");}
 #line 1323 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
+<<<<<<< HEAD
 #line 28 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 29 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("statements -> statement SEMICOLON\n");}
 #line 1329 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
+<<<<<<< HEAD
 #line 29 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 30 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("statements -> statement SEMICOLON statement\n");}
 #line 1335 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1341,127 +1401,211 @@ yyreduce:
     break;
 
   case 14:
+<<<<<<< HEAD
 #line 35 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 34 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("statement-> function_call\n");}
 #line 1347 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
+<<<<<<< HEAD
 #line 37 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 35 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("statement->num\n");}
 #line 1353 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
+<<<<<<< HEAD
 #line 45 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 39 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("statement->input\n");}
 #line 1359 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
+<<<<<<< HEAD
 #line 47 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 40 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("statement->output\n");}
 #line 1365 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
+<<<<<<< HEAD
 #line 50 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 43 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("num -> NUM ID ASSIGN exp\n");}
 #line 1371 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
+<<<<<<< HEAD
 #line 51 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 44 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("num -> NUM ID ASSIGN NUMBER\n");}
 #line 1377 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
+<<<<<<< HEAD
 #line 52 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 45 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("num -> NUM ID ASSIGN function_call\n");}
 #line 1383 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
+<<<<<<< HEAD
 #line 64 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 57 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("input -> INPUT L_PAREN num_list R_PAREN");}
 #line 1389 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
+<<<<<<< HEAD
 #line 67 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 60 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");}
 #line 1395 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
+<<<<<<< HEAD
 #line 70 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 63 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("num_list -> epsilon\n");}
 #line 1401 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
+<<<<<<< HEAD
 #line 71 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 64 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("num_list -> COMMA num num_list\n");}
 #line 1407 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
+<<<<<<< HEAD
 #line 75 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 68 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("exp -> term\n");}
 #line 1413 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
+<<<<<<< HEAD
 #line 85 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 78 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("term -> term mulop factor\n");}
 #line 1419 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
+<<<<<<< HEAD
 #line 86 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 79 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("term -> factor\n");}
 #line 1425 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
+<<<<<<< HEAD
 #line 89 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 82 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("mulop -> MULTI");}
 #line 1431 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
+<<<<<<< HEAD
 #line 90 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 83 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("mulop -> DIVISION");}
 #line 1437 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
+<<<<<<< HEAD
 #line 93 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 86 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("factor->L_PAREN exp R_PAREN");}
 #line 1443 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
+<<<<<<< HEAD
 #line 94 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 87 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("factor->NUMBER");}
 #line 1449 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
+<<<<<<< HEAD
 #line 97 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 90 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("declaration -> NUM ID\n");}
 #line 1455 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
+<<<<<<< HEAD
 #line 100 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 93 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("function_call -> ID L_PAREN args R_PAREN\n");}
 #line 1461 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
+<<<<<<< HEAD
 #line 103 "bajj-er_parse.y" /* yacc.c:1646  */
+=======
+#line 96 "bajj-er_parse.y" /* yacc.c:1646  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
     {printf("args -> epsilon\n");}
 #line 1467 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1695,7 +1839,11 @@ yyreturn:
 #endif
   return yyresult;
 }
+<<<<<<< HEAD
 #line 105 "bajj-er_parse.y" /* yacc.c:1906  */
+=======
+#line 98 "bajj-er_parse.y" /* yacc.c:1906  */
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 
 
 void main(int argc, char** argv) {

@@ -512,10 +512,17 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "bajj-er.lex"
 #line 2 "bajj-er.lex"
+<<<<<<< HEAD
 #include <stdio.h>
 #include "y.tab.h"
 int linenum = 1;
 int colnum = 1;
+=======
+#include <stdio.h>
+#include "y.tab.h"
+int linenum = 1;
+int colnum = 1;
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 #line 520 "lex.yy.c"
 
 #define INITIAL 0
@@ -786,183 +793,327 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 15 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("RETURN %s\n", yytext);return RETURN;}
+=======
+{colnum+= yyleng; printf("RETURN %s\n", yytext);return RETURN;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 16 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("INPUT %s\n", yytext);return INPUT;}
+=======
+{colnum+= yyleng; printf("INPUT %s\n", yytext);return INPUT;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 17 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("OUTPUT %s\n", yytext);return OUTPUT;}
+=======
+{colnum+= yyleng; printf("OUTPUT %s\n", yytext);return OUTPUT;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 18 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("FOR %s\n", yytext);return FOR;}
+=======
+{colnum+= yyleng; printf("FOR %s\n", yytext);return FOR;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 19 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("NUM %s\n", yytext);return NUM;}
+=======
+{colnum+= yyleng; printf("NUM %s\n", yytext);return NUM;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 20 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("WHILE %s\n", yytext);return WHILE;}
+=======
+{colnum+= yyleng; printf("WHILE %s\n", yytext);return WHILE;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 21 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("IF %s\n", yytext);return IF;}
+=======
+{colnum+= yyleng; printf("IF %s\n", yytext);return IF;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 22 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
+=======
+{colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 23 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
+=======
+{colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 24 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("FUNC %s\n", yytext);return FUNC;} 
+=======
+{colnum+= yyleng; printf("FUNC %s\n", yytext);return FUNC;} 
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 25 "bajj-er.lex"
+<<<<<<< HEAD
 {printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
+=======
+{printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 26 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("NUMBER %s\n", yytext);return NUMBER;}
+=======
+{colnum+= yyleng; printf("NUMBER %s\n", yytext);return NUMBER;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 27 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
+=======
+{colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 28 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
+=======
+{colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 29 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("MINUS  %s\n", yytext);return MINUS;}
+=======
+{colnum+= yyleng; printf("MINUS  %s\n", yytext);return MINUS;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 30 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("MULTI  %s\n", yytext);return MULTI;}
+=======
+{colnum+= yyleng; printf("MULTI  %s\n", yytext);return MULTI;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 31 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("DIVISION  %s\n", yytext);return DIVISION;}
+=======
+{colnum+= yyleng; printf("DIVISION  %s\n", yytext);return DIVISION;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 32 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("LESS  %s\n", yytext);return LESS;}
+=======
+{colnum+= yyleng; printf("LESS  %s\n", yytext);return LESS;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 33 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("GREATER %s\n", yytext);return GREATER;}
+=======
+{colnum+= yyleng; printf("GREATER %s\n", yytext);return GREATER;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 34 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("EQUAL %s\n", yytext);return EQUAL;}
+=======
+{colnum+= yyleng; printf("EQUAL %s\n", yytext);return EQUAL;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 35 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);return NOT_EQUAL;}
+=======
+{colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);return NOT_EQUAL;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 36 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("LE_EQ %s\n", yytext);return LE_EQ;}
+=======
+{colnum+= yyleng; printf("LE_EQ %s\n", yytext);return LE_EQ;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 37 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("GE_EQ %s\n", yytext);return GE_EQ;}
+=======
+{colnum+= yyleng; printf("GE_EQ %s\n", yytext);return GE_EQ;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 38 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("COMMENT %s\n", yytext);return COMMENT;}
+=======
+{colnum+= yyleng; printf("COMMENT %s\n", yytext);return COMMENT;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 39 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("L_BRACKET %s\n", yytext);return L_BRACKET;}
+=======
+{colnum+= yyleng; printf("L_BRACKET %s\n", yytext);return L_BRACKET;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 40 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("R_BRACKET %s\n", yytext);return R_BRACKET;}
+=======
+{colnum+= yyleng; printf("R_BRACKET %s\n", yytext);return R_BRACKET;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 41 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);return L_C_BRACKET;}
+=======
+{colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);return L_C_BRACKET;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 42 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("R_C_BRACKET %s\n", yytext);return R_C_BRACKET;}
+=======
+{colnum+= yyleng; printf("R_C_BRACKET %s\n", yytext);return R_C_BRACKET;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 43 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("L_PAREN %s\n", yytext);return L_PAREN;}
+=======
+{colnum+= yyleng; printf("L_PAREN %s\n", yytext);return L_PAREN;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 44 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("R_PAREN %s\n", yytext);return R_PAREN;}
+=======
+{colnum+= yyleng; printf("R_PAREN %s\n", yytext);return R_PAREN;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 45 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("ASSIGN %s\n", yytext);return ASSIGN;}
+=======
+{colnum+= yyleng; printf("ASSIGN %s\n", yytext);return ASSIGN;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 46 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("SEMICOLON %s\n", yytext);return SEMICOLON;}
+=======
+{colnum+= yyleng; printf("SEMICOLON %s\n", yytext);return SEMICOLON;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 47 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng; printf("COMMA %s\n", yytext);return COMMA;}
+=======
+{colnum+= yyleng; printf("COMMA %s\n", yytext);return COMMA;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
 #line 49 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum = 1; linenum++;}
+=======
+{colnum = 1; linenum++;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 50 "bajj-er.lex"
+<<<<<<< HEAD
 {colnum+= yyleng;}
+=======
+{colnum+= yyleng;}
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 51 "bajj-er.lex"
+<<<<<<< HEAD
 printf( "Unrecognized character: %s at Line: %d Column: %d \n", yytext, linenum, colnum);
+=======
+printf( "Unrecognized character: %s at Line: %d Column: %d \n", yytext, linenum, colnum);
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
@@ -1964,8 +2115,30 @@ void yyfree (void * ptr )
 #define YYTABLES_NAME "yytables"
 
 #line 52 "bajj-er.lex"
+<<<<<<< HEAD
 
 
 
 
+=======
+
+
+
+
+/*main( argc, argv)
+int argc;
+char **argv;
+{
+    ++argv, --argc; 
+    if ( argc > 0 )
+            yyin = fopen( argv[0], "r" );
+    else
+            yyin = stdin;
+
+    printf("Ctrl+D to quit\n");
+    
+    yylex();
+    
+}*/
+>>>>>>> READ-ME-EDITING-JORDAN-CHAN
 
