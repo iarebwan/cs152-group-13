@@ -22,6 +22,7 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 "elif" {colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
 "else" {colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
 "function" {colnum+= yyleng; printf("FUNC %s\n", yytext);return FUNC;} 
+{NUMERROR} {printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
 {NUM} {colnum+= yyleng; printf("NUMBER %s\n", yytext);return NUMBER;}
 {ID} {colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
 "+"  {colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
