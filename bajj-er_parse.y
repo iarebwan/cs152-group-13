@@ -38,6 +38,7 @@ statement: declaration {printf("statment -> declaration\n");}
 | for {printf("statement->for\n");}
 | input {printf("statement->input\n");}
 | output {printf("statement->output\n");}
+| RETURN exp {printf("statement->RETURN exp\n");}
 ;
 
 num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}
