@@ -8,15 +8,15 @@ extern FILE* yyin;
 %token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
 
 %%
-prog_start : %empty {printf("prog_start->epsilon");}
-| functions {printf("prog_start->functions");}   
+prog_start : %empty {printf("prog_start->epsilon\n");}
+| functions {printf("prog_start->functions\n");}   
 ;
 
-functions: function{printf("function -> function");}
+functions: function{printf("function -> function\n");}
 | function functions {printf("function -> function functions\n");}
 ;
 
-function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  ");};
+function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");};
 
 args: arg COMMA args {printf("arguments -> COMMA arguments\n");}
 | arg {printf("arguments -> argument\n");}
@@ -38,7 +38,12 @@ statement: declaration {printf("statment -> declaration\n");}
 | for {printf("statement->for\n");}
 | input {printf("statement->input\n");}
 | output {printf("statement->output\n");}
-| RETURN exp {printf("statement->RETURN exp\n");}
+| return {printf("statement->return\n");}
+| ID ASSIGN exp  {printf("statement->ID ASSIGN exp\n");}   
+;
+
+return: RETURN ID {printf("return->RETURN ID\n");}     
+| RETURN exp {printf("return->RETURN EXP\n");} 
 ;
 
 num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}
@@ -55,15 +60,12 @@ while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE
 for: FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
 ;
 
-input: INPUT L_PAREN num_list R_PAREN {printf("input -> INPUT L_PAREN num_list R_PAREN");}
+input: INPUT L_PAREN exp R_PAREN {printf("input -> INPUT L_PAREN num_list R_PAREN\n");}
 ; 
 
-output: OUTPUT L_PAREN num_list R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");}
+output: OUTPUT L_PAREN exp R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");}
 ;
 
-num_list: %empty /*epsilon*/ {printf("num_list -> epsilon\n");}
-| COMMA num num_list {printf("num_list -> COMMA num num_list\n");}
-;
 
 exp: exp add_op term
 |term {printf("exp -> term\n");}
@@ -88,23 +90,22 @@ term: term mulop factor {printf("term -> term mulop factor\n");}
 | factor {printf("term -> factor\n");}
 ;
 
-mulop: MULTI {printf("mulop -> MULTI");}
-| DIVISION {printf("mulop -> DIVISION");}
+mulop: MULTI {printf("mulop -> MULTI\n");}
+| DIVISION {printf("mulop -> DIVISION\n");}
 ;
 
-factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN");}
-| NUMBER {printf("factor->NUMBER");}
-| ID {printf("factor -> ID");}
+factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
+| NUMBER {printf("factor->NUMBER\n");}
+| ID {printf("factor -> ID\n");}
+| function_call {printf("factor -> function_call\n");}   
 ;
 
 declaration: NUM ID {printf("declaration -> NUM ID\n");}
 ;
 
-function_call: ID L_PAREN args R_PAREN {printf("function_call -> ID L_PAREN args R_PAREN\n");}
+function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");}
 ;
 
-args: %empty {printf("args -> epsilon\n");}
-;
 %%
 
 void main(int argc, char** argv) {
