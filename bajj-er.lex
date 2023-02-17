@@ -8,7 +8,7 @@ int colnum = 1;
 DIGIT [0-9]
 ALPHA [a-zA-Z]
 NUM {DIGIT}+("."{DIGIT}+)?
-ID ({ALPHA}+{DIGIT}+)+
+ID ({ALPHA}+{DIGIT}*)+
 NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
@@ -52,3 +52,18 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 %%
 
 
+/*main( argc, argv)
+int argc;
+char **argv;
+{
+    ++argv, --argc; 
+    if ( argc > 0 )
+            yyin = fopen( argv[0], "r" );
+    else
+            yyin = stdin;
+
+    printf("Ctrl+D to quit\n");
+    
+    yylex();
+    
+}*/

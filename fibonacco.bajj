@@ -1,0 +1,13 @@
+function fib(num k){
+if(k <= 1){
+return fib(k - 1)+fib(k-2);
+}
+}
+
+function main(){
+num n;
+num fibn;
+input(1);
+fibn = fib(n);
+output(fibn);
+}
