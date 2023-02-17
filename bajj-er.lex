@@ -22,7 +22,6 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 "elif" {colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
 "else" {colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
 "function" {colnum+= yyleng; printf("FUNC %s\n", yytext);return FUNC;} 
-{NUMERROR} {printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
 {NUM} {colnum+= yyleng; printf("NUMBER %s\n", yytext);return NUMBER;}
 {ID} {colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
 "+"  {colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
@@ -35,7 +34,7 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 "!="    {colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);return NOT_EQUAL;}
 "<="    {colnum+= yyleng; printf("LE_EQ %s\n", yytext);return LE_EQ;}
 ">="    {colnum+= yyleng; printf("GE_EQ %s\n", yytext);return GE_EQ;}
-"#".* {colnum+= yyleng; printf("COMMENT %s\n", yytext);return COMMENT;}
+"#".* {colnum+= yyleng; printf("COMMENT %s\n", yytext);}
 "["    {colnum+= yyleng; printf("L_BRACKET %s\n", yytext);return L_BRACKET;}
 "]"    {colnum+= yyleng; printf("R_BRACKET %s\n", yytext);return R_BRACKET;}
 "{"    {colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);return L_C_BRACKET;}
@@ -61,7 +60,6 @@ char **argv;
             yyin = fopen( argv[0], "r" );
     else
             yyin = stdin;
-
     printf("Ctrl+D to quit\n");
     
     yylex();
