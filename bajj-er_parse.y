@@ -1,6 +1,8 @@
 %{
 #include <stdio.h>
 extern FILE* yyin;
+extern int linenum;
+
 %}
 
 %define parse.error verbose
@@ -51,7 +53,18 @@ num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}
 | NUM ID ASSIGN function_call {printf("num -> NUM ID ASSIGN function_call\n");}
 ;
 
-if: IF bool_exp L_C_BRACKET statements R_C_BRACKET {printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET\n");}
+if: IF bool_exp L_C_BRACKET statements elsify R_C_BRACKET {printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");}
+;
+
+elsify: elif SEMICOLON elsify {printf("elsify -> elif SEMICOLON elsify\n");}
+| else SEMICOLON{printf("elsify -> else SEMICOLON\n");}
+| %empty {printf("elsify->epsilon\n");}
+;
+
+elif: ELIF bool_exp L_C_BRACKET statements R_C_BRACKET {printf("elif -> elif bool_exp L_C_BRACKET statements R_C_BRACKET\n");}
+;
+
+else: ELSE L_C_BRACKET statements R_C_BRACKET {printf("else -> else L_C_BRACKET statements R_C_BRACKET\n");}
 ;
 
 while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");}
@@ -122,5 +135,5 @@ void main(int argc, char** argv) {
   return;
 }
  void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
+   fprintf (stderr, "This is an error: %s at line %d \n", s, linenum);
  }
