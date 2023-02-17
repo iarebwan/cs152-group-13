@@ -69,7 +69,15 @@ exp: exp add_op term
 |term {printf("exp -> term\n");}
 ;
 
-bool_exp: L_PAREN ID R_PAREN
+bool_exp: L_PAREN exp comp exp R_PAREN {printf("bool_exp -> L_PAREN exp comp exp R_PAREN\n");}
+;
+
+comp: LESS {printf("comp -> LESS\n");}
+| GREATER {printf("comp -> GREATER\n");}
+| EQUAL {printf("comp -> EQUAL\n");}
+| LE_EQ {printf("comp -> LE_EQ\n");}
+| GE_EQ {printf("comp -> GE_EQ\n");}
+| NOT_EQUAL {printf("comp -> NOT_EQUAL\n");}
 ;
 
 add_op: PLUS 
@@ -86,6 +94,7 @@ mulop: MULTI {printf("mulop -> MULTI");}
 
 factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN");}
 | NUMBER {printf("factor->NUMBER");}
+| ID {printf("factor -> ID");}
 ;
 
 declaration: NUM ID {printf("declaration -> NUM ID\n");}
