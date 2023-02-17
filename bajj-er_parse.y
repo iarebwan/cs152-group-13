@@ -68,7 +68,7 @@ exp: exp add_op term
 |term {printf("exp -> term\n");}
 ;
 
-bool_exp: bool_exp
+bool_exp: L_PAREN ID R_PAREN
 ;
 
 add_op: PLUS 
