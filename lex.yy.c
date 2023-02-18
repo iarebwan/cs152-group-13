@@ -473,7 +473,6 @@ static yyconst flex_int16_t yy_nxt[190] =
     } ;
 
 static yyconst flex_int16_t yy_chk[190] =
-
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -511,13 +510,14 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "lexer.lex"
-#line 2 "lexer.lex"
+#line 1 "bajj-er.lex"
+#line 2 "bajj-er.lex"
 #include <stdio.h>
 #include "y.tab.h"
 int linenum = 1;
 int colnum = 1;
 #line 520 "lex.yy.c"
+
 #define INITIAL 0
 
 #ifndef YY_NO_UNISTD_H
@@ -1984,8 +1984,3 @@ char **argv;
     
 }*/
 
-    printf("Ctrl+D to quit\n");
-    
-    yylex();
-    
-}
