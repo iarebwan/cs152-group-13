@@ -1,8 +1,21 @@
 function fib(num k){
 if(k <= 1){
-return fib(k - 1)+fib(k-2);
-}
-}
+    return fib(k - 1)+fib(k-2);
+    elif(k == 2){
+        return 2;
+    };  
+    else{
+        return 5;
+    };
+};
+};
+
+function PatoBanton(num cheese){
+    while(cheese == "23"){
+        cheese = cheese * 1;
+        #this is a comment and it will be ignored so shad
+    };
+};
 
 function main(){
 num n;
@@ -10,4 +23,7 @@ num fibn;
 input(1);
 fibn = fib(n);
 output(fibn);
-}
+if(n != 2){
+    n = 399 - 4;
+};
+};

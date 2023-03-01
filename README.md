@@ -54,3 +54,5 @@
 | ";" | SEMICOLON |
 | "{" | L BRACKET |
 | "}" | R BRACKET |
+| "(" | L PAREN |
+| ")" | R PAREN |
