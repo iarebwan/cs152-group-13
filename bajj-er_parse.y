@@ -3,6 +3,10 @@
 extern FILE* yyin;
 extern int linenum;
 
+struct CodeNode {
+  std::string code;
+  std::string name;
+}
 %}
 
 %define parse.error verbose
@@ -80,7 +84,22 @@ output: OUTPUT L_PAREN exp R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_
 ;
 
 
-exp: exp add_op term
+exp: exp PLUS term {printf("exp -> exp PLUS term\n");
+   std::string temp = create_temp();
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("+ ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+}
+|exp MINUS term {printf("exp -> exp MINUS term\n`");
+   std::string temp = create_temp();
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("- ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+}
 |term {printf("exp -> term\n");}
 ;
 
@@ -95,16 +114,24 @@ comp: LESS {printf("comp -> LESS\n");}
 | NOT_EQUAL {printf("comp -> NOT_EQUAL\n");}
 ;
 
-add_op: PLUS 
-| MINUS
-;
 
-term: term mulop factor {printf("term -> term mulop factor\n");}
+term: term MULTI factor {printf("term -> term MULTI factor\n");
+   std::string temp = create_temp();
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("* ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+}
+| term DIVISION factor {printf("term -> term DIVISION factor\n");
+   std::string temp = create_temp();
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("/ ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+}
 | factor {printf("term -> factor\n");}
-;
-
-mulop: MULTI {printf("mulop -> MULTI\n");}
-| DIVISION {printf("mulop -> DIVISION\n");}
 ;
 
 factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
