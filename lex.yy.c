@@ -901,7 +901,7 @@ YY_RULE_SETUP
 case 24:
 YY_RULE_SETUP
 #line 38 "bajj-er.lex"
-{colnum+= yyleng; printf("COMMENT %s\n", yytext);return COMMENT;}
+{colnum+= yyleng; printf("COMMENT %s\n", yytext);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
@@ -1977,7 +1977,6 @@ char **argv;
             yyin = fopen( argv[0], "r" );
     else
             yyin = stdin;
-
     printf("Ctrl+D to quit\n");
     
     yylex();

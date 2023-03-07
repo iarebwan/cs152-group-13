@@ -1,5 +1,10 @@
 %{
 #include <stdio.h>
+#include <string>
+struct CodeNode{
+std::string code;
+std::string name;
+}
 extern FILE* yyin;
 extern int linenum;
 
@@ -41,7 +46,20 @@ statement: declaration {printf("statment -> declaration\n");}
 | input {printf("statement->input\n");}
 | output {printf("statement->output\n");}
 | return {printf("statement->return\n");}
-| ID ASSIGN exp  {printf("statement->ID ASSIGN exp\n");}   
+| ID ASSIGN exp  
+{
+printf("statement->ID ASSIGN exp\n");
+std::string var_name = $1;
+std::string_error;
+if(!find(var_name,Integer,error)){
+yyerror(error.c_str());
+}
+
+CodeNode *node = new CodeNode;
+node->code = $3->code;
+node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");;
+$$ = node;
+}   
 ;
 
 return: RETURN ID {printf("return->RETURN ID\n");}     
@@ -113,7 +131,18 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
 | function_call {printf("factor -> function_call\n");}   
 ;
 
-declaration: NUM ID {printf("declaration -> NUM ID\n");}
+declaration: NUM ID {printf("declaration -> NUM ID\n");
+std::string var_name = $1;
+std::string_error;
+if(!find(var_name,Integer,error)){
+yyerror(error.c_str());
+}
+
+CodeNode *node = new CodeNode;
+node->code = $3->code;
+node->code += std::string(". ") + var_name + std::string("\n");;
+$$ = node;
+}
 ;
 
 function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");}
