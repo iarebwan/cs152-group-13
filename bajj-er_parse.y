@@ -77,10 +77,32 @@ while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE
 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
 ;
 
-input: INPUT L_PAREN exp R_PAREN {printf("input -> INPUT L_PAREN num_list R_PAREN\n");}
+input: INPUT L_PAREN exp R_PAREN {printf("input -> INPUT L_PAREN num_list R_PAREN\n");
+  std::string dst = $3;
+  std::string error;
+  if (!find(dst, Integer, error)) {
+   yyerror(error.c_str());
+  }
+  
+  CodeNode *node = new CodeNode;
+  node->code = $3->code;
+  node->code += std::string(".< ") + dst + std::string("\n");
+  $$ = node; 
+}
 ; 
 
-output: OUTPUT L_PAREN exp R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");}
+output: OUTPUT L_PAREN exp R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");
+  std::string dst = $3;
+  std::string error;
+  if (!find(dst, Integer, error)) {
+   yyerror(error.c_str());
+  }
+
+  CodeNode *node = new CodeNode;
+  node->code = $3->code;
+  node->code += std::string(".> ") + dst + std::string("\n");
+  $$ = node;
+}
 ;
 
 
