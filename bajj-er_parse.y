@@ -1,6 +1,14 @@
 %{
 #include <stdio.h>
+#include <string>
+#include <vector>
+#include <string.h>
+#include "Codenode.h"
+#include "y.tab.h"
 extern FILE* yyin;
+extern int yylex(void);
+void yyerror(const char *msg);
+extern int currline;
 extern int linenum;
 
 %}
