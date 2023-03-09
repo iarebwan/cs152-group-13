@@ -1,12 +1,14 @@
 %{
 #include <stdio.h>
+#include <string>
+
 extern FILE* yyin;
 extern int linenum;
 
 struct CodeNode {
   std::string code;
   std::string name;
-}
+};
 %}
 
 %define parse.error verbose
@@ -77,7 +79,8 @@ while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE
 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
 ;
 
-input: INPUT L_PAREN exp R_PAREN {printf("input -> INPUT L_PAREN num_list R_PAREN\n");
+input: INPUT L_PAREN exp R_PAREN {
+//printf("input -> INPUT L_PAREN num_list R_PAREN\n");
   std::string dst = $3;
   std::string error;
   if (!find(dst, Integer, error)) {
@@ -91,7 +94,8 @@ input: INPUT L_PAREN exp R_PAREN {printf("input -> INPUT L_PAREN num_list R_PARE
 }
 ; 
 
-output: OUTPUT L_PAREN exp R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");
+output: OUTPUT L_PAREN exp R_PAREN {
+//printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");
   std::string dst = $3;
   std::string error;
   if (!find(dst, Integer, error)) {
@@ -106,7 +110,8 @@ output: OUTPUT L_PAREN exp R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_
 ;
 
 
-exp: exp PLUS term {printf("exp -> exp PLUS term\n");
+exp: exp PLUS term {
+//printf("exp -> exp PLUS term\n");
    std::string temp = create_temp();
    CodeNode *node = new CodeNode;
    node->code = $1->code + $3->code + decl_temp_code(temp);
@@ -114,7 +119,8 @@ exp: exp PLUS term {printf("exp -> exp PLUS term\n");
    node->name = temp;
    $$ = node;
 }
-|exp MINUS term {printf("exp -> exp MINUS term\n`");
+|exp MINUS term {
+//printf("exp -> exp MINUS term\n`");
    std::string temp = create_temp();
    CodeNode *node = new CodeNode;
    node->code = $1->code + $3->code + decl_temp_code(temp);
@@ -137,7 +143,8 @@ comp: LESS {printf("comp -> LESS\n");}
 ;
 
 
-term: term MULTI factor {printf("term -> term MULTI factor\n");
+term: term MULTI factor {
+//printf("term -> term MULTI factor\n");
    std::string temp = create_temp();
    CodeNode *node = new CodeNode;
    node->code = $1->code + $3->code + decl_temp_code(temp);
@@ -145,7 +152,8 @@ term: term MULTI factor {printf("term -> term MULTI factor\n");
    node->name = temp;
    $$ = node;
 }
-| term DIVISION factor {printf("term -> term DIVISION factor\n");
+| term DIVISION factor {
+//printf("term -> term DIVISION factor\n");
    std::string temp = create_temp();
    CodeNode *node = new CodeNode;
    node->code = $1->code + $3->code + decl_temp_code(temp);
