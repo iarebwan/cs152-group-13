@@ -73,7 +73,7 @@
 extern FILE* yyin;
 extern int yylex(void);
 void yyerror(const char *msg);
-extern int currline;
+//extern int currline;
 extern int linenum;
 
 
@@ -1874,7 +1874,7 @@ yyreturn:
 #line 135 "bajj-er_parse.y" /* yacc.c:1906  */
 
 
-void main(int argc, char** argv) {
+int  main(int argc, char** argv) {
   if (argc >=2) {
     yyin = fopen(argv[1],"r");
       if (yyin == NULL) {
@@ -1885,8 +1885,10 @@ void main(int argc, char** argv) {
     yyin = stdin;
   }
   yyparse();
-  return;
+  return 0;
 }
  void yyerror (char const *s) {
-   fprintf (stderr, "This is an error: %s at line %d \n", s, linenum);
+   //fprintf (stderr, "This is an error: %s at line %d \n", s, linenum);
+	
+   printf("** Line %d: %s\n", linenum,s);
  }
