@@ -46,17 +46,29 @@ prog_start : %empty {
 
 | functions {
 //printf("prog_start->functions\n");
-//CodeNode *code_node = $1;
-//printf("%s\n", code_node->code.c_str());
+CodeNode *code_node = $1;
+printf("%s\n", code_node->code.c_str());
 
 }   
 ;
 
-functions: function{printf("function -> function\n");}
-| function functions {printf("function -> function functions\n");}
+functions: function{
+//printf("function -> function\n");
+//TODO
+CodeNode *function = $1;
+$$ = function;
+}
+| function functions {
+//printf("function -> function functions\n");
+//TODO
+}
 ;
 
-function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");};
+function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
+//printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
+CodeNode *statements = $7;
+$$ = statements;
+};
 
 args: arg COMMA args {printf("arguments -> COMMA arguments\n");}
 | arg {printf("arguments -> argument\n");}
@@ -66,11 +78,21 @@ arg: %empty /*epsilon*/ {printf("argument -> epsilon\n");}
 | NUM ID {printf("argument -> NUM ID\n");}
 ;
 
-statements: statement SEMICOLON {printf("statements -> statement SEMICOLON\n");}
+statements: statement SEMICOLON {
+//printf("statements -> statement SEMICOLON\n");
+//TODO
+CodeNode *statement = $1;
+$$ = statement;
+}
 | statement SEMICOLON statements {printf("statements -> statement SEMICOLON statement\n");}
 ;
 
-statement: declaration {printf("statment -> declaration\n");}
+statement: declaration {
+//printf("statment -> declaration\n");
+//TODO
+CodeNode *dec = $1;
+$$ = dec;
+}
 | function_call {printf("statement-> function_call\n");}
 | num {printf("statement->num\n");}
 | if {printf("statement->if\n");}
