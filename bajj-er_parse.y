@@ -1,15 +1,15 @@
 %{
 #include <stdio.h>
+#include <string>
+#include <vector>
 #include <string.h>
-#include "y.tab.h"
 #include "Codenode.h"
-
-extern int yylex(void);
+#include "y.tab.h"
 extern FILE* yyin;
-extern int linenum;
+extern int yylex(void);
 void yyerror(const char *msg);
-
-
+extern int currline;
+extern int linenum;
 %}
 
 %define parse.error verbose
