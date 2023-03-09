@@ -16,7 +16,6 @@ extern int linenum;
 
 char *identToken;
 int numberToken;
-
 %}
 
 %union {
@@ -27,11 +26,17 @@ int numberToken;
 %define parse.error verbose
 %start prog_start
 %token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
+%type <codenode> function
+%type <codenode> functions
+%type <codenode> declaration
 %type <codenode> statement
 %type <codenode> statements
-%type <codenode> declaration
+%type <codenode> factor
+%type <codenode> args
+%type <codenode> exp
 %type <op_val> ID
 %type <op_val> NUMBER
+
 %%
 prog_start : %empty {printf("prog_start->epsilon\n");}
 | functions {printf("prog_start->functions\n");}   
@@ -141,9 +146,10 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
 
 declaration: NUM ID {
 //printf("declaration -> NUM ID\n");
-std::string var_name = $2;
+std::string var_name = std::string("a");;
 CodeNode *numDec = new CodeNode;
-numDec->name = var_name;
+std::cout << var_name << std::endl;
+numDec->name = std::string("a");
 numDec->code = std::string(". ") + var_name + std::string("\n");
 $$ = numDec;
 }
@@ -154,18 +160,13 @@ function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R
 
 %%
 
-int  main(int argc, char** argv) {
-  if (argc >=2) {
-    yyin = fopen(argv[1],"r");
-      if (yyin == NULL) {
-	yyin = stdin;
-      }
-  }
-  else {
-    yyin = stdin;
-  }
+int  main() {
+yyin = stdin;
+do{
   yyparse();
-  return 0;
+}
+while(!feof(yyin));
+return 0;
 }
  void yyerror (char const *s) {
    //fprintf (stderr, "This is an error: %s at line %d \n", s, linenum);
