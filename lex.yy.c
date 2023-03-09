@@ -512,11 +512,13 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "bajj-er.lex"
 #line 2 "bajj-er.lex"
+#include <string>
+#include <iostream>
 #include <stdio.h>
 #include "y.tab.h"
 int linenum = 1;
 int colnum = 1;
-#line 520 "lex.yy.c"
+#line 522 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -698,9 +700,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 14 "bajj-er.lex"
+#line 16 "bajj-er.lex"
 
-#line 704 "lex.yy.c"
+#line 706 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -785,191 +787,191 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 15 "bajj-er.lex"
+#line 17 "bajj-er.lex"
 {colnum+= yyleng; printf("RETURN %s\n", yytext);return RETURN;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 16 "bajj-er.lex"
+#line 18 "bajj-er.lex"
 {colnum+= yyleng; printf("INPUT %s\n", yytext);return INPUT;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 17 "bajj-er.lex"
+#line 19 "bajj-er.lex"
 {colnum+= yyleng; printf("OUTPUT %s\n", yytext);return OUTPUT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 18 "bajj-er.lex"
+#line 20 "bajj-er.lex"
 {colnum+= yyleng; printf("FOR %s\n", yytext);return FOR;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 19 "bajj-er.lex"
+#line 21 "bajj-er.lex"
 {colnum+= yyleng; printf("NUM %s\n", yytext);return NUM;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 20 "bajj-er.lex"
+#line 22 "bajj-er.lex"
 {colnum+= yyleng; printf("WHILE %s\n", yytext);return WHILE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 21 "bajj-er.lex"
+#line 23 "bajj-er.lex"
 {colnum+= yyleng; printf("IF %s\n", yytext);return IF;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 22 "bajj-er.lex"
+#line 24 "bajj-er.lex"
 {colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 23 "bajj-er.lex"
+#line 25 "bajj-er.lex"
 {colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "bajj-er.lex"
+#line 26 "bajj-er.lex"
 {colnum+= yyleng; printf("FUNC %s\n", yytext);return FUNC;} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 25 "bajj-er.lex"
+#line 27 "bajj-er.lex"
 {printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 26 "bajj-er.lex"
+#line 28 "bajj-er.lex"
 {colnum+= yyleng; printf("NUMBER %s\n", yytext);return NUMBER;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 27 "bajj-er.lex"
-{colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
+#line 29 "bajj-er.lex"
+{yylval.op_val = yytext; colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 28 "bajj-er.lex"
+#line 30 "bajj-er.lex"
 {colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 29 "bajj-er.lex"
+#line 31 "bajj-er.lex"
 {colnum+= yyleng; printf("MINUS  %s\n", yytext);return MINUS;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 30 "bajj-er.lex"
+#line 32 "bajj-er.lex"
 {colnum+= yyleng; printf("MULTI  %s\n", yytext);return MULTI;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 31 "bajj-er.lex"
+#line 33 "bajj-er.lex"
 {colnum+= yyleng; printf("DIVISION  %s\n", yytext);return DIVISION;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 32 "bajj-er.lex"
+#line 34 "bajj-er.lex"
 {colnum+= yyleng; printf("LESS  %s\n", yytext);return LESS;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 33 "bajj-er.lex"
+#line 35 "bajj-er.lex"
 {colnum+= yyleng; printf("GREATER %s\n", yytext);return GREATER;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 34 "bajj-er.lex"
+#line 36 "bajj-er.lex"
 {colnum+= yyleng; printf("EQUAL %s\n", yytext);return EQUAL;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 35 "bajj-er.lex"
+#line 37 "bajj-er.lex"
 {colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);return NOT_EQUAL;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 36 "bajj-er.lex"
+#line 38 "bajj-er.lex"
 {colnum+= yyleng; printf("LE_EQ %s\n", yytext);return LE_EQ;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 37 "bajj-er.lex"
+#line 39 "bajj-er.lex"
 {colnum+= yyleng; printf("GE_EQ %s\n", yytext);return GE_EQ;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 38 "bajj-er.lex"
+#line 40 "bajj-er.lex"
 {colnum+= yyleng; printf("COMMENT %s\n", yytext);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 39 "bajj-er.lex"
+#line 41 "bajj-er.lex"
 {colnum+= yyleng; printf("L_BRACKET %s\n", yytext);return L_BRACKET;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 40 "bajj-er.lex"
+#line 42 "bajj-er.lex"
 {colnum+= yyleng; printf("R_BRACKET %s\n", yytext);return R_BRACKET;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 41 "bajj-er.lex"
+#line 43 "bajj-er.lex"
 {colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);return L_C_BRACKET;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 42 "bajj-er.lex"
+#line 44 "bajj-er.lex"
 {colnum+= yyleng; printf("R_C_BRACKET %s\n", yytext);return R_C_BRACKET;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 43 "bajj-er.lex"
+#line 45 "bajj-er.lex"
 {colnum+= yyleng; printf("L_PAREN %s\n", yytext);return L_PAREN;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 44 "bajj-er.lex"
+#line 46 "bajj-er.lex"
 {colnum+= yyleng; printf("R_PAREN %s\n", yytext);return R_PAREN;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 45 "bajj-er.lex"
+#line 47 "bajj-er.lex"
 {colnum+= yyleng; printf("ASSIGN %s\n", yytext);return ASSIGN;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 46 "bajj-er.lex"
+#line 48 "bajj-er.lex"
 {colnum+= yyleng; printf("SEMICOLON %s\n", yytext);return SEMICOLON;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 47 "bajj-er.lex"
+#line 49 "bajj-er.lex"
 {colnum+= yyleng; printf("COMMA %s\n", yytext);return COMMA;}
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
-#line 49 "bajj-er.lex"
+#line 51 "bajj-er.lex"
 {colnum = 1; linenum++;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 50 "bajj-er.lex"
+#line 52 "bajj-er.lex"
 {colnum+= yyleng;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 51 "bajj-er.lex"
+#line 53 "bajj-er.lex"
 printf( "Unrecognized character: %s at Line: %d Column: %d \n", yytext, linenum, colnum);
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 52 "bajj-er.lex"
+#line 54 "bajj-er.lex"
 ECHO;
 	YY_BREAK
-#line 973 "lex.yy.c"
+#line 975 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1963,7 +1965,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 52 "bajj-er.lex"
+#line 54 "bajj-er.lex"
 
 
 

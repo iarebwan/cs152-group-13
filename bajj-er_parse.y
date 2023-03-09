@@ -19,9 +19,7 @@ int numberToken;
 %}
 
 %union {
- struct{
-  char *op_val;
- };
+  char* op_val;
   struct CodeNode *codenode;
 }
 
@@ -48,8 +46,8 @@ prog_start : %empty {
 
 | functions {
 //printf("prog_start->functions\n");
-CodeNode *code_node = $1;
-printf("%s\n", code_node->code.c_str());
+//CodeNode *code_node = $1;
+//printf("%s\n", code_node->code.c_str());
 
 }   
 ;
@@ -159,6 +157,7 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
 declaration: NUM ID {
 //printf("declaration -> NUM ID\n");
 std::string var_name = $2;
+printf("DECLARATION\n");
 CodeNode *numDec = new CodeNode;
 numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");

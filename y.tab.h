@@ -87,12 +87,10 @@ union YYSTYPE
 {
 #line 21 "bajj-er_parse.y" /* yacc.c:1909  */
 
- struct{
-  char *op_val;
- };
+  char* op_val;
   struct CodeNode *codenode;
 
-#line 96 "y.tab.h" /* yacc.c:1909  */
+#line 94 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
