@@ -1,8 +1,8 @@
 %{
 #include <stdio.h>
-#include <string>
-#include <y.tab.h>
-#include <Codenode.h>
+#include <string.h>
+#include "y.tab.h"
+#include "Codenode.h"
 
 extern int yylex(void);
 extern FILE* yyin;
