@@ -480,11 +480,11 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    42,    42,    47,    55,    61,    67,    73,    74,    77,
-      78,    81,    87,    90,    96,    97,    98,    99,   100,   101,
-     102,   103,   104,   110,   111,   114,   115,   116,   119,   122,
-     123,   124,   127,   130,   133,   136,   139,   142,   146,   147,
-     150,   153,   154,   155,   156,   157,   158,   161,   162,   165,
-     166,   169,   170,   173,   174,   175,   176,   179,   190
+      78,    81,    87,    93,    99,   103,   107,   111,   115,   116,
+     117,   118,   119,   126,   127,   130,   131,   132,   135,   138,
+     139,   140,   143,   146,   149,   152,   155,   158,   162,   163,
+     166,   169,   170,   171,   172,   173,   174,   177,   178,   181,
+     182,   185,   186,   189,   190,   191,   192,   195,   206
 };
 #endif
 
@@ -1407,7 +1407,7 @@ CodeNode *statements = (yyvsp[-2].codenode);
   case 11:
 #line 81 "bajj-er_parse.y" /* yacc.c:1646  */
     {
-//printf("statements -> statement SEMICOLON\n");
+printf("statements -> statement SEMICOLON\n");
 //TODO
 CodeNode *statement = (yyvsp[-1].codenode);
 (yyval.codenode) = statement;
@@ -1417,265 +1417,281 @@ CodeNode *statement = (yyvsp[-1].codenode);
 
   case 12:
 #line 87 "bajj-er_parse.y" /* yacc.c:1646  */
-    {printf("statements -> statement SEMICOLON statement\n");}
-#line 1422 "y.tab.c" /* yacc.c:1646  */
+    {
+printf("statements -> statement SEMICOLON statement\n");
+//TODO
+}
+#line 1425 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 90 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 93 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("statment -> declaration\n");
 //TODO
 CodeNode *dec = (yyvsp[0].codenode);
 (yyval.codenode) = dec;
 }
-#line 1433 "y.tab.c" /* yacc.c:1646  */
+#line 1436 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 96 "bajj-er_parse.y" /* yacc.c:1646  */
-    {printf("statement-> function_call\n");}
-#line 1439 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 15:
-#line 97 "bajj-er_parse.y" /* yacc.c:1646  */
-    {printf("statement->num\n");}
+#line 99 "bajj-er_parse.y" /* yacc.c:1646  */
+    {
+//printf("statement-> function_call\n");
+//TODO
+}
 #line 1445 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 15:
+#line 103 "bajj-er_parse.y" /* yacc.c:1646  */
+    {
+//printf("statement->num\n");
+//TODO
+}
+#line 1454 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 16:
-#line 98 "bajj-er_parse.y" /* yacc.c:1646  */
-    {printf("statement->if\n");}
-#line 1451 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 17:
-#line 99 "bajj-er_parse.y" /* yacc.c:1646  */
-    {printf("statement->while\n");}
-#line 1457 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 18:
-#line 100 "bajj-er_parse.y" /* yacc.c:1646  */
-    {printf("statement->for\n");}
+#line 107 "bajj-er_parse.y" /* yacc.c:1646  */
+    {
+//printf("statement->if\n");
+//TODO
+}
 #line 1463 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 17:
+#line 111 "bajj-er_parse.y" /* yacc.c:1646  */
+    {
+//printf("statement->while\n");
+//TODO
+}
+#line 1472 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 18:
+#line 115 "bajj-er_parse.y" /* yacc.c:1646  */
+    {printf("statement->for\n");}
+#line 1478 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 19:
-#line 101 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 116 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("statement->input\n");}
-#line 1469 "y.tab.c" /* yacc.c:1646  */
+#line 1484 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 102 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 117 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("statement->output\n");}
-#line 1475 "y.tab.c" /* yacc.c:1646  */
+#line 1490 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 103 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 118 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("statement->return\n");}
-#line 1481 "y.tab.c" /* yacc.c:1646  */
+#line 1496 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 105 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 120 "bajj-er_parse.y" /* yacc.c:1646  */
     {
-printf("statement->ID ASSIGN exp\n");
+//printf("statement->ID ASSIGN exp\n");
+//TODO
 }
-#line 1489 "y.tab.c" /* yacc.c:1646  */
+#line 1505 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 110 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 126 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("return->RETURN ID\n");}
-#line 1495 "y.tab.c" /* yacc.c:1646  */
+#line 1511 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 111 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 127 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("return->RETURN EXP\n");}
-#line 1501 "y.tab.c" /* yacc.c:1646  */
+#line 1517 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 114 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 130 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("num -> NUM ID ASSIGN exp\n");}
-#line 1507 "y.tab.c" /* yacc.c:1646  */
+#line 1523 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 115 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 131 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("num -> NUM ID ASSIGN NUMBER\n");}
-#line 1513 "y.tab.c" /* yacc.c:1646  */
+#line 1529 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 116 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 132 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("num -> NUM ID ASSIGN function_call\n");}
-#line 1519 "y.tab.c" /* yacc.c:1646  */
+#line 1535 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 119 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 135 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");}
-#line 1525 "y.tab.c" /* yacc.c:1646  */
+#line 1541 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 122 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 138 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("elsify -> elif SEMICOLON elsify\n");}
-#line 1531 "y.tab.c" /* yacc.c:1646  */
+#line 1547 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 123 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 139 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("elsify -> else SEMICOLON\n");}
-#line 1537 "y.tab.c" /* yacc.c:1646  */
+#line 1553 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 124 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 140 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("elsify->epsilon\n");}
-#line 1543 "y.tab.c" /* yacc.c:1646  */
+#line 1559 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 127 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 143 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("elif -> elif bool_exp L_C_BRACKET statements R_C_BRACKET\n");}
-#line 1549 "y.tab.c" /* yacc.c:1646  */
+#line 1565 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 130 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 146 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("else -> else L_C_BRACKET statements R_C_BRACKET\n");}
-#line 1555 "y.tab.c" /* yacc.c:1646  */
+#line 1571 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 133 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 149 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");}
-#line 1561 "y.tab.c" /* yacc.c:1646  */
+#line 1577 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 136 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 152 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
-#line 1567 "y.tab.c" /* yacc.c:1646  */
+#line 1583 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 139 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 155 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("input -> INPUT L_PAREN num_list R_PAREN\n");}
-#line 1573 "y.tab.c" /* yacc.c:1646  */
+#line 1589 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 142 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 158 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");}
-#line 1579 "y.tab.c" /* yacc.c:1646  */
+#line 1595 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 147 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 163 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("exp -> term\n");}
-#line 1585 "y.tab.c" /* yacc.c:1646  */
+#line 1601 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 150 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 166 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("bool_exp -> L_PAREN exp comp exp R_PAREN\n");}
-#line 1591 "y.tab.c" /* yacc.c:1646  */
+#line 1607 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 153 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 169 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> LESS\n");}
-#line 1597 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 154 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 170 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> GREATER\n");}
-#line 1603 "y.tab.c" /* yacc.c:1646  */
+#line 1619 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 155 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 171 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> EQUAL\n");}
-#line 1609 "y.tab.c" /* yacc.c:1646  */
+#line 1625 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 156 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 172 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> LE_EQ\n");}
-#line 1615 "y.tab.c" /* yacc.c:1646  */
+#line 1631 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 157 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 173 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> GE_EQ\n");}
-#line 1621 "y.tab.c" /* yacc.c:1646  */
+#line 1637 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 158 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 174 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> NOT_EQUAL\n");}
-#line 1627 "y.tab.c" /* yacc.c:1646  */
+#line 1643 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 165 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 181 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("term -> term mulop factor\n");}
-#line 1633 "y.tab.c" /* yacc.c:1646  */
+#line 1649 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 166 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 182 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("term -> factor\n");}
-#line 1639 "y.tab.c" /* yacc.c:1646  */
+#line 1655 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 169 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 185 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("mulop -> MULTI\n");}
-#line 1645 "y.tab.c" /* yacc.c:1646  */
+#line 1661 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 170 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 186 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("mulop -> DIVISION\n");}
-#line 1651 "y.tab.c" /* yacc.c:1646  */
+#line 1667 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 173 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 189 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("factor->L_PAREN exp R_PAREN\n");}
-#line 1657 "y.tab.c" /* yacc.c:1646  */
+#line 1673 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 174 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 190 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("factor->NUMBER\n");}
-#line 1663 "y.tab.c" /* yacc.c:1646  */
+#line 1679 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 175 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 191 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("factor -> ID\n");}
-#line 1669 "y.tab.c" /* yacc.c:1646  */
+#line 1685 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 176 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 192 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("factor -> function_call\n");}
-#line 1675 "y.tab.c" /* yacc.c:1646  */
+#line 1691 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 179 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 195 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("declaration -> NUM ID\n");
 std::string var_name = (yyvsp[0].op_val);
@@ -1685,17 +1701,17 @@ numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");
 (yyval.codenode) = numDec;
 }
-#line 1689 "y.tab.c" /* yacc.c:1646  */
+#line 1705 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 190 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 206 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("function_call -> ID L_PAREN exp R_PAREN\n");}
-#line 1695 "y.tab.c" /* yacc.c:1646  */
+#line 1711 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1699 "y.tab.c" /* yacc.c:1646  */
+#line 1715 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1923,7 +1939,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 193 "bajj-er_parse.y" /* yacc.c:1906  */
+#line 209 "bajj-er_parse.y" /* yacc.c:1906  */
 
 
 int  main() {

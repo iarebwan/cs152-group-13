@@ -79,12 +79,17 @@ arg: %empty /*epsilon*/ {printf("argument -> epsilon\n");}
 ;
 
 statements: statement SEMICOLON {
-//printf("statements -> statement SEMICOLON\n");
+printf("statements -> statement SEMICOLON\n");
 //TODO
 CodeNode *statement = $1;
 $$ = statement;
 }
-| statement SEMICOLON statements {printf("statements -> statement SEMICOLON statement\n");}
+| statement SEMICOLON statements {
+printf("statements -> statement SEMICOLON statement\n");
+//TODO
+CodeNode *statments = new CodeNode;
+
+}
 ;
 
 statement: declaration {
@@ -93,17 +98,30 @@ statement: declaration {
 CodeNode *dec = $1;
 $$ = dec;
 }
-| function_call {printf("statement-> function_call\n");}
-| num {printf("statement->num\n");}
-| if {printf("statement->if\n");}
-| while {printf("statement->while\n");}
+| function_call {
+//printf("statement-> function_call\n");
+//TODO
+}
+| num {
+//printf("statement->num\n");
+//TODO
+}
+| if {
+//printf("statement->if\n");
+//TODO
+}
+| while {
+//printf("statement->while\n");
+//TODO
+}
 | for {printf("statement->for\n");}
 | input {printf("statement->input\n");}
 | output {printf("statement->output\n");}
 | return {printf("statement->return\n");}
 | ID ASSIGN exp  
 {
-printf("statement->ID ASSIGN exp\n");
+//printf("statement->ID ASSIGN exp\n");
+//TODO
 }   
 ;
 
