@@ -93,9 +93,23 @@ return: RETURN ID {printf("return->RETURN ID\n");}
 | RETURN exp {printf("return->RETURN EXP\n");} 
 ;
 
-num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}
-| NUM ID ASSIGN NUMBER {printf("num -> NUM ID ASSIGN NUMBER\n");}
-| NUM ID ASSIGN function_call {printf("num -> NUM ID ASSIGN function_call\n");}
+num: NUM ID ASSIGN exp{
+//printf("num -> NUM ID ASSIGN exp\n");
+//TODO
+
+}
+
+| NUM ID ASSIGN NUMBER {
+//printf("num -> NUM ID ASSIGN NUMBER\n");
+//TODO
+
+}
+
+| NUM ID ASSIGN function_call {
+//printf("num -> NUM ID ASSIGN function_call\n");
+//TODO
+
+}
 ;
 
 if: IF bool_exp L_C_BRACKET statements elsify R_C_BRACKET {printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");}
@@ -152,14 +166,18 @@ mulop: MULTI {printf("mulop -> MULTI\n");}
 | DIVISION {printf("mulop -> DIVISION\n");}
 ;
 
-factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");
-//TODO
-
+factor: L_PAREN exp R_PAREN  {
+//printf("factor->L_PAREN exp R_PAREN\n");
+//Not sure if correct?
+CodeNode *node = $2;
+$$ = node;
 }
+
 | NUMBER {printf("factor->NUMBER\n");
 //TODO
 }
-| ID {printf("factor -> ID\n");
+| ID {
+//printf("factor -> ID\n");
 //should be done
 CodeNode *node = new CodeNode;
 node->code = "";
