@@ -1,30 +1,42 @@
 %{
+#include "CodeNode.h"
+#include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string>
 #include <vector>
-#include <string.h>
-#include "Codenode.h"
 #include "y.tab.h"
+
 extern FILE* yyin;
 extern int yylex(void);
 void yyerror(const char *msg);
-extern int currline;
+extern int yyparse();
+//extern int currline;
 extern int linenum;
+
+char *identToken;
+int numberToken;
 %}
+
+%union {
+  char *op_val;
+  struct CodeNode *codenode;
+}
 
 %define parse.error verbose
 %start prog_start
 %token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
-%type <code_node> function
-%type <code_node> functions
-%type <code_node> declaration
-%type <code_node> statement
-%type <code_node> statements
-%type <code_node> factor
-%type <code_node> args
-%type <code_node> exp
+%type <codenode> function
+%type <codenode> functions
+%type <codenode> declaration
+%type <codenode> statement
+%type <codenode> statements
+%type <codenode> factor
+%type <codenode> args
+%type <codenode> exp
 %type <op_val> ID
 %type <op_val> NUMBER
+
 %%
 prog_start : %empty {
 //printf("prog_start->epsilon\n");
@@ -214,9 +226,8 @@ $$ = node;
   node->code = "";
   node->name = $1;
   std::string error;
-  if(!find(node->name, Integer, error)){
-    yyerror(error.c_str());
-  }
+  //should include find
+	// TODO
   $$ = node; 
 }
 | ID {
@@ -225,10 +236,9 @@ $$ = node;
 CodeNode *node = new CodeNode;
 node->code = "";
 node->name = $1;
+//should include find
+//TODO
 std::string error;
-if(!find(node->name, Integer, error)){
-	yyerror(error.c_str());
-}
 $$ = node;
 }
 | function_call {printf("factor -> function_call\n");}   

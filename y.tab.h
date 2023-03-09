@@ -81,6 +81,22 @@ extern int yydebug;
 #endif
 
 /* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
+union YYSTYPE
+{
+#line 21 "bajj-er_parse.y" /* yacc.c:1909  */
+
+  char *op_val;
+  struct CodeNode *codenode;
+
+#line 94 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
 
 
 extern YYSTYPE yylval;
