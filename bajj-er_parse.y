@@ -159,7 +159,6 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
 declaration: NUM ID {
 //printf("declaration -> NUM ID\n");
 std::string var_name = $2;
-//std::cout << var_name << std::endl;
 CodeNode *numDec = new CodeNode;
 numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");
