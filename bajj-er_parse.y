@@ -19,13 +19,17 @@ int numberToken;
 %}
 
 %union {
+ struct{
   char *op_val;
+ };
   struct CodeNode *codenode;
 }
 
 %define parse.error verbose
 %start prog_start
-%token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
+%token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
+
+%token <op_val> ID
 %type <codenode> function
 %type <codenode> functions
 %type <codenode> declaration
@@ -34,12 +38,20 @@ int numberToken;
 %type <codenode> factor
 %type <codenode> args
 %type <codenode> exp
-%type <op_val> ID
 %type <op_val> NUMBER
 
 %%
-prog_start : %empty {printf("prog_start->epsilon\n");}
-| functions {printf("prog_start->functions\n");}   
+prog_start : %empty {
+//printf("prog_start->epsilon\n");
+	printf("/n");
+}
+
+| functions {
+//printf("prog_start->functions\n");
+CodeNode *code_node = $1;
+printf("%s\n", code_node->code.c_str());
+
+}   
 ;
 
 functions: function{printf("function -> function\n");}
@@ -146,10 +158,10 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
 
 declaration: NUM ID {
 //printf("declaration -> NUM ID\n");
-std::string var_name = std::string("a");;
+std::string var_name = $2;
+//std::cout << var_name << std::endl;
 CodeNode *numDec = new CodeNode;
-std::cout << var_name << std::endl;
-numDec->name = std::string("a");
+numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");
 $$ = numDec;
 }
