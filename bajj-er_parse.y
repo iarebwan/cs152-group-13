@@ -1,10 +1,5 @@
 %{
 #include <stdio.h>
-#include <string>
-struct CodeNode{
-std::string code;
-std::string name;
-}
 extern FILE* yyin;
 extern int linenum;
 
@@ -49,16 +44,6 @@ statement: declaration {printf("statment -> declaration\n");}
 | ID ASSIGN exp  
 {
 printf("statement->ID ASSIGN exp\n");
-std::string var_name = $1;
-std::string_error;
-if(!find(var_name,Integer,error)){
-yyerror(error.c_str());
-}
-
-CodeNode *node = new CodeNode;
-node->code = $3->code;
-node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");;
-$$ = node;
 }   
 ;
 
@@ -131,17 +116,8 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
 | function_call {printf("factor -> function_call\n");}   
 ;
 
-declaration: NUM ID {printf("declaration -> NUM ID\n");
-std::string var_name = $1;
-std::string_error;
-if(!find(var_name,Integer,error)){
-yyerror(error.c_str());
-}
-
-CodeNode *node = new CodeNode;
-node->code = $3->code;
-node->code += std::string(". ") + var_name + std::string("\n");;
-$$ = node;
+declaration: NUM ID {
+printf("declaration -> NUM ID\n");
 }
 ;
 
