@@ -1,10 +1,9 @@
 %{
 #include <stdio.h>
 #include <string>
-struct CodeNode{
-std::string code;
-std::string name;
-}
+#include <y.tab.h>
+#include <Codenode.h>
+
 extern FILE* yyin;
 extern int linenum;
 
@@ -13,17 +12,48 @@ extern int linenum;
 %define parse.error verbose
 %start prog_start
 %token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC ID PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
-
+%type <code_node> function
+%type <code_node> functions
+%type <code_node> declaration
+ 
 %%
-prog_start : %empty {printf("prog_start->epsilon\n");}
-| functions {printf("prog_start->functions\n");}   
+prog_start : %empty {printf("prog_start->epsilon\n");
+//finished?
+printf("/n");
+}
+| functions {printf("prog_start->functions\n");
+//finished prty sure
+CodeNode *code_node = $1;
+printf("%s/n", code_node->code.c_str());
+}   
 ;
 
 functions: function{printf("function -> function\n");}
-| function functions {printf("function -> function functions\n");}
+| function functions {printf("function -> function functions\n");
+//prty sure finished
+CodeNode *func1 = $1;
+CodeNode *funcs = $2;
+CodeNode *node = new CodeNode;
+node->code = func1->code + funcs->code;
+$$ = node;
+
+}
 ;
 
-function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");};
+function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
+//should be finished
+CodeNode *node = new CodeNode;
+std::string func_name = $2;
+node->code += std::string("func ") + func_name;
+
+CodeNode *arg_code = $4;
+node->code += arg_code->code;
+
+CodeNode *statment_code = $7;
+node->code += statment_code->code;
+
+$$ = node;
+};
 
 args: arg COMMA args {printf("arguments -> COMMA arguments\n");}
 | arg {printf("arguments -> argument\n");}
@@ -48,12 +78,9 @@ statement: declaration {printf("statment -> declaration\n");}
 | return {printf("statement->return\n");}
 | ID ASSIGN exp  
 {
+//should be finished
 printf("statement->ID ASSIGN exp\n");
 std::string var_name = $1;
-std::string_error;
-if(!find(var_name,Integer,error)){
-yyerror(error.c_str());
-}
 
 CodeNode *node = new CodeNode;
 node->code = $3->code;
@@ -125,27 +152,42 @@ mulop: MULTI {printf("mulop -> MULTI\n");}
 | DIVISION {printf("mulop -> DIVISION\n");}
 ;
 
-factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
-| NUMBER {printf("factor->NUMBER\n");}
-| ID {printf("factor -> ID\n");}
+factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");
+//TODO
+
+}
+| NUMBER {printf("factor->NUMBER\n");
+//TODO
+}
+| ID {printf("factor -> ID\n");
+//should be done
+CodeNode *node = new CodeNode;
+node->code = "";
+node->name = $1;
+std::string error;
+if(!find(node->name, Integer, error)){
+	yyerror(error.c_str());
+}
+$$ = node;
+}
 | function_call {printf("factor -> function_call\n");}   
 ;
 
 declaration: NUM ID {printf("declaration -> NUM ID\n");
-std::string var_name = $1;
-std::string_error;
-if(!find(var_name,Integer,error)){
-yyerror(error.c_str());
+//should be done
+std::string var_name = $2;
+CodeNode *numDec = new CodeNode;
+numDec->code = std::string(". ") + var_name + std::string("\n");
+$$ = numDec;
 }
 
-CodeNode *node = new CodeNode;
-node->code = $3->code;
-node->code += std::string(". ") + var_name + std::string("\n");;
-$$ = node;
-}
-;
 
-function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");}
+function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");
+std::string func_name = $1;
+CodeNode* exp_node = $3;
+//stuff to fill
+
+}
 ;
 
 %%
