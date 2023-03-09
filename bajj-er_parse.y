@@ -174,7 +174,14 @@ $$ = node;
 }
 
 | NUMBER {printf("factor->NUMBER\n");
-//TODO
+  CodeNode *node = new CodeNode;
+  node->code = "";
+  node->name = $1;
+  std::string error;
+  if(!find(node->name, Integer, error)){
+    yyerror(error.c_str());
+  }
+  $$ = node; 
 }
 | ID {
 //printf("factor -> ID\n");
