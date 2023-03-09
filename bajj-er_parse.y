@@ -17,11 +17,14 @@ extern int linenum;
 %type <code_node> declaration
  
 %%
-prog_start : %empty {printf("prog_start->epsilon\n");
+prog_start : %empty {
+//printf("prog_start->epsilon\n");
 //finished?
 printf("/n");
 }
-| functions {printf("prog_start->functions\n");
+
+| functions {
+//printf("prog_start->functions\n");
 //finished prty sure
 CodeNode *code_node = $1;
 printf("%s/n", code_node->code.c_str());
@@ -96,12 +99,17 @@ return: RETURN ID {printf("return->RETURN ID\n");}
 num: NUM ID ASSIGN exp{
 //printf("num -> NUM ID ASSIGN exp\n");
 //TODO
+CodeNode* var_dec = new CodeNode;
+std::string
 
 }
 
 | NUM ID ASSIGN NUMBER {
 //printf("num -> NUM ID ASSIGN NUMBER\n");
 //TODO
+CodeNode* var_dec = new CodeNode;
+std::string var_name = $2;
+
 
 }
 
