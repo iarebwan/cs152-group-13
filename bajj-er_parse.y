@@ -32,7 +32,8 @@ printf("%s/n", code_node->code.c_str());
 ;
 
 functions: function{printf("function -> function\n");}
-| function functions {printf("function -> function functions\n");
+| function functions {
+//printf("function -> function functions\n");
 //prty sure finished
 CodeNode *func1 = $1;
 CodeNode *funcs = $2;
@@ -43,7 +44,8 @@ $$ = node;
 }
 ;
 
-function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
+function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
+//printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
 //should be finished
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
@@ -181,7 +183,8 @@ CodeNode *node = $2;
 $$ = node;
 }
 
-| NUMBER {printf("factor->NUMBER\n");
+| NUMBER {
+//printf("factor->NUMBER\n");
   CodeNode *node = new CodeNode;
   node->code = "";
   node->name = $1;
@@ -206,7 +209,8 @@ $$ = node;
 | function_call {printf("factor -> function_call\n");}   
 ;
 
-declaration: NUM ID {printf("declaration -> NUM ID\n");
+declaration: NUM ID {
+// printf("declaration -> NUM ID\n");
 //should be done
 std::string var_name = $2;
 CodeNode *numDec = new CodeNode;
@@ -215,7 +219,8 @@ $$ = numDec;
 }
 
 
-function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");
+function_call: ID L_PAREN exp R_PAREN {
+// printf("function_call -> ID L_PAREN exp R_PAREN\n");
 std::string func_name = $1;
 CodeNode* exp_node = $3;
 //stuff to fill
