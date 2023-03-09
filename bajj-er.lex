@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "y.tab.h"
 int linenum = 1;
 int colnum = 1;
 %}
@@ -7,7 +8,7 @@ int colnum = 1;
 DIGIT [0-9]
 ALPHA [a-zA-Z]
 NUM {DIGIT}+("."{DIGIT}+)?
-ID ({ALPHA}+{DIGIT}+)+
+ID ({ALPHA}+{DIGIT}*)+
 NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
@@ -34,7 +35,7 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 "!="    {colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);return NOT_EQUAL;}
 "<="    {colnum+= yyleng; printf("LE_EQ %s\n", yytext);return LE_EQ;}
 ">="    {colnum+= yyleng; printf("GE_EQ %s\n", yytext);return GE_EQ;}
-"#".* {colnum+= yyleng; printf("COMMENT %s\n", yytext);return COMMENT;}
+"#".* {colnum+= yyleng; printf("COMMENT %s\n", yytext);}
 "["    {colnum+= yyleng; printf("L_BRACKET %s\n", yytext);return L_BRACKET;}
 "]"    {colnum+= yyleng; printf("R_BRACKET %s\n", yytext);return R_BRACKET;}
 "{"    {colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);return L_C_BRACKET;}
@@ -51,7 +52,7 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 %%
 
 
-main( argc, argv)
+/*main( argc, argv)
 int argc;
 char **argv;
 {
@@ -60,9 +61,8 @@ char **argv;
             yyin = fopen( argv[0], "r" );
     else
             yyin = stdin;
-
     printf("Ctrl+D to quit\n");
     
     yylex();
     
-}
+}*/

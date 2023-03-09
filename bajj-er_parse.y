@@ -4,8 +4,11 @@
 #include <y.tab.h>
 #include <Codenode.h>
 
+extern int yylex(void);
 extern FILE* yyin;
 extern int linenum;
+void yyerror(const char *msg);
+
 
 %}
 
@@ -15,7 +18,13 @@ extern int linenum;
 %type <code_node> function
 %type <code_node> functions
 %type <code_node> declaration
- 
+%type <code_node> statement
+%type <code_node> statements
+%type <code_node> factor
+%type <code_node> args
+%type <code_node> exp
+%type <op_val> ID
+%type <op_val> NUMBER
 %%
 prog_start : %empty {
 //printf("prog_start->epsilon\n");
@@ -68,8 +77,21 @@ arg: %empty /*epsilon*/ {printf("argument -> epsilon\n");}
 | NUM ID {printf("argument -> NUM ID\n");}
 ;
 
-statements: statement SEMICOLON {printf("statements -> statement SEMICOLON\n");}
-| statement SEMICOLON statements {printf("statements -> statement SEMICOLON statement\n");}
+statements: statement SEMICOLON {
+//printf("statements -> statement SEMICOLON\n");
+//done?
+CodeNode *node = new CodeNode;
+node->code = $1->code;
+$$ = node;
+}
+
+| statement SEMICOLON statements {
+//printf("statements -> statement SEMICOLON statement\n");
+//done?
+CodeNode *node = new CodeNode;
+node->code = $1->code + $3->code;
+$$ = node;
+}
 ;
 
 statement: declaration {printf("statment -> declaration\n");}
@@ -89,7 +111,7 @@ std::string var_name = $1;
 
 CodeNode *node = new CodeNode;
 node->code = $3->code;
-node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");;
+node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");
 $$ = node;
 }   
 ;
@@ -102,8 +124,11 @@ num: NUM ID ASSIGN exp{
 //printf("num -> NUM ID ASSIGN exp\n");
 //TODO
 CodeNode* var_dec = new CodeNode;
-std::string
-
+std::string var_name = $2;
+var_dec->name = var_name;
+var_dec->code += std::string(". ") + var_name;
+var_dec->code += $4->code;
+var_dec->code +=  std::string("= ") + var_name + std::string(", ") + $4->name + std::string("\n");
 }
 
 | NUM ID ASSIGN NUMBER {
@@ -214,6 +239,7 @@ declaration: NUM ID {
 //should be done
 std::string var_name = $2;
 CodeNode *numDec = new CodeNode;
+numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");
 $$ = numDec;
 }
