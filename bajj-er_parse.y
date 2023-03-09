@@ -21,7 +21,8 @@ prog_start : %empty {printf("prog_start->epsilon\n");
 //finished?
 printf("/n");
 }
-| functions {printf("prog_start->functions\n");
+| functions {
+//printf("prog_start->functions\n");
 //finished prty sure
 CodeNode *code_node = $1;
 printf("%s/n", code_node->code.c_str());
@@ -29,7 +30,8 @@ printf("%s/n", code_node->code.c_str());
 ;
 
 functions: function{printf("function -> function\n");}
-| function functions {printf("function -> function functions\n");
+| function functions {
+//printf("function -> function functions\n");
 //prty sure finished
 CodeNode *func1 = $1;
 CodeNode *funcs = $2;
@@ -40,7 +42,8 @@ $$ = node;
 }
 ;
 
-function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
+function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
+//printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
 //should be finished
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
@@ -152,11 +155,13 @@ mulop: MULTI {printf("mulop -> MULTI\n");}
 | DIVISION {printf("mulop -> DIVISION\n");}
 ;
 
-factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");
+factor: L_PAREN exp R_PAREN  {
+// printf("factor->L_PAREN exp R_PAREN\n");
 //TODO
 
 }
-| NUMBER {printf("factor->NUMBER\n");
+| NUMBER {
+  // printf("factor->NUMBER\n");
   CodeNode *node = new CodeNode;
   node->code = "";
   node->name = $1;
@@ -166,7 +171,8 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");
   }
   $$ = node; 
 }
-| ID {printf("factor -> ID\n");
+| ID {
+// printf("factor -> ID\n");
 //should be done
 CodeNode *node = new CodeNode;
 node->code = "";
@@ -180,7 +186,8 @@ $$ = node;
 | function_call {printf("factor -> function_call\n");}   
 ;
 
-declaration: NUM ID {printf("declaration -> NUM ID\n");
+declaration: NUM ID {
+// printf("declaration -> NUM ID\n");
 //should be done
 std::string var_name = $2;
 CodeNode *numDec = new CodeNode;
@@ -189,7 +196,8 @@ $$ = numDec;
 }
 
 
-function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");
+function_call: ID L_PAREN exp R_PAREN {
+// printf("function_call -> ID L_PAREN exp R_PAREN\n");
 std::string func_name = $1;
 CodeNode* exp_node = $3;
 //stuff to fill
