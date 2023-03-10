@@ -35,6 +35,7 @@ int numberToken;
 %type <codenode> statements
 %type <codenode> factor
 %type <codenode> args
+%type <codenode> arg
 %type <codenode> exp
 %type <op_val> NUMBER
 
@@ -60,35 +61,71 @@ $$ = function;
 }
 | function functions {
 //printf("function -> function functions\n");
-//TODO
+//Should be done?
+CodeNode *func1 = $1;
+CodeNode *funcs = $2;
+CodeNode *node = new CodeNode;
+node->code = func1->code + funcs->code;
+$$ = node;
 }
 ;
 
 function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
 //printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
+CodeNode *node = new CodeNode;
+std::string func_name = $2;
+node->code ="";
+
+// ADD Function NAME
+node->code += std::string("func ") + func_name;
+
+//add args
+CodeNode *args = $4;
+node->code += args->code;
+
+//add statments
 CodeNode *statements = $7;
-$$ = statements;
+node->code += statements->code;
+$$ = node;
 };
 
-args: arg COMMA args {printf("arguments -> COMMA arguments\n");}
-| arg {printf("arguments -> argument\n");}
+args: arg COMMA args {
+//printf("arguments -> COMMA arguments\n");
+//TODO
+}
+| arg {
+//printf("arguments -> argument\n");
+//TODO
+CodeNode *arg = $1;
+$$ = arg;
+}
 ;
 
-arg: %empty /*epsilon*/ {printf("argument -> epsilon\n");}
-| NUM ID {printf("argument -> NUM ID\n");}
+arg: %empty /*epsilon*/ {
+//printf("argument -> epsilon\n");
+CodeNode *ar = new CodeNode;
+ar->code = std::string("\n");
+$$ = ar;
+}
+| NUM ID {
+//printf("argument -> NUM ID\n");
+//TODO
+}
 ;
 
 statements: statement SEMICOLON {
-printf("statements -> statement SEMICOLON\n");
-//TODO
-CodeNode *statement = $1;
-$$ = statement;
+//printf("statements -> statement SEMICOLON\n");
+//SHOULD BE DONE
+CodeNode *node = new CodeNode;
+node->code = $1->code;
+$$ = node;
 }
 | statement SEMICOLON statements {
-printf("statements -> statement SEMICOLON statement\n");
-//TODO
-CodeNode *statments = new CodeNode;
-
+//printf("statements -> statement SEMICOLON statement\n");
+//SHOULD BE DONE
+CodeNode *node = new CodeNode;
+node->code = $1->code + $3->code;
+$$ = node;
 }
 ;
 
@@ -122,6 +159,12 @@ $$ = dec;
 {
 //printf("statement->ID ASSIGN exp\n");
 //TODO
+std::string var_name = $1;
+
+CodeNode *node = new CodeNode;
+node->code = $3->code;
+node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");
+$$ = node;
 }   
 ;
 
@@ -197,7 +240,6 @@ factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
 declaration: NUM ID {
 //printf("declaration -> NUM ID\n");
 std::string var_name = $2;
-printf("DECLARATION\n");
 CodeNode *numDec = new CodeNode;
 numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");

@@ -14,39 +14,39 @@ ID ({ALPHA}+{DIGIT}*)+
 NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
-"return"    {colnum+= yyleng; printf("RETURN %s\n", yytext);return RETURN;}
+"return"    {colnum+= yyleng; return RETURN;}
 "intput"    {colnum+= yyleng; printf("INPUT %s\n", yytext);return INPUT;}
 "output"    {colnum+= yyleng; printf("OUTPUT %s\n", yytext);return OUTPUT;}
-"for"	{colnum+= yyleng; printf("FOR %s\n", yytext);return FOR;}
-"num" {colnum+= yyleng; printf("NUM %s\n", yytext);return NUM;}
+"for"	{colnum+= yyleng; return FOR;}
+"num" {colnum+= yyleng; return NUM;}
 "while" {colnum+= yyleng; printf("WHILE %s\n", yytext);return WHILE;}
 "if" {colnum+= yyleng; printf("IF %s\n", yytext);return IF;}
 "elif" {colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
 "else" {colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
-"function" {colnum+= yyleng; printf("FUNC %s\n", yytext);return FUNC;} 
+"function" {colnum+= yyleng; return FUNC;} 
 {NUMERROR} {printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
-{NUM} {colnum+= yyleng; printf("NUMBER %s\n", yytext);return NUMBER;}
-{ID} {yylval.op_val = yytext; colnum+= yyleng; printf("ID %s\n", yytext);return ID;}
+{NUM} {colnum+= yyleng; return NUMBER;}
+{ID} {yylval.op_val = yytext; colnum+= yyleng; return ID;}
 "+"  {colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
 "-" {colnum+= yyleng; printf("MINUS  %s\n", yytext);return MINUS;}
 "*" {colnum+= yyleng; printf("MULTI  %s\n", yytext);return MULTI;}
 "/" {colnum+= yyleng; printf("DIVISION  %s\n", yytext);return DIVISION;}
 "<" {colnum+= yyleng; printf("LESS  %s\n", yytext);return LESS;}
 ">"     {colnum+= yyleng; printf("GREATER %s\n", yytext);return GREATER;}
-"=="    {colnum+= yyleng; printf("EQUAL %s\n", yytext);return EQUAL;}
-"!="    {colnum+= yyleng; printf("NOT_EQUAL %s\n", yytext);return NOT_EQUAL;}
-"<="    {colnum+= yyleng; printf("LE_EQ %s\n", yytext);return LE_EQ;}
-">="    {colnum+= yyleng; printf("GE_EQ %s\n", yytext);return GE_EQ;}
-"#".* {colnum+= yyleng; printf("COMMENT %s\n", yytext);}
-"["    {colnum+= yyleng; printf("L_BRACKET %s\n", yytext);return L_BRACKET;}
-"]"    {colnum+= yyleng; printf("R_BRACKET %s\n", yytext);return R_BRACKET;}
-"{"    {colnum+= yyleng; printf("L_C_BRACKET %s\n", yytext);return L_C_BRACKET;}
-"}"    {colnum+= yyleng; printf("R_C_BRACKET %s\n", yytext);return R_C_BRACKET;}
-"("    {colnum+= yyleng; printf("L_PAREN %s\n", yytext);return L_PAREN;}
-")"    {colnum+= yyleng; printf("R_PAREN %s\n", yytext);return R_PAREN;}
-"="    {colnum+= yyleng; printf("ASSIGN %s\n", yytext);return ASSIGN;}
-";"    {colnum+= yyleng; printf("SEMICOLON %s\n", yytext);return SEMICOLON;}
-","    {colnum+= yyleng; printf("COMMA %s\n", yytext);return COMMA;}
+"=="    {colnum+= yyleng; return EQUAL;}
+"!="    {colnum+= yyleng; return NOT_EQUAL;}
+"<="    {colnum+= yyleng; return LE_EQ;}
+">="    {colnum+= yyleng; return GE_EQ;}
+"#".* {colnum+= yyleng; return COMMENT;}
+"["    {colnum+= yyleng; return L_BRACKET;}
+"]"    {colnum+= yyleng; return R_BRACKET;}
+"{"    {colnum+= yyleng; return L_C_BRACKET;}
+"}"    {colnum+= yyleng; return R_C_BRACKET;}
+"("    {colnum+= yyleng; return L_PAREN;}
+")"    {colnum+= yyleng; return R_PAREN;}
+"="    {colnum+= yyleng; return ASSIGN;}
+";"    {colnum+= yyleng; return SEMICOLON;}
+","    {colnum+= yyleng; return COMMA;}
 
 [\n] {colnum = 1; linenum++;}
 [ \t] {colnum+= yyleng;}
