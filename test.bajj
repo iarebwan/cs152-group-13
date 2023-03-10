@@ -2,4 +2,15 @@ function main(){
 num a;
 num b;
 num c = 1;
+output(c);
+c = 1 + 2;
+output(c);
+c = 3 - 1;
+output(c);
+c = 2 * 5;
+output(c);
+c = 10 / 2;
+output(c);
+input(a);
+output(a);
 };

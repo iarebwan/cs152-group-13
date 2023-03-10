@@ -218,11 +218,11 @@ while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE
 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
 ;
 
-input: INPUT L_PAREN exp R_PAREN {
+input: INPUT L_PAREN ID R_PAREN {
 //printf("input -> INPUT L_PAREN num_list R_PAREN\n");
   CodeNode *exp = new CodeNode;
-  exp->code = $3->code;
-  exp->code += std::string(".< ") + $3->name + std::string("\n");
+  std::string id = $3;
+  exp->code = std::string(".< ") + id + std::string("\n");
   $$ = exp;
 }
 ; 
@@ -246,7 +246,8 @@ exp: exp PLUS term{
    node->name = temp->name;
    $$ = node;
 }
-|exp MINUS term {printf("exp -> exp MINUS term\n`");
+|exp MINUS term {
+// printf("exp -> exp MINUS term\n`");
    CodeNode *temp = new CodeNode;
    temp->name = std::string("c");
    CodeNode *node = new CodeNode;
@@ -273,7 +274,8 @@ comp: LESS {printf("comp -> LESS\n");}
 ;
 
 
-term: term MULTI factor {printf("term -> term MULTI factor\n");
+term: term MULTI factor {
+// printf("term -> term MULTI factor\n");
    CodeNode *temp = new CodeNode;
    temp->name = std::string("c");
    CodeNode *node = new CodeNode;
@@ -282,7 +284,8 @@ term: term MULTI factor {printf("term -> term MULTI factor\n");
    node->name = temp->name;
    $$ = node;
 }
-| term DIVISION factor {printf("term -> term DIVISION factor\n");
+| term DIVISION factor {
+// printf("term -> term DIVISION factor\n");
    CodeNode *temp = new CodeNode;
    temp->name = std::string("c");
    CodeNode *node = new CodeNode;
@@ -298,10 +301,24 @@ term: term MULTI factor {printf("term -> term MULTI factor\n");
 ;
 
 
-factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
-| NUMBER {printf("factor->NUMBER\n");}
-| ID {printf("factor -> ID\n");}
-| function_call {printf("factor -> function_call\n");}   
+factor: L_PAREN exp R_PAREN  {
+//printf("factor->L_PAREN exp R_PAREN\n");
+}
+| NUMBER {
+  CodeNode *node = new CodeNode;
+  node->name = $1;
+  node->code = "";
+  $$ = node;
+}
+| ID {
+  CodeNode *node = new CodeNode;
+  node->name = $1;
+  node->code = "";
+  $$ = node;
+}
+| function_call {
+//printf("factor -> function_call\n");
+}   
 ;
 
 declaration: NUM ID {

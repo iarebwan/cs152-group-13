@@ -15,24 +15,24 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
 "return"    {colnum+= yyleng; return RETURN;}
-"intput"    {colnum+= yyleng; printf("INPUT %s\n", yytext);return INPUT;}
-"output"    {colnum+= yyleng; printf("OUTPUT %s\n", yytext);return OUTPUT;}
+"input"    {colnum+= yyleng; return INPUT;}
+"output"    {colnum+= yyleng; return OUTPUT;}
 "for"	{colnum+= yyleng; return FOR;}
 "num" {colnum+= yyleng; return NUM;}
-"while" {colnum+= yyleng; printf("WHILE %s\n", yytext);return WHILE;}
-"if" {colnum+= yyleng; printf("IF %s\n", yytext);return IF;}
-"elif" {colnum+= yyleng; printf("ELIF %s\n", yytext);return ELIF;}
-"else" {colnum+= yyleng; printf("ELSE %s\n", yytext);return ELSE;}
+"while" {colnum+= yyleng; return WHILE;}
+"if" {colnum+= yyleng; return IF;}
+"elif" {colnum+= yyleng; return ELIF;}
+"else" {colnum+= yyleng; return ELSE;}
 "function" {colnum+= yyleng; return FUNC;} 
 {NUMERROR} {printf("Unrecognized character: %s at Line: %d Column: %d \n", yytext,linenum, colnum);} 
 {NUM} {yylval.op_val = new char[yyleng+1];strcpy(yylval.op_val,yytext); colnum+= yyleng; return NUMBER;}
 {ID} {yylval.op_val = new char[yyleng+1]; strcpy(yylval.op_val,yytext); colnum+= yyleng; return ID;}
-"+"  {colnum+= yyleng; printf("PLUS  %s\n", yytext);return PLUS;}
-"-" {colnum+= yyleng; printf("MINUS  %s\n", yytext);return MINUS;}
-"*" {colnum+= yyleng; printf("MULTI  %s\n", yytext);return MULTI;}
-"/" {colnum+= yyleng; printf("DIVISION  %s\n", yytext);return DIVISION;}
-"<" {colnum+= yyleng; printf("LESS  %s\n", yytext);return LESS;}
-">"     {colnum+= yyleng; printf("GREATER %s\n", yytext);return GREATER;}
+"+"  {colnum+= yyleng; return PLUS;}
+"-" {colnum+= yyleng; return MINUS;}
+"*" {colnum+= yyleng; return MULTI;}
+"/" {colnum+= yyleng; return DIVISION;}
+"<" {colnum+= yyleng; return LESS;}
+">"     {colnum+= yyleng; return GREATER;}
 "=="    {colnum+= yyleng; return EQUAL;}
 "!="    {colnum+= yyleng; return NOT_EQUAL;}
 "<="    {colnum+= yyleng; return LE_EQ;}

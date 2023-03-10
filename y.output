@@ -63,7 +63,7 @@ Grammar
 
    34 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET
 
-   35 input: INPUT L_PAREN exp R_PAREN
+   35 input: INPUT L_PAREN ID R_PAREN
 
    36 output: OUTPUT L_PAREN exp R_PAREN
 
@@ -129,7 +129,7 @@ ASSIGN (285) 21 24 25 26 34
 SEMICOLON (286) 5 10 11 28 29 34
 COMMA (287) 6
 FOR (288) 34
-ID (289) 5 9 21 22 24 25 26 34 52 54 55
+ID (289) 5 9 21 22 24 25 26 34 35 52 54 55
 
 
 Nonterminals, with rules where they appear
@@ -171,7 +171,7 @@ input (51)
 output (52)
     on left: 36, on right: 19
 exp (53)
-    on left: 37 38 39, on right: 21 23 24 34 35 36 37 38 40 50 55
+    on left: 37 38 39, on right: 21 23 24 34 36 37 38 40 50 55
 bool_exp (54)
     on left: 40, on right: 27 31 33 34
 comp (55)
@@ -366,7 +366,7 @@ State 17
 
 State 18
 
-   35 input: INPUT . L_PAREN exp R_PAREN
+   35 input: INPUT . L_PAREN ID R_PAREN
 
     L_PAREN  shift, and go to state 43
 
@@ -576,16 +576,9 @@ State 42
 
 State 43
 
-   35 input: INPUT L_PAREN . exp R_PAREN
+   35 input: INPUT L_PAREN . ID R_PAREN
 
-    NUMBER   shift, and go to state 36
-    L_PAREN  shift, and go to state 37
-    ID       shift, and go to state 55
-
-    exp            go to state 61
-    term           go to state 40
-    factor         go to state 41
-    function_call  go to state 42
+    ID  shift, and go to state 61
 
 
 State 44
@@ -795,12 +788,8 @@ State 60
 
 State 61
 
-   35 input: INPUT L_PAREN exp . R_PAREN
-   37 exp: exp . PLUS term
-   38    | exp . MINUS term
+   35 input: INPUT L_PAREN ID . R_PAREN
 
-    PLUS     shift, and go to state 57
-    MINUS    shift, and go to state 58
     R_PAREN  shift, and go to state 78
 
 
@@ -1003,7 +992,7 @@ State 77
 
 State 78
 
-   35 input: INPUT L_PAREN exp R_PAREN .
+   35 input: INPUT L_PAREN ID R_PAREN .
 
     $default  reduce using rule 35 (input)
 
