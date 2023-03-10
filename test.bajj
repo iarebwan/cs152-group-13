@@ -1,0 +1,4 @@
+function test(){
+num a;
+num b;
+};
