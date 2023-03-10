@@ -145,11 +145,11 @@ $$ = dec;
 }
 | if {
 //printf("statement->if\n");
-//TODO
+//TODO PHASE 4
 }
 | while {
 //printf("statement->while\n");
-//TODO
+//TODO PHASE 4
 }
 | for {printf("statement->for\n");}
 | input {printf("statement->input\n");}

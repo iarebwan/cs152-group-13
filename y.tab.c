@@ -1495,7 +1495,7 @@ CodeNode *dec = (yyvsp[0].codenode);
 #line 146 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("statement->if\n");
-//TODO
+//TODO PHASE 4
 }
 #line 1501 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1504,7 +1504,7 @@ CodeNode *dec = (yyvsp[0].codenode);
 #line 150 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("statement->while\n");
-//TODO
+//TODO PHASE 4
 }
 #line 1510 "y.tab.c" /* yacc.c:1646  */
     break;
