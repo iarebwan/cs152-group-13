@@ -28,6 +28,7 @@ int numberToken;
 %token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
 
 %token <op_val> ID
+%type <codenode> num
 %type <codenode> function
 %type <codenode> functions
 %type <codenode> declaration
@@ -86,6 +87,9 @@ node->code += args->code;
 //add statments
 CodeNode *statements = $7;
 node->code += statements->code;
+
+//endfunc
+node->code += std::string("endfunc\n");
 $$ = node;
 };
 
@@ -173,7 +177,15 @@ return: RETURN ID {printf("return->RETURN ID\n");}
 ;
 
 num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}
-| NUM ID ASSIGN NUMBER {printf("num -> NUM ID ASSIGN NUMBER\n");}
+| NUM ID ASSIGN NUMBER {
+//printf("num -> NUM ID ASSIGN NUMBER\n");
+std::string var_name = $2;
+CodeNode *numDec = new CodeNode;
+numDec->name = var_name;
+numDec->code = std::string(". ") + var_name + std::string("\n");
+numDec->code += std::string("= ") + var_name + std::string(", ") + $4 + std::string("\n");
+$$ = numDec;
+}
 | NUM ID ASSIGN function_call {printf("num -> NUM ID ASSIGN function_call\n");}
 ;
 

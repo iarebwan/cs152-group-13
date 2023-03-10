@@ -1,4 +1,5 @@
-function test(){
+function main(){
 num a;
 num b;
+num c = 1;
 };

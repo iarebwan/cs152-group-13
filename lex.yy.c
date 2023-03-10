@@ -843,7 +843,7 @@ YY_RULE_SETUP
 case 12:
 YY_RULE_SETUP
 #line 28 "bajj-er.lex"
-{colnum+= yyleng; return NUMBER;}
+{yylval.op_val = new char[yyleng+1];strcpy(yylval.op_val,yytext); colnum+= yyleng; return NUMBER;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
