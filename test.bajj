@@ -1,4 +1,4 @@
-function main(){
+function main(num d, num e){
 num a;
 num b;
 num c = 1;

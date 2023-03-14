@@ -1,4 +1,6 @@
 func main
+. d
+. e
 . a
 . b
 . c

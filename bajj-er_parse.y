@@ -36,6 +36,7 @@ int numberToken;
 %type <codenode> statements
 %type <codenode> factor
 %type <codenode> args
+%type <codenode> parameters
 %type <codenode> arg
 %type <codenode> exp
 %type <op_val> NUMBER
@@ -56,7 +57,7 @@ printf("%s\n", code_node->code.c_str());
 
 functions: function{
 //printf("function -> function\n");
-//TODO
+//Should be good?
 CodeNode *function = $1;
 $$ = function;
 }
@@ -78,7 +79,7 @@ std::string func_name = $2;
 node->code ="";
 
 // ADD Function NAME
-node->code += std::string("func ") + func_name;
+node->code += std::string("func ") + func_name + std::string("\n");
 
 //add args
 CodeNode *args = $4;
@@ -95,11 +96,14 @@ $$ = node;
 
 args: arg COMMA args {
 //printf("arguments -> COMMA arguments\n");
-//TODO
+//Should be done?
+CodeNode *node = new CodeNode;
+node->code = $1->code + $3->code;
+$$ = node;
 }
 | arg {
 //printf("arguments -> argument\n");
-//TODO
+//Should be done?
 CodeNode *arg = $1;
 $$ = arg;
 }
@@ -108,12 +112,17 @@ $$ = arg;
 arg: %empty /*epsilon*/ {
 //printf("argument -> epsilon\n");
 CodeNode *ar = new CodeNode;
-ar->code = std::string("\n");
+ar->code = std::string("");
 $$ = ar;
 }
 | NUM ID {
 //printf("argument -> NUM ID\n");
-//TODO
+//done? vid says same as declaration
+std::string var_name = $2;
+CodeNode *numDec = new CodeNode;
+numDec->name = var_name;
+numDec->code = std::string(". ") + var_name + std::string("\n");
+$$ = numDec;
 }
 ;
 
@@ -259,7 +268,27 @@ $$ = numDec;
 }
 ;
 
-function_call: ID L_PAREN exp R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");}
+
+parameters: exp{
+//TODO
+CodeNode *expr = $1;
+$$ = expr;
+}
+| exp COMMA parameters{
+//TODO
+CodeNode *node = new CodeNode;
+node->code = $1->code + $3->code;
+$$ = node;
+}
+| %empty {
+//should be empty
+CodeNode *node = new CodeNode;
+$$ = node;
+}
+;
+
+
+function_call: ID L_PAREN parameters R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");}
 ;
 
 %%
