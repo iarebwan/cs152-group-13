@@ -63,43 +63,39 @@ Grammar
 
    34 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET
 
-   35 input: INPUT L_PAREN exp R_PAREN
+   35 input: INPUT L_PAREN ID R_PAREN
 
    36 output: OUTPUT L_PAREN exp R_PAREN
 
-   37 exp: exp add_op term
-   38    | term
+   37 exp: exp PLUS term
+   38    | exp MINUS term
+   39    | term
 
-   39 bool_exp: L_PAREN exp comp exp R_PAREN
+   40 bool_exp: L_PAREN exp comp exp R_PAREN
 
-   40 comp: LESS
-   41     | GREATER
-   42     | EQUAL
-   43     | LE_EQ
-   44     | GE_EQ
-   45     | NOT_EQUAL
+   41 comp: LESS
+   42     | GREATER
+   43     | EQUAL
+   44     | LE_EQ
+   45     | GE_EQ
+   46     | NOT_EQUAL
 
-   46 add_op: PLUS
-   47       | MINUS
-
-   48 term: term mulop factor
+   47 term: term MULTI factor
+   48     | term DIVISION factor
    49     | factor
 
-   50 mulop: MULTI
-   51      | DIVISION
+   50 factor: L_PAREN exp R_PAREN
+   51       | NUMBER
+   52       | ID
+   53       | function_call
 
-   52 factor: L_PAREN exp R_PAREN
-   53       | NUMBER
-   54       | ID
-   55       | function_call
+   54 declaration: NUM ID
 
-   56 declaration: NUM ID
+   55 parameters: exp
+   56           | exp COMMA parameters
+   57           | %empty
 
-   57 parameters: exp
-   58           | exp COMMA parameters
-   59           | %empty
-
-   60 function_call: ID L_PAREN parameters R_PAREN
+   58 function_call: ID L_PAREN parameters R_PAREN
 
 
 Terminals, with rules where they appear
@@ -109,35 +105,35 @@ error (256)
 RETURN (258) 22 23
 INPUT (259) 35
 OUTPUT (260) 36
-NUMBER (261) 25 53
-NUM (262) 9 24 25 26 56
+NUMBER (261) 25 51
+NUM (262) 9 24 25 26 54
 WHILE (263) 33
 IF (264) 27
 ELIF (265) 31
 ELSE (266) 32
 FUNC (267) 5
-PLUS (268) 46
-MINUS (269) 47
-MULTI (270) 50
-DIVISION (271) 51
-LESS (272) 40
-GREATER (273) 41
-EQUAL (274) 42
-NOT_EQUAL (275) 45
-LE_EQ (276) 43
-GE_EQ (277) 44
+PLUS (268) 37
+MINUS (269) 38
+MULTI (270) 47
+DIVISION (271) 48
+LESS (272) 41
+GREATER (273) 42
+EQUAL (274) 43
+NOT_EQUAL (275) 46
+LE_EQ (276) 44
+GE_EQ (277) 45
 COMMENT (278)
 L_BRACKET (279)
 R_BRACKET (280)
 L_C_BRACKET (281) 5 27 31 32 33 34
 R_C_BRACKET (282) 5 27 31 32 33 34
-L_PAREN (283) 5 35 36 39 52 60
-R_PAREN (284) 5 35 36 39 52 60
+L_PAREN (283) 5 35 36 40 50 58
+R_PAREN (284) 5 35 36 40 50 58
 ASSIGN (285) 21 24 25 26 34
 SEMICOLON (286) 5 10 11 28 29 34
-COMMA (287) 6 58
+COMMA (287) 6 56
 FOR (288) 34
-ID (289) 5 9 21 22 24 25 26 34 54 56 60
+ID (289) 5 9 21 22 24 25 26 34 35 52 54 58
 
 
 Nonterminals, with rules where they appear
@@ -179,25 +175,21 @@ input (51)
 output (52)
     on left: 36, on right: 19
 exp (53)
-    on left: 37 38, on right: 21 23 24 34 35 36 37 39 52 57 58
+    on left: 37 38 39, on right: 21 23 24 34 36 37 38 40 50 55 56
 bool_exp (54)
-    on left: 39, on right: 27 31 33 34
+    on left: 40, on right: 27 31 33 34
 comp (55)
-    on left: 40 41 42 43 44 45, on right: 39
-add_op (56)
-    on left: 46 47, on right: 37
-term (57)
-    on left: 48 49, on right: 37 38 48
-mulop (58)
-    on left: 50 51, on right: 48
-factor (59)
-    on left: 52 53 54 55, on right: 48 49
-declaration (60)
-    on left: 56, on right: 12
-parameters (61)
-    on left: 57 58 59, on right: 58 60
-function_call (62)
-    on left: 60, on right: 13 26 55
+    on left: 41 42 43 44 45 46, on right: 40
+term (56)
+    on left: 47 48 49, on right: 37 38 39 47 48
+factor (57)
+    on left: 50 51 52 53, on right: 47 48 49
+declaration (58)
+    on left: 54, on right: 12
+parameters (59)
+    on left: 55 56 57, on right: 56 58
+function_call (60)
+    on left: 58, on right: 13 26 53
 
 
 State 0
@@ -380,7 +372,7 @@ State 17
 
 State 18
 
-   35 input: INPUT . L_PAREN exp R_PAREN
+   35 input: INPUT . L_PAREN ID R_PAREN
 
     L_PAREN  shift, and go to state 43
 
@@ -397,7 +389,7 @@ State 20
    24 num: NUM . ID ASSIGN exp
    25    | NUM . ID ASSIGN NUMBER
    26    | NUM . ID ASSIGN function_call
-   56 declaration: NUM . ID
+   54 declaration: NUM . ID
 
     ID  shift, and go to state 45
 
@@ -432,7 +424,7 @@ State 23
 State 24
 
    21 statement: ID . ASSIGN exp
-   60 function_call: ID . L_PAREN parameters R_PAREN
+   58 function_call: ID . L_PAREN parameters R_PAREN
 
     L_PAREN  shift, and go to state 51
     ASSIGN   shift, and go to state 52
@@ -518,14 +510,14 @@ State 35
 
 State 36
 
-   53 factor: NUMBER .
+   51 factor: NUMBER .
 
-    $default  reduce using rule 53 (factor)
+    $default  reduce using rule 51 (factor)
 
 
 State 37
 
-   52 factor: L_PAREN . exp R_PAREN
+   50 factor: L_PAREN . exp R_PAREN
 
     NUMBER   shift, and go to state 36
     L_PAREN  shift, and go to state 37
@@ -540,40 +532,38 @@ State 37
 State 38
 
    22 return: RETURN ID .
-   54 factor: ID .
-   60 function_call: ID . L_PAREN parameters R_PAREN
+   52 factor: ID .
+   58 function_call: ID . L_PAREN parameters R_PAREN
 
     L_PAREN  shift, and go to state 51
 
     SEMICOLON  reduce using rule 22 (return)
-    SEMICOLON  [reduce using rule 54 (factor)]
-    $default   reduce using rule 54 (factor)
+    SEMICOLON  [reduce using rule 52 (factor)]
+    $default   reduce using rule 52 (factor)
 
 
 State 39
 
    23 return: RETURN exp .
-   37 exp: exp . add_op term
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
 
     PLUS   shift, and go to state 57
     MINUS  shift, and go to state 58
 
     $default  reduce using rule 23 (return)
 
-    add_op  go to state 59
-
 
 State 40
 
-   38 exp: term .
-   48 term: term . mulop factor
+   39 exp: term .
+   47 term: term . MULTI factor
+   48     | term . DIVISION factor
 
-    MULTI     shift, and go to state 60
-    DIVISION  shift, and go to state 61
+    MULTI     shift, and go to state 59
+    DIVISION  shift, and go to state 60
 
-    $default  reduce using rule 38 (exp)
-
-    mulop  go to state 62
+    $default  reduce using rule 39 (exp)
 
 
 State 41
@@ -585,28 +575,47 @@ State 41
 
 State 42
 
-   55 factor: function_call .
+   53 factor: function_call .
 
-    $default  reduce using rule 55 (factor)
+    $default  reduce using rule 53 (factor)
 
 
 State 43
 
-   35 input: INPUT L_PAREN . exp R_PAREN
+   35 input: INPUT L_PAREN . ID R_PAREN
 
-    NUMBER   shift, and go to state 36
-    L_PAREN  shift, and go to state 37
-    ID       shift, and go to state 55
-
-    exp            go to state 63
-    term           go to state 40
-    factor         go to state 41
-    function_call  go to state 42
+    ID  shift, and go to state 61
 
 
 State 44
 
    36 output: OUTPUT L_PAREN . exp R_PAREN
+
+    NUMBER   shift, and go to state 36
+    L_PAREN  shift, and go to state 37
+    ID       shift, and go to state 55
+
+    exp            go to state 62
+    term           go to state 40
+    factor         go to state 41
+    function_call  go to state 42
+
+
+State 45
+
+   24 num: NUM ID . ASSIGN exp
+   25    | NUM ID . ASSIGN NUMBER
+   26    | NUM ID . ASSIGN function_call
+   54 declaration: NUM ID .
+
+    ASSIGN  shift, and go to state 63
+
+    $default  reduce using rule 54 (declaration)
+
+
+State 46
+
+   40 bool_exp: L_PAREN . exp comp exp R_PAREN
 
     NUMBER   shift, and go to state 36
     L_PAREN  shift, and go to state 37
@@ -618,44 +627,18 @@ State 44
     function_call  go to state 42
 
 
-State 45
-
-   24 num: NUM ID . ASSIGN exp
-   25    | NUM ID . ASSIGN NUMBER
-   26    | NUM ID . ASSIGN function_call
-   56 declaration: NUM ID .
-
-    ASSIGN  shift, and go to state 65
-
-    $default  reduce using rule 56 (declaration)
-
-
-State 46
-
-   39 bool_exp: L_PAREN . exp comp exp R_PAREN
-
-    NUMBER   shift, and go to state 36
-    L_PAREN  shift, and go to state 37
-    ID       shift, and go to state 55
-
-    exp            go to state 66
-    term           go to state 40
-    factor         go to state 41
-    function_call  go to state 42
-
-
 State 47
 
    33 while: WHILE bool_exp . L_C_BRACKET statements R_C_BRACKET
 
-    L_C_BRACKET  shift, and go to state 67
+    L_C_BRACKET  shift, and go to state 65
 
 
 State 48
 
    27 if: IF bool_exp . L_C_BRACKET statements elsify R_C_BRACKET
 
-    L_C_BRACKET  shift, and go to state 68
+    L_C_BRACKET  shift, and go to state 66
 
 
 State 49
@@ -664,30 +647,30 @@ State 49
    25    | NUM . ID ASSIGN NUMBER
    26    | NUM . ID ASSIGN function_call
 
-    ID  shift, and go to state 69
+    ID  shift, and go to state 67
 
 
 State 50
 
    34 for: FOR num . SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET
 
-    SEMICOLON  shift, and go to state 70
+    SEMICOLON  shift, and go to state 68
 
 
 State 51
 
-   60 function_call: ID L_PAREN . parameters R_PAREN
+   58 function_call: ID L_PAREN . parameters R_PAREN
 
     NUMBER   shift, and go to state 36
     L_PAREN  shift, and go to state 37
     ID       shift, and go to state 55
 
-    $default  reduce using rule 59 (parameters)
+    $default  reduce using rule 57 (parameters)
 
-    exp            go to state 71
+    exp            go to state 69
     term           go to state 40
     factor         go to state 41
-    parameters     go to state 72
+    parameters     go to state 70
     function_call  go to state 42
 
 
@@ -699,7 +682,7 @@ State 52
     L_PAREN  shift, and go to state 37
     ID       shift, and go to state 55
 
-    exp            go to state 73
+    exp            go to state 71
     term           go to state 40
     factor         go to state 41
     function_call  go to state 42
@@ -709,7 +692,7 @@ State 53
 
     5 function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET . SEMICOLON
 
-    SEMICOLON  shift, and go to state 74
+    SEMICOLON  shift, and go to state 72
 
 
 State 54
@@ -728,7 +711,7 @@ State 54
 
     $default  reduce using rule 10 (statements)
 
-    statements     go to state 75
+    statements     go to state 73
     statement      go to state 26
     return         go to state 27
     num            go to state 28
@@ -743,70 +726,66 @@ State 54
 
 State 55
 
-   54 factor: ID .
-   60 function_call: ID . L_PAREN parameters R_PAREN
+   52 factor: ID .
+   58 function_call: ID . L_PAREN parameters R_PAREN
 
     L_PAREN  shift, and go to state 51
 
-    $default  reduce using rule 54 (factor)
+    $default  reduce using rule 52 (factor)
 
 
 State 56
 
-   37 exp: exp . add_op term
-   52 factor: L_PAREN exp . R_PAREN
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
+   50 factor: L_PAREN exp . R_PAREN
 
     PLUS     shift, and go to state 57
     MINUS    shift, and go to state 58
-    R_PAREN  shift, and go to state 76
-
-    add_op  go to state 59
+    R_PAREN  shift, and go to state 74
 
 
 State 57
 
-   46 add_op: PLUS .
-
-    $default  reduce using rule 46 (add_op)
-
-
-State 58
-
-   47 add_op: MINUS .
-
-    $default  reduce using rule 47 (add_op)
-
-
-State 59
-
-   37 exp: exp add_op . term
+   37 exp: exp PLUS . term
 
     NUMBER   shift, and go to state 36
     L_PAREN  shift, and go to state 37
     ID       shift, and go to state 55
 
-    term           go to state 77
+    term           go to state 75
     factor         go to state 41
+    function_call  go to state 42
+
+
+State 58
+
+   38 exp: exp MINUS . term
+
+    NUMBER   shift, and go to state 36
+    L_PAREN  shift, and go to state 37
+    ID       shift, and go to state 55
+
+    term           go to state 76
+    factor         go to state 41
+    function_call  go to state 42
+
+
+State 59
+
+   47 term: term MULTI . factor
+
+    NUMBER   shift, and go to state 36
+    L_PAREN  shift, and go to state 37
+    ID       shift, and go to state 55
+
+    factor         go to state 77
     function_call  go to state 42
 
 
 State 60
 
-   50 mulop: MULTI .
-
-    $default  reduce using rule 50 (mulop)
-
-
-State 61
-
-   51 mulop: DIVISION .
-
-    $default  reduce using rule 51 (mulop)
-
-
-State 62
-
-   48 term: term mulop . factor
+   48 term: term DIVISION . factor
 
     NUMBER   shift, and go to state 36
     L_PAREN  shift, and go to state 37
@@ -816,31 +795,25 @@ State 62
     function_call  go to state 42
 
 
-State 63
+State 61
 
-   35 input: INPUT L_PAREN exp . R_PAREN
-   37 exp: exp . add_op term
+   35 input: INPUT L_PAREN ID . R_PAREN
 
-    PLUS     shift, and go to state 57
-    MINUS    shift, and go to state 58
     R_PAREN  shift, and go to state 79
 
-    add_op  go to state 59
 
-
-State 64
+State 62
 
    36 output: OUTPUT L_PAREN exp . R_PAREN
-   37 exp: exp . add_op term
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
 
     PLUS     shift, and go to state 57
     MINUS    shift, and go to state 58
     R_PAREN  shift, and go to state 80
 
-    add_op  go to state 59
 
-
-State 65
+State 63
 
    24 num: NUM ID ASSIGN . exp
    25    | NUM ID ASSIGN . NUMBER
@@ -856,10 +829,11 @@ State 65
     function_call  go to state 83
 
 
-State 66
+State 64
 
-   37 exp: exp . add_op term
-   39 bool_exp: L_PAREN exp . comp exp R_PAREN
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
+   40 bool_exp: L_PAREN exp . comp exp R_PAREN
 
     PLUS       shift, and go to state 57
     MINUS      shift, and go to state 58
@@ -870,11 +844,10 @@ State 66
     LE_EQ      shift, and go to state 88
     GE_EQ      shift, and go to state 89
 
-    comp    go to state 90
-    add_op  go to state 59
+    comp  go to state 90
 
 
-State 67
+State 65
 
    33 while: WHILE bool_exp L_C_BRACKET . statements R_C_BRACKET
 
@@ -900,7 +873,7 @@ State 67
     function_call  go to state 35
 
 
-State 68
+State 66
 
    27 if: IF bool_exp L_C_BRACKET . statements elsify R_C_BRACKET
 
@@ -926,16 +899,16 @@ State 68
     function_call  go to state 35
 
 
-State 69
+State 67
 
    24 num: NUM ID . ASSIGN exp
    25    | NUM ID . ASSIGN NUMBER
    26    | NUM ID . ASSIGN function_call
 
-    ASSIGN  shift, and go to state 65
+    ASSIGN  shift, and go to state 63
 
 
-State 70
+State 68
 
    34 for: FOR num SEMICOLON . bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET
 
@@ -944,85 +917,101 @@ State 70
     bool_exp  go to state 93
 
 
-State 71
+State 69
 
-   37 exp: exp . add_op term
-   57 parameters: exp .
-   58           | exp . COMMA parameters
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
+   55 parameters: exp .
+   56           | exp . COMMA parameters
 
     PLUS   shift, and go to state 57
     MINUS  shift, and go to state 58
     COMMA  shift, and go to state 94
 
-    $default  reduce using rule 57 (parameters)
-
-    add_op  go to state 59
+    $default  reduce using rule 55 (parameters)
 
 
-State 72
+State 70
 
-   60 function_call: ID L_PAREN parameters . R_PAREN
+   58 function_call: ID L_PAREN parameters . R_PAREN
 
     R_PAREN  shift, and go to state 95
 
 
-State 73
+State 71
 
    21 statement: ID ASSIGN exp .
-   37 exp: exp . add_op term
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
 
     PLUS   shift, and go to state 57
     MINUS  shift, and go to state 58
 
     $default  reduce using rule 21 (statement)
 
-    add_op  go to state 59
 
-
-State 74
+State 72
 
     5 function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON .
 
     $default  reduce using rule 5 (function)
 
 
-State 75
+State 73
 
    11 statements: statement SEMICOLON statements .
 
     $default  reduce using rule 11 (statements)
 
 
+State 74
+
+   50 factor: L_PAREN exp R_PAREN .
+
+    $default  reduce using rule 50 (factor)
+
+
+State 75
+
+   37 exp: exp PLUS term .
+   47 term: term . MULTI factor
+   48     | term . DIVISION factor
+
+    MULTI     shift, and go to state 59
+    DIVISION  shift, and go to state 60
+
+    $default  reduce using rule 37 (exp)
+
+
 State 76
 
-   52 factor: L_PAREN exp R_PAREN .
+   38 exp: exp MINUS term .
+   47 term: term . MULTI factor
+   48     | term . DIVISION factor
 
-    $default  reduce using rule 52 (factor)
+    MULTI     shift, and go to state 59
+    DIVISION  shift, and go to state 60
+
+    $default  reduce using rule 38 (exp)
 
 
 State 77
 
-   37 exp: exp add_op term .
-   48 term: term . mulop factor
+   47 term: term MULTI factor .
 
-    MULTI     shift, and go to state 60
-    DIVISION  shift, and go to state 61
-
-    $default  reduce using rule 37 (exp)
-
-    mulop  go to state 62
+    $default  reduce using rule 47 (term)
 
 
 State 78
 
-   48 term: term mulop factor .
+   48 term: term DIVISION factor .
 
     $default  reduce using rule 48 (term)
 
 
 State 79
 
-   35 input: INPUT L_PAREN exp R_PAREN .
+   35 input: INPUT L_PAREN ID R_PAREN .
 
     $default  reduce using rule 35 (input)
 
@@ -1037,81 +1026,80 @@ State 80
 State 81
 
    25 num: NUM ID ASSIGN NUMBER .
-   53 factor: NUMBER .
+   51 factor: NUMBER .
 
     SEMICOLON  reduce using rule 25 (num)
-    SEMICOLON  [reduce using rule 53 (factor)]
-    $default   reduce using rule 53 (factor)
+    SEMICOLON  [reduce using rule 51 (factor)]
+    $default   reduce using rule 51 (factor)
 
 
 State 82
 
    24 num: NUM ID ASSIGN exp .
-   37 exp: exp . add_op term
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
 
     PLUS   shift, and go to state 57
     MINUS  shift, and go to state 58
 
     $default  reduce using rule 24 (num)
 
-    add_op  go to state 59
-
 
 State 83
 
    26 num: NUM ID ASSIGN function_call .
-   55 factor: function_call .
+   53 factor: function_call .
 
     SEMICOLON  reduce using rule 26 (num)
-    SEMICOLON  [reduce using rule 55 (factor)]
-    $default   reduce using rule 55 (factor)
+    SEMICOLON  [reduce using rule 53 (factor)]
+    $default   reduce using rule 53 (factor)
 
 
 State 84
 
-   40 comp: LESS .
-
-    $default  reduce using rule 40 (comp)
-
-
-State 85
-
-   41 comp: GREATER .
+   41 comp: LESS .
 
     $default  reduce using rule 41 (comp)
 
 
-State 86
+State 85
 
-   42 comp: EQUAL .
+   42 comp: GREATER .
 
     $default  reduce using rule 42 (comp)
 
 
-State 87
+State 86
 
-   45 comp: NOT_EQUAL .
-
-    $default  reduce using rule 45 (comp)
-
-
-State 88
-
-   43 comp: LE_EQ .
+   43 comp: EQUAL .
 
     $default  reduce using rule 43 (comp)
 
 
-State 89
+State 87
 
-   44 comp: GE_EQ .
+   46 comp: NOT_EQUAL .
+
+    $default  reduce using rule 46 (comp)
+
+
+State 88
+
+   44 comp: LE_EQ .
 
     $default  reduce using rule 44 (comp)
 
 
+State 89
+
+   45 comp: GE_EQ .
+
+    $default  reduce using rule 45 (comp)
+
+
 State 90
 
-   39 bool_exp: L_PAREN exp comp . exp R_PAREN
+   40 bool_exp: L_PAREN exp comp . exp R_PAREN
 
     NUMBER   shift, and go to state 36
     L_PAREN  shift, and go to state 37
@@ -1153,15 +1141,15 @@ State 93
 
 State 94
 
-   58 parameters: exp COMMA . parameters
+   56 parameters: exp COMMA . parameters
 
     NUMBER   shift, and go to state 36
     L_PAREN  shift, and go to state 37
     ID       shift, and go to state 55
 
-    $default  reduce using rule 59 (parameters)
+    $default  reduce using rule 57 (parameters)
 
-    exp            go to state 71
+    exp            go to state 69
     term           go to state 40
     factor         go to state 41
     parameters     go to state 104
@@ -1170,21 +1158,20 @@ State 94
 
 State 95
 
-   60 function_call: ID L_PAREN parameters R_PAREN .
+   58 function_call: ID L_PAREN parameters R_PAREN .
 
-    $default  reduce using rule 60 (function_call)
+    $default  reduce using rule 58 (function_call)
 
 
 State 96
 
-   37 exp: exp . add_op term
-   39 bool_exp: L_PAREN exp comp exp . R_PAREN
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
+   40 bool_exp: L_PAREN exp comp exp . R_PAREN
 
     PLUS     shift, and go to state 57
     MINUS    shift, and go to state 58
     R_PAREN  shift, and go to state 105
-
-    add_op  go to state 59
 
 
 State 97
@@ -1240,16 +1227,16 @@ State 103
 
 State 104
 
-   58 parameters: exp COMMA parameters .
+   56 parameters: exp COMMA parameters .
 
-    $default  reduce using rule 58 (parameters)
+    $default  reduce using rule 56 (parameters)
 
 
 State 105
 
-   39 bool_exp: L_PAREN exp comp exp R_PAREN .
+   40 bool_exp: L_PAREN exp comp exp R_PAREN .
 
-    $default  reduce using rule 39 (bool_exp)
+    $default  reduce using rule 40 (bool_exp)
 
 
 State 106
@@ -1370,13 +1357,12 @@ State 114
 State 115
 
    34 for: FOR num SEMICOLON bool_exp ID ASSIGN exp . L_C_BRACKET statements R_C_BRACKET
-   37 exp: exp . add_op term
+   37 exp: exp . PLUS term
+   38    | exp . MINUS term
 
     PLUS         shift, and go to state 57
     MINUS        shift, and go to state 58
     L_C_BRACKET  shift, and go to state 118
-
-    add_op  go to state 59
 
 
 State 116

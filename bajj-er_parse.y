@@ -40,6 +40,9 @@ int numberToken;
 %type <codenode> arg
 %type <codenode> exp
 %type <op_val> NUMBER
+%type <codenode> input
+%type <codenode> output
+%type <codenode> term
 
 %%
 prog_start : %empty {
@@ -165,8 +168,14 @@ $$ = dec;
 //TODO PHASE 4
 }
 | for {printf("statement->for\n");}
-| input {printf("statement->input\n");}
-| output {printf("statement->output\n");}
+| input {
+    CodeNode *input = $1;
+    $$ = input;
+}
+| output {
+    CodeNode *output = $1;
+    $$ = output;
+}
 | return {printf("statement->return\n");}
 | ID ASSIGN exp  
 {
@@ -218,15 +227,48 @@ while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE
 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
 ;
 
-input: INPUT L_PAREN exp R_PAREN {printf("input -> INPUT L_PAREN num_list R_PAREN\n");}
+input: INPUT L_PAREN ID R_PAREN {
+//printf("input -> INPUT L_PAREN num_list R_PAREN\n");
+  CodeNode *exp = new CodeNode;
+  std::string id = $3;
+  exp->code = std::string(".< ") + id + std::string("\n");
+  $$ = exp;
+}
 ; 
 
-output: OUTPUT L_PAREN exp R_PAREN {printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");}
+output: OUTPUT L_PAREN exp R_PAREN {
+//printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");
+  CodeNode *exp = new CodeNode;
+  exp->code = $3->code;
+  exp->code += std::string(".> ") + $3->name + std::string("\n");
+  $$ = exp;
+}
 ;
 
 
-exp: exp add_op term
-|term {printf("exp -> term\n");}
+exp: exp PLUS term{
+   CodeNode *temp = new CodeNode;
+   temp->name = std::string("c");
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code;
+   node->code += std::string("+ ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp->name;
+   $$ = node;
+}
+|exp MINUS term {
+// printf("exp -> exp MINUS term\n`");
+   CodeNode *temp = new CodeNode;
+   temp->name = std::string("c");
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code;
+   node->code += std::string("- ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp->name;
+   $$ = node;
+}
+|term {
+   CodeNode *term = $1;
+   $$ = term;
+}
 ;
 
 bool_exp: L_PAREN exp comp exp R_PAREN {printf("bool_exp -> L_PAREN exp comp exp R_PAREN\n");}
@@ -240,22 +282,52 @@ comp: LESS {printf("comp -> LESS\n");}
 | NOT_EQUAL {printf("comp -> NOT_EQUAL\n");}
 ;
 
-add_op: PLUS 
-| MINUS
+
+term: term MULTI factor {
+// printf("term -> term MULTI factor\n");
+   CodeNode *temp = new CodeNode;
+   temp->name = std::string("c");
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code;
+   node->code += std::string("* ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp->name;
+   $$ = node;
+}
+| term DIVISION factor {
+// printf("term -> term DIVISION factor\n");
+   CodeNode *temp = new CodeNode;
+   temp->name = std::string("c");
+   CodeNode *node = new CodeNode;
+   node->code = $1->code + $3->code;
+   node->code += std::string("/ ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp->name;
+   $$ = node;
+}
+| factor {
+   CodeNode *factor = $1;
+   $$ = factor;
+}
 ;
 
-term: term mulop factor {printf("term -> term mulop factor\n");}
-| factor {printf("term -> factor\n");}
-;
 
-mulop: MULTI {printf("mulop -> MULTI\n");}
-| DIVISION {printf("mulop -> DIVISION\n");}
-;
-
-factor: L_PAREN exp R_PAREN  {printf("factor->L_PAREN exp R_PAREN\n");}
-| NUMBER {printf("factor->NUMBER\n");}
-| ID {printf("factor -> ID\n");}
-| function_call {printf("factor -> function_call\n");}   
+factor: L_PAREN exp R_PAREN  {
+//printf("factor->L_PAREN exp R_PAREN\n");
+}
+| NUMBER {
+  CodeNode *node = new CodeNode;
+  node->name = $1;
+  node->code = "";
+  $$ = node;
+}
+| ID {
+  CodeNode *node = new CodeNode;
+  node->name = $1;
+  node->code = "";
+  $$ = node;
+}
+| function_call {
+//printf("factor -> function_call\n");
+}   
 ;
 
 declaration: NUM ID {
