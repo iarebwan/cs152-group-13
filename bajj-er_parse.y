@@ -1,6 +1,7 @@
 %{
 #include "CodeNode.h"
 #include <iostream>
+#include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -13,7 +14,8 @@ void yyerror(const char *msg);
 extern int yyparse();
 //extern int currline;
 extern int linenum;
-
+int cur_arg = 0;
+int temp = 0;
 char *identToken;
 int numberToken;
 %}
@@ -31,14 +33,15 @@ int numberToken;
 %type <codenode> num
 %type <codenode> function
 %type <codenode> functions
+%type <codenode> function_call
 %type <codenode> declaration
 %type <codenode> statement
 %type <codenode> statements
 %type <codenode> factor
 %type <codenode> args
 %type <codenode> parameters
-%type <codenode> arg
 %type <codenode> exp
+%type <codenode> return
 %type <op_val> NUMBER
 %type <codenode> input
 %type <codenode> output
@@ -51,6 +54,7 @@ prog_start : %empty {
 }
 
 | functions {
+printf("we be parsing \n");
 //printf("prog_start->functions\n");
 CodeNode *code_node = $1;
 printf("%s\n", code_node->code.c_str());
@@ -91,49 +95,52 @@ node->code += args->code;
 //add statments
 CodeNode *statements = $7;
 node->code += statements->code;
-
 //endfunc
 node->code += std::string("endfunc\n");
 $$ = node;
 };
 
-args: arg COMMA args {
+args: declaration COMMA args {
 //printf("arguments -> COMMA arguments\n");
 //Should be done?
 CodeNode *node = new CodeNode;
-node->code = $1->code + $3->code;
+std::stringstream arg_nums;
+arg_nums << std::string("$") << cur_arg++;
+CodeNode *dec = $1;
+CodeNode *args = $3;
+node->code = dec->code;
+node->code += std::string("= ") + dec->name + std::string(", ") + arg_nums.str() + std::string("\n");
+node->code += args->code;
 $$ = node;
 }
-| arg {
+| declaration {
 //printf("arguments -> argument\n");
 //Should be done?
-CodeNode *arg = $1;
-$$ = arg;
+CodeNode *node = new CodeNode;
+std::stringstream arg_nums;
+arg_nums << std::string("$") << cur_arg++;
+CodeNode *dec = $1;
+node->code = dec->code;
+node->code += std::string("= ") + dec->name + std::string(", ") + arg_nums.str() + std::string("\n");
+$$ = node;
+}
+| %empty {
+//should be done
+CodeNode *node = new CodeNode;
+cur_arg = 0;
+$$ = node;
 }
 ;
 
-arg: %empty /*epsilon*/ {
-//printf("argument -> epsilon\n");
-CodeNode *ar = new CodeNode;
-ar->code = std::string("");
-$$ = ar;
-}
-| NUM ID {
-//printf("argument -> NUM ID\n");
-//done? vid says same as declaration
-std::string var_name = $2;
-CodeNode *numDec = new CodeNode;
-numDec->name = var_name;
-numDec->code = std::string(". ") + var_name + std::string("\n");
-$$ = numDec;
-}
-;
+
 
 statements: statement SEMICOLON {
 //printf("statements -> statement SEMICOLON\n");
 //SHOULD BE DONE
 CodeNode *node = new CodeNode;
+printf("going into statement SEMICOLON\n");
 node->code = $1->code;
+printf("we are out from statement\n");
 $$ = node;
 }
 | statement SEMICOLON statements {
@@ -141,6 +148,10 @@ $$ = node;
 //SHOULD BE DONE
 CodeNode *node = new CodeNode;
 node->code = $1->code + $3->code;
+$$ = node;
+}
+|%empty{
+CodeNode *node = new CodeNode;
 $$ = node;
 }
 ;
@@ -156,8 +167,9 @@ $$ = dec;
 //TODO
 }
 | num {
-//printf("statement->num\n");
-//TODO
+//Done?
+CodeNode *num = $1;
+$$ = num;
 }
 | if {
 //printf("statement->if\n");
@@ -176,7 +188,11 @@ $$ = dec;
     CodeNode *output = $1;
     $$ = output;
 }
-| return {printf("statement->return\n");}
+| return {
+//printf("statement->return\n");
+CodeNode *node = $1;
+$$ = node;
+}
 | ID ASSIGN exp  
 {
 //printf("statement->ID ASSIGN exp\n");
@@ -187,14 +203,36 @@ CodeNode *node = new CodeNode;
 node->code = $3->code;
 node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");
 $$ = node;
-}   
+}
+| ID ASSIGN function_call {
+CodeNode *node = new CodeNode;
+node->name = $1;
+std::cout << "func_call code: " << $3->code << std::endl;
+node->code += $3->code;
+node->code += std::string("= ") + $1 + std::string(", ") + $3->name + std::string("\n");
+$$ = node;
+}
 ;
 
-return: RETURN ID {printf("return->RETURN ID\n");}     
+return: RETURN ID {
+//printf("return->RETURN ID\n");
+CodeNode *node = new CodeNode;
+node->name = $2;
+node->code = std::string("ret ") + $2 + std::string("\n");
+$$ = node;
+}     
 | RETURN exp {printf("return->RETURN EXP\n");} 
 ;
 
-num: NUM ID ASSIGN exp{printf("num -> NUM ID ASSIGN exp\n");}
+num: NUM ID ASSIGN exp{
+CodeNode *numDec = new CodeNode;
+std::string var_name = $2;
+numDec->name = var_name;
+numDec->code = std::string(". ") + var_name + std::string("\n");
+numDec->code += $4->code;
+numDec->code += std::string("= ") + var_name + std::string(", ") + $4->name + std::string("\n");
+$$ = numDec;
+}
 | NUM ID ASSIGN NUMBER {
 //printf("num -> NUM ID ASSIGN NUMBER\n");
 std::string var_name = $2;
@@ -327,10 +365,13 @@ factor: L_PAREN exp R_PAREN  {
 }
 | function_call {
 //printf("factor -> function_call\n");
+ CodeNode *node = $1;
+ $$ = node;
 }   
 ;
 
 declaration: NUM ID {
+//Done?
 //printf("declaration -> NUM ID\n");
 std::string var_name = $2;
 CodeNode *numDec = new CodeNode;
@@ -342,14 +383,20 @@ $$ = numDec;
 
 
 parameters: exp{
-//TODO
+//Done?
+CodeNode *node = new CodeNode;
 CodeNode *expr = $1;
-$$ = expr;
+node->code = std::string("param ") + expr->name + std::string("\n");
+node->code += expr->code;
+$$ = node;
 }
 | exp COMMA parameters{
-//TODO
+//Done?
 CodeNode *node = new CodeNode;
-node->code = $1->code + $3->code;
+CodeNode *expr = $1;
+CodeNode *nParam = $3;
+node->code = std::string("param ") + expr->name + std::string("\n");
+node->code += expr->code  + nParam->code; 
 $$ = node;
 }
 | %empty {
@@ -360,7 +407,30 @@ $$ = node;
 ;
 
 
-function_call: ID L_PAREN parameters R_PAREN {printf("function_call -> ID L_PAREN exp R_PAREN\n");}
+function_call: ID L_PAREN parameters R_PAREN {
+//printf("function_call -> ID L_PAREN exp R_PAREN\n");
+//CHECK TODO
+CodeNode *node = new CodeNode;
+std::string func = $1;
+CodeNode *params = $3;
+
+std::cout << "param code: " << params->code << std::endl;
+//temp
+std::stringstream tempB;
+tempB << std::string("_temp") << temp++;
+
+//tempDec
+CodeNode *tempNode = new CodeNode;
+tempNode->name = tempB.str();
+tempNode->code += std::string(". ") + tempB.str() + std::string("\n");
+
+//code
+node->code = params->code + tempNode->code;
+node->code += std::string("call ") + func + std::string(", ") + tempB.str() + std::string("\n");
+node->name = tempB.str();
+std::cout << "code from func: " << node->code << std::endl;
+$$ = node;
+}
 ;
 
 %%
