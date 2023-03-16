@@ -1,0 +1,16 @@
+function fibonacci(num k) {
+  if (k <= 1) {
+    return 1;
+  };
+  return fibonacci(k - 1) + fibonacci(k - 2);
+};
+
+
+function main(){
+  num n;
+  num fib_n;
+
+  input(n);
+  fib_n = fibonacci(n);
+  output(fib_n)
+};

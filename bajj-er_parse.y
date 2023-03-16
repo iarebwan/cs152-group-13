@@ -49,6 +49,14 @@ bool check_decl(SymNode *Check){
 return true;
 }
 
+void print_symTables(std::vector<SymNode*> symTables) {
+  printf("symbol table:\n");
+  for(int i = 0; i < symTables.size(); i++) {
+    printf("function: %s\n", symTables[i]->name.c_str());
+  }
+  printf("\n");
+}
+
 std::string create_temp() {
   std::stringstream ssm;
   ssm << std::string("_temp") << numTemp++;
