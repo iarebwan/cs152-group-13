@@ -1,0 +1,27 @@
+declaration -> NUM ID L_BRACKET R_BRACKET
+func main
+.[] a, 20
+. b
+. c
+= b, 3
+= c, 5
+. _temp0
++ _temp0, b, c
+[]= a, 0, _temp0
+.[]> a, 0
+[]= a, 1, 100
+.[]> a, 1
+[]= a, 2, 200
+.[]> a, 2
+. _temp1
+=[] _temp1, a, 0
+. _temp2
+=[] _temp2, a, 1
+. _temp3
++ _temp3, _temp2, c
+. _temp4
+* _temp4, _temp1, _temp3
+[]= a, 3, _temp4
+.[]> a, 3
+endfunc
+
