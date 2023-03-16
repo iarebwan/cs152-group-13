@@ -340,8 +340,10 @@ std::stringstream skip;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
 //std::cout << std::string("going into bool: ") << std::endl;
-CodeNode * boolExp =  $2;
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+// std::cout << "test test" << std::endl;
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 //std::cout << std::string("going into statments: ") << std::endl;
@@ -463,8 +465,6 @@ exp: exp PLUS term{
 }
 ;
 
-
-
 bool_exp: L_PAREN exp GREATER exp R_PAREN {
   CodeNode *node = new CodeNode;
   std::string temp = create_temp();
@@ -490,12 +490,20 @@ bool_exp: L_PAREN exp GREATER exp R_PAREN {
   $$ = node;
 }
 | L_PAREN exp LE_EQ exp R_PAREN {
-  CodeNode *node = new CodeNode;
-  std::string temp = create_temp();
-  node->code = $2->code + $4->code + decl_temp_code(temp);
-  node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
-  node->name = temp;
-  $$ = node;
+   CodeNode *node = new CodeNode;
+   CodeNode *src1 = $2;
+   CodeNode *src2 = $4;
+   std::string temp = create_temp();
+   node->code = $2->code + $4->code + decl_temp_code(temp);
+   node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+  // CodeNode *node = new CodeNode;
+  // std::string temp = create_temp();
+  // node->code = $2->code + $4->code + decl_temp_code(temp);
+  // node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  // node->name = temp;
+  // $$ = node;
 }
 | L_PAREN exp GE_EQ exp R_PAREN {
   CodeNode *node = new CodeNode;
@@ -556,10 +564,6 @@ term: term MULTI factor {
    $$ = factor;
 }
 ;
-
-
-
-
 
 factor: L_PAREN exp R_PAREN  {
 //printf("factor->L_PAREN exp R_PAREN\n");

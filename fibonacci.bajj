@@ -12,5 +12,5 @@ function main(){
 
   input(n);
   fib_n = fibonacci(n);
-  output(fib_n)
+  output(fib_n);
 };
