@@ -162,7 +162,14 @@ node->code += statements->code;
 node->code += std::string("endfunc\n");
 $$ = node;
 cur_arg = 0;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $2;
+  symTemp->type = "func";
 
+  if(check_decl(symTemp) == false){
+
+  exit(0);
+ }
 };
 
 args: declaration COMMA args {
@@ -271,6 +278,15 @@ CodeNode *node = new CodeNode;
 node->code = $6->code;
 node->code += std::string("[]= ") + var_name + std::string(", ") + ind + std::string(", ") + $6->name + std::string("\n");
 $$ = node;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $1;
+  symTemp->type = "arr";
+
+  if(check_table(symTemp) == false){
+
+  printf("Variable has not been declared or incompatible variables");
+  exit(0);
+ }
 }
 
 | ID ASSIGN exp  
@@ -283,6 +299,15 @@ CodeNode *node = new CodeNode;
 node->code = $3->code;
 node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");
 $$ = node;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $1;
+  symTemp->type = "num";
+
+  if(check_table(symTemp) == false){
+
+  printf("Variable has not been declared or incompatible variables");
+  exit(0);
+ }
 }
 | ID ASSIGN function_call {
 CodeNode *node = new CodeNode;
@@ -725,6 +750,16 @@ node->code += std::string("call ") + func + std::string(", ") + temp + std::stri
 node->name = temp;
 //std::cout << "code from func: " << node->code << std::endl;
 $$ = node;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $1;
+  symTemp->type = "func";
+
+  if(check_table(symTemp) == false){
+
+  printf("Function has not been declared.");
+  exit(0);
+ }
+
 }
 ;
 
