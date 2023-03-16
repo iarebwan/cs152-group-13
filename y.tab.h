@@ -34,7 +34,7 @@
 # define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -86,7 +86,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 66 "bajj-er_parse.y" /* yacc.c:1909  */
+#line 72 "bajj-er_parse.y" /* yacc.c:1909  */
 
   char* op_val;
   struct CodeNode *codenode;

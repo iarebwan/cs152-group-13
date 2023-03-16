@@ -1,19 +1,19 @@
 func add
-. e
-= e, $1
-. f
-= f, $0
+. a
+= a, $1
+. b
+= b, $0
 . _temp0
-+ _temp0, e, f
++ _temp0, a, b
 ret _temp0
 endfunc
 func mult
-. g
-= g, $1
-. h
-= h, $0
+. a
+= a, $1
+. b
+= b, $0
 . _temp1
-* _temp1, g, h
+* _temp1, a, b
 ret _temp1
 endfunc
 func main
