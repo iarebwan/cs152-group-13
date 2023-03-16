@@ -1,7 +1,5 @@
 function test(){
 num n;
-num n;
-n = add(a,b);
-n = 150;
+n[20] = 150;
 output(n);
 };
