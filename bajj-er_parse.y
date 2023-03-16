@@ -154,7 +154,14 @@ node->code += statements->code;
 node->code += std::string("endfunc\n");
 $$ = node;
 cur_arg = 0;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $2;
+  symTemp->type = "func";
 
+  if(check_decl(symTemp) == false){
+
+  exit(0);
+ }
 };
 
 args: declaration COMMA args {
@@ -733,6 +740,16 @@ node->code += std::string("call ") + func + std::string(", ") + temp + std::stri
 node->name = temp;
 //std::cout << "code from func: " << node->code << std::endl;
 $$ = node;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $1;
+  symTemp->type = "func";
+
+  if(check_table(symTemp) == false){
+
+  printf("Function has not been declared.");
+  exit(0);
+ }
+
 }
 ;
 
