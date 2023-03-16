@@ -1,6 +1,6 @@
 function main(){
 num a = 1 + 2;
-a = add(1,2);
+a = add(2,2);
 output(a);
 };
 

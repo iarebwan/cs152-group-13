@@ -19,6 +19,20 @@ int temp = 0;
 char *identToken;
 int numberToken;
 int labelNum = 0;
+int numTemp = 0;
+
+std::string create_temp() {
+  std::stringstream ssm;
+  ssm << std::string("_temp") << numTemp++;
+  return ssm.str();
+}
+std::string decl_temp_code(std::string &temp){
+  CodeNode *node = new CodeNode;
+  node->name = temp;
+  node->code = "";
+  node->code = std::string(". ") + temp + std::string("\n");
+  return node->code;
+}
 %}
 
 %union {
@@ -52,6 +66,7 @@ int labelNum = 0;
 %type <codenode> if
 %type <codenode> while
 %type <codenode> else
+
 %%
 prog_start : %empty {
 //printf("prog_start->epsilon\n");
@@ -199,6 +214,7 @@ $$ = node;
 | return {
 //printf("statement->return\n");
 CodeNode *node = $1;
+//std::cout << std::string("our ret code: ") << node->code << std::endl;
 $$ = node;
 }
 | ID ASSIGN exp  
@@ -232,7 +248,10 @@ $$ = node;
 | RETURN exp {
 //printf("return->RETURN EXP\n");
 CodeNode *node = $2;
+//std::cout << std::string("exp name: ") << node->name  << std::endl;
 node->code += std::string("ret ") + $2->name + std::string("\n");
+//std::cout << std::string("we coming outta return exp") << std::endl;
+$$ = node;
 } 
 ;
 
@@ -352,22 +371,23 @@ output: OUTPUT L_PAREN exp R_PAREN {
 
 
 exp: exp PLUS term{
-   CodeNode *temp = new CodeNode;
-   temp->name = std::string("c");
    CodeNode *node = new CodeNode;
-   node->code = $1->code + $3->code;
-   node->code += std::string("+ ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
-   node->name = temp->name;
+   CodeNode *num1 = $1;
+   CodeNode *num2 = $3;
+   std::string temp = create_temp();
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("+ ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
    $$ = node;
 }
 |exp MINUS term {
-// printf("exp -> exp MINUS term\n`");
-   CodeNode *temp = new CodeNode;
-   temp->name = std::string("c");
    CodeNode *node = new CodeNode;
-   node->code = $1->code + $3->code;
-   node->code += std::string("- ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
-   node->name = temp->name;
+   CodeNode *num1 = $1;
+   CodeNode *num2 = $3;
+   std::string temp = create_temp();
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("- ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
    $$ = node;
 }
 |term {
@@ -376,40 +396,82 @@ exp: exp PLUS term{
 }
 ;
 
-bool_exp: L_PAREN exp comp exp R_PAREN {printf("bool_exp -> L_PAREN exp comp exp R_PAREN\n");}
+
+
+bool_exp: L_PAREN exp GREATER exp R_PAREN {
+  CodeNode *node = new CodeNode;
+  std::string temp = create_temp();
+  node->code = $2->code + $4->code + decl_temp_code(temp);
+  node->code += std::string("> ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  node->name = temp;
+  $$ = node;
+}
+| L_PAREN exp LESS exp R_PAREN {
+  CodeNode *node = new CodeNode;
+  std::string temp = create_temp();
+  node->code = $2->code + $4->code + decl_temp_code(temp);
+  node->code += std::string("< ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  node->name = temp;
+  $$ = node;
+}
+| L_PAREN exp EQUAL exp R_PAREN {
+  CodeNode *node = new CodeNode;
+  std::string temp = create_temp();
+  node->code = $2->code + $4->code + decl_temp_code(temp);
+  node->code += std::string("== ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  node->name = temp;
+  $$ = node;
+}
+| L_PAREN exp LE_EQ exp R_PAREN {
+  CodeNode *node = new CodeNode;
+  std::string temp = create_temp();
+  node->code = $2->code + $4->code + decl_temp_code(temp);
+  node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  node->name = temp;
+  $$ = node;
+}
+| L_PAREN exp GE_EQ exp R_PAREN {
+  CodeNode *node = new CodeNode;
+  std::string temp = create_temp();
+  node->code = $2->code + $4->code + decl_temp_code(temp);
+  node->code += std::string(">= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  node->name = temp;
+  $$ = node;
+}
+| L_PAREN exp NOT_EQUAL exp R_PAREN {
+  CodeNode *node = new CodeNode;
+  std::string temp = create_temp();
+  node->code = $2->code + $4->code + decl_temp_code(temp);
+  node->code += std::string("!= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  node->name = temp;
+  $$ = node;
+}
 | L_PAREN exp R_PAREN {
 CodeNode *node = $2;
 $$ = node;
 }
 ;
 
-comp: LESS {printf("comp -> LESS\n");}
-| GREATER {printf("comp -> GREATER\n");}
-| EQUAL {printf("comp -> EQUAL\n");}
-| LE_EQ {printf("comp -> LE_EQ\n");}
-| GE_EQ {printf("comp -> GE_EQ\n");}
-| NOT_EQUAL {printf("comp -> NOT_EQUAL\n");}
-;
-
-
 term: term MULTI factor {
 // printf("term -> term MULTI factor\n");
-   CodeNode *temp = new CodeNode;
-   temp->name = std::string("c");
    CodeNode *node = new CodeNode;
-   node->code = $1->code + $3->code;
-   node->code += std::string("* ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
-   node->name = temp->name;
+   CodeNode *num1 = $1;
+   CodeNode *num2 = $3;
+   std::string temp = create_temp();
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("* ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
    $$ = node;
 }
 | term DIVISION factor {
 // printf("term -> term DIVISION factor\n");
-   CodeNode *temp = new CodeNode;
-   temp->name = std::string("c");
    CodeNode *node = new CodeNode;
-   node->code = $1->code + $3->code;
-   node->code += std::string("/ ") + temp->name + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
-   node->name = temp->name;
+   CodeNode *num1 = $1;
+   CodeNode *num2 = $3;
+   std::string temp = create_temp();
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("/ ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
    $$ = node;
 }
 | factor {

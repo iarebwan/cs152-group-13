@@ -1,24 +1,41 @@
+func add
+. a
+= a, $1
+. b
+= b, $0
+. _temp0
++ _temp0, a, b
+ret _temp0
+endfunc
+func mult
+. a
+= a, $3
+. b
+= b, $2
+. _temp1
+* _temp1, a, b
+ret _temp1
+endfunc
 func main
 . a
+. b
 . c
-+ c, 1, 2
-= a, c
-param 1
-param 2
+. d
+= a, 100
+= b, 50
+param a
+param b
 . _temp0
 call add, _temp0
-= a, _temp0
-.> a
-endfunc
-func add
-. b
-= b, $1
-. d
-= d, $0
-. p
-. c
-+ c, b, d
-= p, c
-ret p
+= c, _temp0
+.> c
+param c
+param _temp2
+. _temp2
++ _temp2, a, b
+. _temp1
+call mult, _temp1
+= d, _temp1
+.> d
 endfunc
 
