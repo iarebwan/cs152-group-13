@@ -547,20 +547,12 @@ CodeNode *node = new CodeNode;
 std::string func = $1;
 CodeNode *params = $3;
 
-//std::cout << "param code: " << params->code << std::endl;
-//temp
-std::stringstream tempB;
-tempB << std::string("_temp") << temp++;
-
-//tempDec
-CodeNode *tempNode = new CodeNode;
-tempNode->name = tempB.str();
-tempNode->code += std::string(". ") + tempB.str() + std::string("\n");
+std::string temp = create_temp();
 
 //code
-node->code = params->code + tempNode->code;
-node->code += std::string("call ") + func + std::string(", ") + tempB.str() + std::string("\n");
-node->name = tempB.str();
+node->code = params->code + decl_temp_code(temp);
+node->code += std::string("call ") + func + std::string(", ") + temp + std::string("\n");
+node->name = temp;
 //std::cout << "code from func: " << node->code << std::endl;
 $$ = node;
 }
