@@ -2088,19 +2088,11 @@ node->name = temp;
 //std::cout << "code from func: " << node->code << std::endl;
 (yyval.codenode) = node;
 }
-<<<<<<< HEAD
-#line 2091 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-
-#line 2095 "y.tab.c" /* yacc.c:1646  */
-=======
 #line 2092 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
 #line 2096 "y.tab.c" /* yacc.c:1646  */
->>>>>>> cf8c5e4e00eeabdbae07eab07b7910c57cc0e49d
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2328,11 +2320,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-<<<<<<< HEAD
-#line 561 "bajj-er_parse.y" /* yacc.c:1906  */
-=======
 #line 562 "bajj-er_parse.y" /* yacc.c:1906  */
->>>>>>> cf8c5e4e00eeabdbae07eab07b7910c57cc0e49d
 
 
 int  main() {
