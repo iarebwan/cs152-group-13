@@ -1,5 +1,7 @@
 %{
 #include "CodeNode.h"
+#include "SymNode.h"
+
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
@@ -19,6 +21,29 @@ int temp = 0;
 char *identToken;
 int numberToken;
 int numTemp = 0;
+std::vector<SymNode*> symTable;
+
+bool check_table(SymNode *Check){
+  for(int i = 0; i < symTable.size(); i++){
+    if(symTable.at(i)->name == Check->name && symTable.at(i)->type == Check->type){
+      return true;
+    }
+  }
+std::string temp = Check->name.c_str();
+printf("VarName: %s Does not exist or has been declared as a different type\n", temp.c_str());
+return false;
+}
+bool check_decl(SymNode *Check){
+  for(int i = 0; i < symTable.size(); i++){
+    if(symTable.at(i)->name == Check->name){
+      std::string temp = Check->name.c_str();
+      printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(i)->name.c_str());
+      return false;
+    }
+ 
+  }
+return true;
+}
 
 std::string create_temp() {
   std::stringstream ssm;
@@ -298,6 +323,14 @@ input: INPUT L_PAREN ID R_PAREN {
   exp->code = std::string(".< ") + id + std::string("\n");
   $$ = exp;
 }
+| INPUT L_PAREN ID L_BRACKET NUMBER R_BRACKET R_PAREN {
+//printf("input -> INPUT L_PAREN num_list R_PAREN\n");
+  CodeNode *exp = new CodeNode;
+  std::string id = $3;
+  std::string index = $5;
+  exp->code = std::string(".[]< ") + id + std::string(", ") + index + std::string("\n");
+  $$ = exp;
+}
 ; 
 
 output: OUTPUT L_PAREN exp R_PAREN {
@@ -305,6 +338,14 @@ output: OUTPUT L_PAREN exp R_PAREN {
   CodeNode *exp = new CodeNode;
   exp->code = $3->code;
   exp->code += std::string(".> ") + $3->name + std::string("\n");
+  $$ = exp;
+}
+| OUTPUT L_PAREN ID L_BRACKET NUMBER R_BRACKET R_PAREN {
+//printf("input -> INPUT L_PAREN num_list R_PAREN\n");
+  CodeNode *exp = new CodeNode;
+  std::string id = $3;
+  std::string index = $5;
+  exp->code = std::string(".[]> ") + id + std::string(", ") + index + std::string("\n");
   $$ = exp;
 }
 ;
@@ -418,6 +459,8 @@ term: term MULTI factor {
 
 factor: L_PAREN exp R_PAREN  {
 //printf("factor->L_PAREN exp R_PAREN\n");
+CodeNode *fact = $2;
+   $$ = fact;
 }
 | NUMBER {
   CodeNode *node = new CodeNode;
@@ -430,6 +473,17 @@ factor: L_PAREN exp R_PAREN  {
   node->name = $1;
   node->code = "";
   $$ = node;
+  SymNode* symTemp = new SymNode;
+  symTemp->name = $1;
+  symTemp->type = "num";
+
+  if(check_table(symTemp) == false){
+
+  printf("Variable has not been declared");
+  exit(0);
+}
+
+
 }
 | function_call {
 //printf("factor -> function_call\n");
@@ -447,6 +501,16 @@ node->name = myTemp;
 node->code = decl_temp_code(myTemp);
 node->code += std::string("=[] ") + myTemp + std::string(", ") + var_name + std::string(", ") + ind + std::string("\n");
 $$ = node;
+
+SymNode* symTemp = new SymNode;
+symTemp->name = $1;
+symTemp->type = "arr";
+
+  if(check_table(symTemp) == false){
+
+  printf("Array has not been declared");
+  exit(0);
+}
 }   
 ;
 
@@ -458,6 +522,18 @@ CodeNode *arrDec = new CodeNode;
 arrDec->name = var_name;
 arrDec->code = std::string(".[] ") + var_name + std::string(", ") + size + std::string("\n");
 $$ = arrDec;
+
+SymNode* symTemp = new SymNode;
+symTemp->name = $2;
+symTemp->type = "arr";
+
+if(check_decl(symTemp) == false){
+
+  printf("Variable already declared");
+  exit(0);
+}
+symTable.push_back(symTemp);
+
 }
 | NUM ID {
 //Done?
@@ -467,6 +543,18 @@ CodeNode *numDec = new CodeNode;
 numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");
 $$ = numDec;
+
+SymNode* symTemp = new SymNode;
+symTemp->name = $2;
+symTemp->type = "num";
+
+if(check_decl(symTemp) == false){
+
+  printf("Variable already declared");
+  exit(0);
+}
+symTable.push_back(symTemp);
+
 }
 ;
 
