@@ -9,9 +9,9 @@ ret _temp0
 endfunc
 func mult
 . a
-= a, $3
+= a, $1
 . b
-= b, $2
+= b, $0
 . _temp1
 * _temp1, a, b
 ret _temp1
@@ -25,17 +25,17 @@ func main
 = b, 50
 param a
 param b
-. _temp0
-call add, _temp0
-= c, _temp0
+. _temp2
+call add, _temp2
+= c, _temp2
 .> c
 param c
-param _temp2
-. _temp2
-+ _temp2, a, b
-. _temp1
-call mult, _temp1
-= d, _temp1
+param _temp3
+. _temp3
++ _temp3, a, b
+. _temp4
+call mult, _temp4
+= d, _temp4
 .> d
 endfunc
 
