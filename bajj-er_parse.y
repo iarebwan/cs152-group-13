@@ -263,6 +263,15 @@ CodeNode *node = new CodeNode;
 node->code = $6->code;
 node->code += std::string("[]= ") + var_name + std::string(", ") + ind + std::string(", ") + $6->name + std::string("\n");
 $$ = node;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $1;
+  symTemp->type = "arr";
+
+  if(check_table(symTemp) == false){
+
+  printf("Variable has not been declared or incompatible variables");
+  exit(0);
+ }
 }
 
 | ID ASSIGN exp  
@@ -275,6 +284,15 @@ CodeNode *node = new CodeNode;
 node->code = $3->code;
 node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");
 $$ = node;
+SymNode* symTemp = new SymNode;
+  symTemp->name = $1;
+  symTemp->type = "num";
+
+  if(check_table(symTemp) == false){
+
+  printf("Variable has not been declared or incompatible variables");
+  exit(0);
+ }
 }
 | ID ASSIGN function_call {
 CodeNode *node = new CodeNode;
