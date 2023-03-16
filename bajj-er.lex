@@ -31,6 +31,7 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 "-" {colnum+= yyleng; return MINUS;}
 "*" {colnum+= yyleng; return MULTI;}
 "/" {colnum+= yyleng; return DIVISION;}
+"%" {colnum+= yyleng; return MOD;}
 "<" {colnum+= yyleng; return LESS;}
 ">"     {colnum+= yyleng; return GREATER;}
 "=="    {colnum+= yyleng; return EQUAL;}

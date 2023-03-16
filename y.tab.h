@@ -45,38 +45,39 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    RETURN = 258,
-    INPUT = 259,
-    OUTPUT = 260,
-    NUMBER = 261,
-    NUM = 262,
-    WHILE = 263,
-    IF = 264,
-    ELIF = 265,
-    ELSE = 266,
-    FUNC = 267,
-    PLUS = 268,
-    MINUS = 269,
-    MULTI = 270,
-    DIVISION = 271,
-    LESS = 272,
-    GREATER = 273,
-    EQUAL = 274,
-    NOT_EQUAL = 275,
-    LE_EQ = 276,
-    GE_EQ = 277,
-    COMMENT = 278,
-    L_BRACKET = 279,
-    R_BRACKET = 280,
-    L_C_BRACKET = 281,
-    R_C_BRACKET = 282,
-    L_PAREN = 283,
-    R_PAREN = 284,
-    ASSIGN = 285,
-    SEMICOLON = 286,
-    COMMA = 287,
-    FOR = 288,
-    ID = 289
+    MOD = 258,
+    RETURN = 259,
+    INPUT = 260,
+    OUTPUT = 261,
+    NUMBER = 262,
+    NUM = 263,
+    WHILE = 264,
+    IF = 265,
+    ELIF = 266,
+    ELSE = 267,
+    FUNC = 268,
+    PLUS = 269,
+    MINUS = 270,
+    MULTI = 271,
+    DIVISION = 272,
+    LESS = 273,
+    GREATER = 274,
+    EQUAL = 275,
+    NOT_EQUAL = 276,
+    LE_EQ = 277,
+    GE_EQ = 278,
+    COMMENT = 279,
+    L_BRACKET = 280,
+    R_BRACKET = 281,
+    L_C_BRACKET = 282,
+    R_C_BRACKET = 283,
+    L_PAREN = 284,
+    R_PAREN = 285,
+    ASSIGN = 286,
+    SEMICOLON = 287,
+    COMMA = 288,
+    FOR = 289,
+    ID = 290
   };
 #endif
 
@@ -85,12 +86,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 62 "bajj-er_parse.y" /* yacc.c:1909  */
+#line 66 "bajj-er_parse.y" /* yacc.c:1909  */
 
   char* op_val;
   struct CodeNode *codenode;
 
-#line 94 "y.tab.h" /* yacc.c:1909  */
+#line 95 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

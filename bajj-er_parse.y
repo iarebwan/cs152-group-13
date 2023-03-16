@@ -23,6 +23,10 @@ int labelNum = 0;
 int numTemp = 0;
 std::vector<SymNode*> symTable;
 
+//testing
+int numFunc = 0;
+//
+
 bool check_table(SymNode *Check){
   for(int i = 0; i < symTable.size(); i++){
     if(symTable.at(i)->name == Check->name && symTable.at(i)->type == Check->type){
@@ -66,7 +70,7 @@ std::string decl_temp_code(std::string &temp){
 
 %define parse.error verbose
 %start prog_start
-%token RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
+%token MOD RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
 
 %token <op_val> ID
 %type <codenode> num
@@ -529,6 +533,16 @@ term: term MULTI factor {
    node->name = temp;
    $$ = node;
 }
+| term MOD factor{
+ CodeNode *node = new CodeNode;
+   CodeNode *num1 = $1;
+   CodeNode *num2 = $3;
+   std::string temp = create_temp();
+   node->code = $1->code + $3->code + decl_temp_code(temp);
+   node->code += std::string("% ") + temp + std::string(", ") + $1->name + std::string(", ") + $3->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+}
 | factor {
    CodeNode *factor = $1;
    $$ = factor;
@@ -571,9 +585,8 @@ $$ = fact;
  CodeNode *node = $1;
  $$ = node;
 }   
-;
 
-declaration: ID L_BRACKET NUMBER R_BRACKET { //factor
+| ID L_BRACKET NUMBER R_BRACKET { //factor
 
 std::string myTemp = create_temp();
 CodeNode *node = new CodeNode;

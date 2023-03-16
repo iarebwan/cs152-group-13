@@ -1,9 +1,9 @@
-function add(num a, num b){
-return a + b;
+function add(num e, num f){
+return e + f;
 };
 
-function mult(num a, num b){
-return a * b;
+function mult(num g, num h){
+return g * h;
 };
 
 function main(){
