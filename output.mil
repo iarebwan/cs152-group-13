@@ -1,5 +1,6 @@
 func main
 . a
+. c
 + c, 1, 2
 = a, c
 param 1
@@ -7,6 +8,7 @@ param 2
 . _temp0
 call add, _temp0
 = a, _temp0
+.> a
 endfunc
 func add
 . b
@@ -14,6 +16,9 @@ func add
 . d
 = d, $0
 . p
-= p, 1
+. c
++ c, b, d
+= p, c
 ret p
 endfunc
+

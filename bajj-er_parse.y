@@ -18,6 +18,7 @@ int cur_arg = 0;
 int temp = 0;
 char *identToken;
 int numberToken;
+int labelNum = 0;
 %}
 
 %union {
@@ -31,6 +32,8 @@ int numberToken;
 
 %token <op_val> ID
 %type <codenode> num
+%type <codenode> bool_exp
+%type <codenode> elsify
 %type <codenode> function
 %type <codenode> functions
 %type <codenode> function_call
@@ -46,7 +49,9 @@ int numberToken;
 %type <codenode> input
 %type <codenode> output
 %type <codenode> term
-
+%type <codenode> if
+%type <codenode> while
+%type <codenode> else
 %%
 prog_start : %empty {
 //printf("prog_start->epsilon\n");
@@ -54,7 +59,7 @@ prog_start : %empty {
 }
 
 | functions {
-printf("we be parsing \n");
+//printf("we be parsing \n");
 //printf("prog_start->functions\n");
 CodeNode *code_node = $1;
 printf("%s\n", code_node->code.c_str());
@@ -138,9 +143,9 @@ statements: statement SEMICOLON {
 //printf("statements -> statement SEMICOLON\n");
 //SHOULD BE DONE
 CodeNode *node = new CodeNode;
-printf("going into statement SEMICOLON\n");
+//printf("going into statement SEMICOLON\n");
 node->code = $1->code;
-printf("we are out from statement\n");
+//printf("we are out from statement\n");
 $$ = node;
 }
 | statement SEMICOLON statements {
@@ -158,13 +163,15 @@ $$ = node;
 
 statement: declaration {
 //printf("statment -> declaration\n");
-//TODO
+//Done i think?
 CodeNode *dec = $1;
 $$ = dec;
 }
 | function_call {
 //printf("statement-> function_call\n");
-//TODO
+// Place holder but probs shouldnt do function_call as it does nothing by itself (need to assign)
+CodeNode *node = new CodeNode;
+$$ = node;
 }
 | num {
 //Done?
@@ -173,7 +180,8 @@ $$ = num;
 }
 | if {
 //printf("statement->if\n");
-//TODO PHASE 4
+CodeNode *node = $1;
+$$ = node;
 }
 | while {
 //printf("statement->while\n");
@@ -207,7 +215,7 @@ $$ = node;
 | ID ASSIGN function_call {
 CodeNode *node = new CodeNode;
 node->name = $1;
-std::cout << "func_call code: " << $3->code << std::endl;
+//std::cout << "func_call code: " << $3->code << std::endl;
 node->code += $3->code;
 node->code += std::string("= ") + $1 + std::string(", ") + $3->name + std::string("\n");
 $$ = node;
@@ -221,7 +229,11 @@ node->name = $2;
 node->code = std::string("ret ") + $2 + std::string("\n");
 $$ = node;
 }     
-| RETURN exp {printf("return->RETURN EXP\n");} 
+| RETURN exp {
+//printf("return->RETURN EXP\n");
+CodeNode *node = $2;
+node->code += std::string("ret ") + $2->name + std::string("\n");
+} 
 ;
 
 num: NUM ID ASSIGN exp{
@@ -242,24 +254,74 @@ numDec->code = std::string(". ") + var_name + std::string("\n");
 numDec->code += std::string("= ") + var_name + std::string(", ") + $4 + std::string("\n");
 $$ = numDec;
 }
-| NUM ID ASSIGN function_call {printf("num -> NUM ID ASSIGN function_call\n");}
+| NUM ID ASSIGN function_call {
+//printf("num -> NUM ID ASSIGN function_call\n");
+CodeNode *node = new CodeNode;
+node->name = $2;
+node->code += std::string(". ") + $2 + std::string("\n");
+node->code += $4->code;
+node->code += std::string("= ") + $2 + std::string(", ") + $4->name + std::string("\n");
+$$ = node;
+}
 ;
 
-if: IF bool_exp L_C_BRACKET statements elsify R_C_BRACKET {printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");}
+if: IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify{
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+ifState << std::string("label") << labelNum++;
+skip << std::string("label") << labelNum++;
+CodeNode * boolExp =  $2;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+node->code +=  std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(": ") + skip.str() + std::string("\n");
+node->code += $6->code;
+std::cout << std::string("this is our elsify <-: ") << std::endl; 
+$$ = node;
+}
 ;
 
 elsify: elif SEMICOLON elsify {printf("elsify -> elif SEMICOLON elsify\n");}
 | else SEMICOLON{printf("elsify -> else SEMICOLON\n");}
-| %empty {printf("elsify->epsilon\n");}
+| %empty {
+//printf("elsify->epsilon\n");
+CodeNode *node = new CodeNode;
+$$ = node;
+}
 ;
 
 elif: ELIF bool_exp L_C_BRACKET statements R_C_BRACKET {printf("elif -> elif bool_exp L_C_BRACKET statements R_C_BRACKET\n");}
 ;
 
-else: ELSE L_C_BRACKET statements R_C_BRACKET {printf("else -> else L_C_BRACKET statements R_C_BRACKET\n");}
+else: ELSE L_C_BRACKET statements R_C_BRACKET {
+//printf("else -> else L_C_BRACKET statements R_C_BRACKET\n");
+//should just push up the code since it is else statement (must be run if no other options)
+CodeNode *node = $3;
+$$ = node;
+}
 ;
 
-while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");}
+while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {
+//printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream start;
+CodeNode * boolExp =  $2;
+ifState << std::string("label") << labelNum++;
+skip << std::string("label") << labelNum++;
+start << std::string("label") << labelNum++;
+node->code += std::string(": ") + start.str();
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+node->code += std::string(":= ") + skip.str() + std::string("\n");
+node->code +=  std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + start.str() + std::string("\n");
+node->code += std::string(": ") + skip.str() + std::string("\n");
+}
 ;
 
 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
@@ -310,6 +372,7 @@ exp: exp PLUS term{
 ;
 
 bool_exp: L_PAREN exp comp exp R_PAREN {printf("bool_exp -> L_PAREN exp comp exp R_PAREN\n");}
+| L_PAREN exp R_PAREN {}
 ;
 
 comp: LESS {printf("comp -> LESS\n");}
@@ -414,7 +477,7 @@ CodeNode *node = new CodeNode;
 std::string func = $1;
 CodeNode *params = $3;
 
-std::cout << "param code: " << params->code << std::endl;
+//std::cout << "param code: " << params->code << std::endl;
 //temp
 std::stringstream tempB;
 tempB << std::string("_temp") << temp++;
@@ -428,7 +491,7 @@ tempNode->code += std::string(". ") + tempB.str() + std::string("\n");
 node->code = params->code + tempNode->code;
 node->code += std::string("call ") + func + std::string(", ") + tempB.str() + std::string("\n");
 node->name = tempB.str();
-std::cout << "code from func: " << node->code << std::endl;
+//std::cout << "code from func: " << node->code << std::endl;
 $$ = node;
 }
 ;
