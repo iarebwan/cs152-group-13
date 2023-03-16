@@ -53,8 +53,8 @@ Grammar
 
    28 if: IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify
 
-   29 elsify: elif SEMICOLON elsify
-   30       | else SEMICOLON
+   29 elsify: elif elsify
+   30       | else
    31       | %empty
 
    32 elif: ELIF bool_exp L_C_BRACKET statements R_C_BRACKET
@@ -133,7 +133,7 @@ R_C_BRACKET (282) 5 28 32 33 34 35
 L_PAREN (283) 5 36 37 41 42 52 60
 R_PAREN (284) 5 36 37 41 42 52 60
 ASSIGN (285) 21 22 25 26 27 35
-SEMICOLON (286) 5 9 10 29 30 35
+SEMICOLON (286) 5 9 10 35
 COMMA (287) 6 58
 FOR (288) 35
 ID (289) 5 21 22 23 25 26 27 35 36 54 56 60
@@ -1265,16 +1265,23 @@ State 106
 
 State 107
 
-   29 elsify: elif . SEMICOLON elsify
+   29 elsify: elif . elsify
 
-    SEMICOLON  shift, and go to state 112
+    ELIF  shift, and go to state 104
+    ELSE  shift, and go to state 105
+
+    $default  reduce using rule 31 (elsify)
+
+    elsify  go to state 112
+    elif    go to state 107
+    else    go to state 108
 
 
 State 108
 
-   30 elsify: else . SEMICOLON
+   30 elsify: else .
 
-    SEMICOLON  shift, and go to state 113
+    $default  reduce using rule 30 (elsify)
 
 
 State 109
@@ -1285,7 +1292,7 @@ State 109
     L_PAREN  shift, and go to state 37
     ID       shift, and go to state 55
 
-    exp            go to state 114
+    exp            go to state 113
     term           go to state 40
     factor         go to state 41
     function_call  go to state 42
@@ -1295,7 +1302,7 @@ State 110
 
    32 elif: ELIF bool_exp . L_C_BRACKET statements R_C_BRACKET
 
-    L_C_BRACKET  shift, and go to state 115
+    L_C_BRACKET  shift, and go to state 114
 
 
 State 111
@@ -1313,7 +1320,7 @@ State 111
 
     $default  reduce using rule 11 (statements)
 
-    statements     go to state 116
+    statements     go to state 115
     statement      go to state 26
     return         go to state 27
     num            go to state 28
@@ -1328,26 +1335,12 @@ State 111
 
 State 112
 
-   29 elsify: elif SEMICOLON . elsify
+   29 elsify: elif elsify .
 
-    ELIF  shift, and go to state 104
-    ELSE  shift, and go to state 105
-
-    $default  reduce using rule 31 (elsify)
-
-    elsify  go to state 117
-    elif    go to state 107
-    else    go to state 108
+    $default  reduce using rule 29 (elsify)
 
 
 State 113
-
-   30 elsify: else SEMICOLON .
-
-    $default  reduce using rule 30 (elsify)
-
-
-State 114
 
    35 for: FOR num SEMICOLON bool_exp ID ASSIGN exp . L_C_BRACKET statements R_C_BRACKET
    38 exp: exp . PLUS term
@@ -1355,12 +1348,47 @@ State 114
 
     PLUS         shift, and go to state 57
     MINUS        shift, and go to state 58
-    L_C_BRACKET  shift, and go to state 118
+    L_C_BRACKET  shift, and go to state 116
+
+
+State 114
+
+   32 elif: ELIF bool_exp L_C_BRACKET . statements R_C_BRACKET
+
+    RETURN  shift, and go to state 17
+    INPUT   shift, and go to state 18
+    OUTPUT  shift, and go to state 19
+    NUM     shift, and go to state 20
+    WHILE   shift, and go to state 21
+    IF      shift, and go to state 22
+    FOR     shift, and go to state 23
+    ID      shift, and go to state 24
+
+    $default  reduce using rule 11 (statements)
+
+    statements     go to state 117
+    statement      go to state 26
+    return         go to state 27
+    num            go to state 28
+    if             go to state 29
+    while          go to state 30
+    for            go to state 31
+    input          go to state 32
+    output         go to state 33
+    declaration    go to state 34
+    function_call  go to state 35
 
 
 State 115
 
-   32 elif: ELIF bool_exp L_C_BRACKET . statements R_C_BRACKET
+   33 else: ELSE L_C_BRACKET statements . R_C_BRACKET
+
+    R_C_BRACKET  shift, and go to state 118
+
+
+State 116
+
+   35 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET . statements R_C_BRACKET
 
     RETURN  shift, and go to state 17
     INPUT   shift, and go to state 18
@@ -1386,77 +1414,35 @@ State 115
     function_call  go to state 35
 
 
-State 116
+State 117
 
-   33 else: ELSE L_C_BRACKET statements . R_C_BRACKET
+   32 elif: ELIF bool_exp L_C_BRACKET statements . R_C_BRACKET
 
     R_C_BRACKET  shift, and go to state 120
 
 
-State 117
-
-   29 elsify: elif SEMICOLON elsify .
-
-    $default  reduce using rule 29 (elsify)
-
-
 State 118
-
-   35 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET . statements R_C_BRACKET
-
-    RETURN  shift, and go to state 17
-    INPUT   shift, and go to state 18
-    OUTPUT  shift, and go to state 19
-    NUM     shift, and go to state 20
-    WHILE   shift, and go to state 21
-    IF      shift, and go to state 22
-    FOR     shift, and go to state 23
-    ID      shift, and go to state 24
-
-    $default  reduce using rule 11 (statements)
-
-    statements     go to state 121
-    statement      go to state 26
-    return         go to state 27
-    num            go to state 28
-    if             go to state 29
-    while          go to state 30
-    for            go to state 31
-    input          go to state 32
-    output         go to state 33
-    declaration    go to state 34
-    function_call  go to state 35
-
-
-State 119
-
-   32 elif: ELIF bool_exp L_C_BRACKET statements . R_C_BRACKET
-
-    R_C_BRACKET  shift, and go to state 122
-
-
-State 120
 
    33 else: ELSE L_C_BRACKET statements R_C_BRACKET .
 
     $default  reduce using rule 33 (else)
 
 
-State 121
+State 119
 
    35 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements . R_C_BRACKET
 
-    R_C_BRACKET  shift, and go to state 123
+    R_C_BRACKET  shift, and go to state 121
 
 
-State 122
+State 120
 
    32 elif: ELIF bool_exp L_C_BRACKET statements R_C_BRACKET .
 
     $default  reduce using rule 32 (elif)
 
 
-State 123
+State 121
 
    35 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET .
 

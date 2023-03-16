@@ -424,7 +424,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   127
+#define YYLAST   130
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  35
@@ -433,7 +433,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  61
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  124
+#define YYNSTATES  122
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -485,10 +485,10 @@ static const yytype_uint16 yyrline[] =
        0,    56,    56,    61,    70,    76,    87,   108,   121,   132,
      142,   151,   158,   164,   170,   176,   181,   186,   190,   191,
      195,   199,   204,   215,   225,   232,   239,   248,   257,   268,
-     287,   288,   289,   296,   299,   307,   327,   330,   339,   349,
-     358,   368,   374,   375,   378,   379,   380,   381,   382,   383,
-     387,   397,   407,   414,   417,   423,   429,   436,   448,   456,
-     465,   473
+     288,   289,   294,   301,   304,   312,   332,   335,   344,   354,
+     363,   373,   379,   380,   386,   387,   388,   389,   390,   391,
+     395,   405,   415,   422,   425,   431,   437,   444,   456,   464,
+     473,   481
 };
 #endif
 
@@ -536,18 +536,18 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_int8 yypact[] =
 {
       -5,    -3,    15,   -53,    -5,     5,   -53,   -53,    22,    23,
-      16,    35,   -53,    57,    22,     1,   -53,    10,    56,    58,
-      54,    63,    63,    85,    -4,    67,    64,   -53,   -53,   -53,
-     -53,   -53,   -53,   -53,   -53,   -53,   -53,    12,   -11,    39,
-      40,   -53,   -53,    65,    12,    71,    12,    72,    76,    70,
-      66,    12,    12,    74,     1,    78,    -2,    12,    12,    12,
-      12,    79,    29,    26,    51,     1,     1,    71,    63,     9,
-      80,    39,    81,   -53,   -53,   -53,    40,    40,   -53,   -53,
-     -53,   -53,    82,    39,    83,   -53,   -53,   -53,   -53,   -53,
-     -53,   -53,    12,    84,    88,    73,    12,   -53,    48,   -53,
-      68,    86,   -53,   -53,    63,    91,   -53,    87,    89,    12,
-      93,     1,    68,   -53,    61,     1,    94,   -53,     1,    95,
-     -53,    96,   -53,   -53
+      16,    31,   -53,    35,    22,     1,   -53,    10,    47,    56,
+      33,    58,    58,    82,    -4,    68,    63,   -53,   -53,   -53,
+     -53,   -53,   -53,   -53,   -53,   -53,   -53,    12,   -11,    42,
+      67,   -53,   -53,    66,    12,    72,    12,    71,    77,    70,
+      74,    12,    12,    75,     1,    79,    -2,    12,    12,    12,
+      12,    80,    29,    26,    52,     1,     1,    72,    58,     9,
+      81,    42,    83,   -53,   -53,   -53,    67,    67,   -53,   -53,
+     -53,   -53,    84,    42,    85,   -53,   -53,   -53,   -53,   -53,
+     -53,   -53,    12,    86,    90,    78,    12,   -53,    39,   -53,
+      69,    88,   -53,   -53,    58,    93,   -53,    69,   -53,    12,
+      94,     1,   -53,    64,     1,    95,     1,    96,   -53,    97,
+     -53,   -53
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -565,17 +565,17 @@ static const yytype_uint8 yydefact[] =
        0,    22,    56,     6,    11,    53,    39,    40,    50,    51,
       37,    38,    54,    26,    56,    44,    45,    46,    49,    47,
       48,    43,     0,     0,     0,     0,    60,    61,     0,    35,
-      32,     0,    59,    42,     0,     0,    29,     0,     0,     0,
-       0,    12,    32,    31,     0,    12,     0,    30,    12,     0,
-      34,     0,    33,    36
+      32,     0,    59,    42,     0,     0,    29,    32,    31,     0,
+       0,    12,    30,     0,    12,     0,    12,     0,    34,     0,
+      33,    36
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -53,   -53,   106,   -53,   110,   -52,   -53,   -53,   102,   -53,
-      14,   -53,   -53,   -53,   -53,   -53,   -53,   -16,   -19,   -53,
-      24,    30,    11,    31,   -15
+     -53,   -53,   104,   -53,   107,   -52,   -53,   -53,   102,   -53,
+      -9,   -53,   -53,   -53,   -53,   -53,   -53,   -16,   -19,   -53,
+      30,    32,    11,    34,   -15
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -596,31 +596,33 @@ static const yytype_int8 yytable[] =
      -24,    56,    57,    58,    51,    11,    52,    75,    62,     9,
       64,     5,    82,     8,    23,    24,    71,    72,    37,    35,
       37,    96,    57,    58,    38,    13,    55,    83,    84,    95,
-      35,    35,    57,    58,    37,    59,    60,    12,    81,   116,
-      55,    57,    58,   119,    57,    58,   121,    14,    85,    86,
-      87,    88,    89,    90,    57,    58,    98,   103,   104,   105,
-      91,    76,    77,    15,    43,   110,    44,   118,    45,    78,
-      79,    46,    49,   114,    53,    54,    35,    68,    65,    61,
-      35,    63,    66,    35,    67,    73,    51,   101,    80,    97,
-       7,    99,   -23,   -27,   -28,   100,   109,   111,   112,   115,
-     113,   120,   122,   123,    16,    50,   117,   102
+      35,    35,    57,    58,    37,    57,    58,    12,    81,   115,
+      55,    15,   117,    14,   119,    57,    58,    45,   103,    85,
+      86,    87,    88,    89,    90,    43,    98,    57,    58,   104,
+     105,    91,    59,    60,    44,   110,    46,    76,    77,    49,
+     116,    78,    79,   113,    54,    53,    35,    65,   112,    35,
+      61,    35,    63,    66,    67,    68,    73,    51,     7,    80,
+      97,     0,   101,    99,   -23,   -27,   -28,   100,   109,   111,
+     114,    16,   118,   120,   121,    50,     0,     0,     0,     0,
+     102
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
       15,    17,    54,    22,     3,     4,     5,    12,     7,     8,
        9,    13,    14,    65,    66,     0,     6,    28,     6,     8,
       31,    37,    13,    14,    28,    14,    30,    29,    44,     7,
       46,    34,     6,    28,    33,    34,    52,    52,    28,    54,
       28,    32,    13,    14,    34,    29,    34,    63,    63,    68,
-      65,    66,    13,    14,    28,    15,    16,    34,    29,   111,
-      34,    13,    14,   115,    13,    14,   118,    32,    17,    18,
-      19,    20,    21,    22,    13,    14,    92,    29,    10,    11,
-      29,    57,    58,    26,    28,   104,    28,    26,    34,    59,
-      60,    28,     7,   109,    27,    31,   111,    31,    26,    34,
-     115,    30,    26,   118,    34,    31,    28,    34,    29,    29,
-       4,    27,    31,    31,    31,    27,    30,    26,    31,    26,
-      31,    27,    27,    27,    14,    23,   112,    96
+      65,    66,    13,    14,    28,    13,    14,    34,    29,   111,
+      34,    26,   114,    32,   116,    13,    14,    34,    29,    17,
+      18,    19,    20,    21,    22,    28,    92,    13,    14,    10,
+      11,    29,    15,    16,    28,   104,    28,    57,    58,     7,
+      26,    59,    60,   109,    31,    27,   111,    26,   107,   114,
+      34,   116,    30,    26,    34,    31,    31,    28,     4,    29,
+      29,    -1,    34,    27,    31,    31,    31,    27,    30,    26,
+      26,    14,    27,    27,    27,    23,    -1,    -1,    -1,    -1,
+      96
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -638,8 +640,8 @@ static const yytype_uint8 yystos[] =
       29,    29,     6,    52,    59,    17,    18,    19,    20,    21,
       22,    29,    54,    40,    40,    53,    32,    29,    52,    27,
       27,    34,    58,    29,    10,    11,    45,    46,    47,    30,
-      53,    26,    31,    31,    52,    26,    40,    45,    26,    40,
-      27,    40,    27,    27
+      53,    26,    45,    52,    26,    40,    26,    40,    27,    40,
+      27,    27
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -660,7 +662,7 @@ static const yytype_uint8 yyr2[] =
        0,     2,     0,     1,     1,     2,     9,     3,     1,     0,
        2,     3,     0,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     3,     3,     2,     2,     4,     4,     4,     6,
-       3,     2,     0,     5,     4,     5,    10,     4,     4,     3,
+       2,     1,     0,     5,     4,     5,    10,     4,     4,     3,
        3,     1,     5,     3,     1,     1,     1,     1,     1,     1,
        3,     3,     1,     3,     1,     1,     1,     2,     1,     3,
        0,     4
@@ -1345,7 +1347,7 @@ yyreduce:
 //printf("prog_start->epsilon\n");
 	printf("/n");
 }
-#line 1349 "y.tab.c" /* yacc.c:1646  */
+#line 1351 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
@@ -1357,7 +1359,7 @@ CodeNode *code_node = (yyvsp[0].codenode);
 printf("%s\n", code_node->code.c_str());
 
 }
-#line 1361 "y.tab.c" /* yacc.c:1646  */
+#line 1363 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
@@ -1368,7 +1370,7 @@ printf("%s\n", code_node->code.c_str());
 CodeNode *function = (yyvsp[0].codenode);
 (yyval.codenode) = function;
 }
-#line 1372 "y.tab.c" /* yacc.c:1646  */
+#line 1374 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
@@ -1382,7 +1384,7 @@ CodeNode *node = new CodeNode;
 node->code = func1->code + funcs->code;
 (yyval.codenode) = node;
 }
-#line 1386 "y.tab.c" /* yacc.c:1646  */
+#line 1388 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
@@ -1407,7 +1409,7 @@ node->code += statements->code;
 node->code += std::string("endfunc\n");
 (yyval.codenode) = node;
 }
-#line 1411 "y.tab.c" /* yacc.c:1646  */
+#line 1413 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
@@ -1425,7 +1427,7 @@ node->code += std::string("= ") + dec->name + std::string(", ") + arg_nums.str()
 node->code += args->code;
 (yyval.codenode) = node;
 }
-#line 1429 "y.tab.c" /* yacc.c:1646  */
+#line 1431 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
@@ -1441,7 +1443,7 @@ node->code = dec->code;
 node->code += std::string("= ") + dec->name + std::string(", ") + arg_nums.str() + std::string("\n");
 (yyval.codenode) = node;
 }
-#line 1445 "y.tab.c" /* yacc.c:1646  */
+#line 1447 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
@@ -1452,7 +1454,7 @@ CodeNode *node = new CodeNode;
 cur_arg = 0;
 (yyval.codenode) = node;
 }
-#line 1456 "y.tab.c" /* yacc.c:1646  */
+#line 1458 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
@@ -1466,7 +1468,7 @@ node->code = (yyvsp[-1].codenode)->code;
 //printf("we are out from statement\n");
 (yyval.codenode) = node;
 }
-#line 1470 "y.tab.c" /* yacc.c:1646  */
+#line 1472 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
@@ -1478,7 +1480,7 @@ CodeNode *node = new CodeNode;
 node->code = (yyvsp[-2].codenode)->code + (yyvsp[0].codenode)->code;
 (yyval.codenode) = node;
 }
-#line 1482 "y.tab.c" /* yacc.c:1646  */
+#line 1484 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
@@ -1487,7 +1489,7 @@ node->code = (yyvsp[-2].codenode)->code + (yyvsp[0].codenode)->code;
 CodeNode *node = new CodeNode;
 (yyval.codenode) = node;
 }
-#line 1491 "y.tab.c" /* yacc.c:1646  */
+#line 1493 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
@@ -1498,7 +1500,7 @@ CodeNode *node = new CodeNode;
 CodeNode *dec = (yyvsp[0].codenode);
 (yyval.codenode) = dec;
 }
-#line 1502 "y.tab.c" /* yacc.c:1646  */
+#line 1504 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
@@ -1509,7 +1511,7 @@ CodeNode *dec = (yyvsp[0].codenode);
 CodeNode *node = new CodeNode;
 (yyval.codenode) = node;
 }
-#line 1513 "y.tab.c" /* yacc.c:1646  */
+#line 1515 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
@@ -1519,7 +1521,7 @@ CodeNode *node = new CodeNode;
 CodeNode *num = (yyvsp[0].codenode);
 (yyval.codenode) = num;
 }
-#line 1523 "y.tab.c" /* yacc.c:1646  */
+#line 1525 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
@@ -1529,7 +1531,7 @@ CodeNode *num = (yyvsp[0].codenode);
 CodeNode *node = (yyvsp[0].codenode);
 (yyval.codenode) = node;
 }
-#line 1533 "y.tab.c" /* yacc.c:1646  */
+#line 1535 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
@@ -1538,13 +1540,13 @@ CodeNode *node = (yyvsp[0].codenode);
 //printf("statement->while\n");
 //TODO PHASE 4
 }
-#line 1542 "y.tab.c" /* yacc.c:1646  */
+#line 1544 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 190 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("statement->for\n");}
-#line 1548 "y.tab.c" /* yacc.c:1646  */
+#line 1550 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
@@ -1553,7 +1555,7 @@ CodeNode *node = (yyvsp[0].codenode);
     CodeNode *input = (yyvsp[0].codenode);
     (yyval.codenode) = input;
 }
-#line 1557 "y.tab.c" /* yacc.c:1646  */
+#line 1559 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
@@ -1562,7 +1564,7 @@ CodeNode *node = (yyvsp[0].codenode);
     CodeNode *output = (yyvsp[0].codenode);
     (yyval.codenode) = output;
 }
-#line 1566 "y.tab.c" /* yacc.c:1646  */
+#line 1568 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
@@ -1572,7 +1574,7 @@ CodeNode *node = (yyvsp[0].codenode);
 CodeNode *node = (yyvsp[0].codenode);
 (yyval.codenode) = node;
 }
-#line 1576 "y.tab.c" /* yacc.c:1646  */
+#line 1578 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
@@ -1587,7 +1589,7 @@ node->code = (yyvsp[0].codenode)->code;
 node->code += std::string("= ") + var_name + std::string(", ") + (yyvsp[0].codenode)->name + std::string("\n");
 (yyval.codenode) = node;
 }
-#line 1591 "y.tab.c" /* yacc.c:1646  */
+#line 1593 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -1600,7 +1602,7 @@ node->code += (yyvsp[0].codenode)->code;
 node->code += std::string("= ") + (yyvsp[-2].op_val) + std::string(", ") + (yyvsp[0].codenode)->name + std::string("\n");
 (yyval.codenode) = node;
 }
-#line 1604 "y.tab.c" /* yacc.c:1646  */
+#line 1606 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
@@ -1612,7 +1614,7 @@ node->name = (yyvsp[0].op_val);
 node->code = std::string("ret ") + (yyvsp[0].op_val) + std::string("\n");
 (yyval.codenode) = node;
 }
-#line 1616 "y.tab.c" /* yacc.c:1646  */
+#line 1618 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
@@ -1622,7 +1624,7 @@ node->code = std::string("ret ") + (yyvsp[0].op_val) + std::string("\n");
 CodeNode *node = (yyvsp[0].codenode);
 node->code += std::string("ret ") + (yyvsp[0].codenode)->name + std::string("\n");
 }
-#line 1626 "y.tab.c" /* yacc.c:1646  */
+#line 1628 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
@@ -1636,7 +1638,7 @@ numDec->code += (yyvsp[0].codenode)->code;
 numDec->code += std::string("= ") + var_name + std::string(", ") + (yyvsp[0].codenode)->name + std::string("\n");
 (yyval.codenode) = numDec;
 }
-#line 1640 "y.tab.c" /* yacc.c:1646  */
+#line 1642 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
@@ -1650,7 +1652,7 @@ numDec->code = std::string(". ") + var_name + std::string("\n");
 numDec->code += std::string("= ") + var_name + std::string(", ") + (yyvsp[0].op_val) + std::string("\n");
 (yyval.codenode) = numDec;
 }
-#line 1654 "y.tab.c" /* yacc.c:1646  */
+#line 1656 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1664,7 +1666,7 @@ node->code += (yyvsp[0].codenode)->code;
 node->code += std::string("= ") + (yyvsp[-2].op_val) + std::string(", ") + (yyvsp[0].codenode)->name + std::string("\n");
 (yyval.codenode) = node;
 }
-#line 1668 "y.tab.c" /* yacc.c:1646  */
+#line 1670 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
@@ -1676,60 +1678,65 @@ std::stringstream ifState;
 std::stringstream skip;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
+//std::cout << std::string("going into bool: ") << std::endl;
 CodeNode * boolExp =  (yyvsp[-4].codenode);
 node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
+//std::cout << std::string("going into statments: ") << std::endl;
 node->code += (yyvsp[-2].codenode)->code;
 node->code += std::string(": ") + skip.str() + std::string("\n");
 node->code += (yyvsp[0].codenode)->code;
-std::cout << std::string("this is our elsify <-: ") << std::endl; 
 (yyval.codenode) = node;
 }
-#line 1690 "y.tab.c" /* yacc.c:1646  */
+#line 1693 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 287 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 288 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("elsify -> elif SEMICOLON elsify\n");}
-#line 1696 "y.tab.c" /* yacc.c:1646  */
+#line 1699 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 288 "bajj-er_parse.y" /* yacc.c:1646  */
-    {printf("elsify -> else SEMICOLON\n");}
-#line 1702 "y.tab.c" /* yacc.c:1646  */
+#line 289 "bajj-er_parse.y" /* yacc.c:1646  */
+    {
+//printf("elsify -> else SEMICOLON\n");
+CodeNode *node = (yyvsp[0].codenode);
+(yyval.codenode) = node;
+}
+#line 1709 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 289 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 294 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("elsify->epsilon\n");
 CodeNode *node = new CodeNode;
 (yyval.codenode) = node;
 }
-#line 1712 "y.tab.c" /* yacc.c:1646  */
+#line 1719 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 296 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 301 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("elif -> elif bool_exp L_C_BRACKET statements R_C_BRACKET\n");}
-#line 1718 "y.tab.c" /* yacc.c:1646  */
+#line 1725 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 299 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 304 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("else -> else L_C_BRACKET statements R_C_BRACKET\n");
 //should just push up the code since it is else statement (must be run if no other options)
 CodeNode *node = (yyvsp[-1].codenode);
 (yyval.codenode) = node;
 }
-#line 1729 "y.tab.c" /* yacc.c:1646  */
+#line 1736 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 307 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 312 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");
 CodeNode *node = new CodeNode;
@@ -1748,17 +1755,17 @@ node->code += (yyvsp[-1].codenode)->code;
 node->code += std::string(":= ") + start.str() + std::string("\n");
 node->code += std::string(": ") + skip.str() + std::string("\n");
 }
-#line 1752 "y.tab.c" /* yacc.c:1646  */
+#line 1759 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 327 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 332 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
-#line 1758 "y.tab.c" /* yacc.c:1646  */
+#line 1765 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 330 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 335 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("input -> INPUT L_PAREN num_list R_PAREN\n");
   CodeNode *exp = new CodeNode;
@@ -1766,11 +1773,11 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
   exp->code = std::string(".< ") + id + std::string("\n");
   (yyval.codenode) = exp;
 }
-#line 1770 "y.tab.c" /* yacc.c:1646  */
+#line 1777 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 339 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 344 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("output -> OUTPUT L_PAREN num_list R_PAREN\n");
   CodeNode *exp = new CodeNode;
@@ -1778,11 +1785,11 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
   exp->code += std::string(".> ") + (yyvsp[-1].codenode)->name + std::string("\n");
   (yyval.codenode) = exp;
 }
-#line 1782 "y.tab.c" /* yacc.c:1646  */
+#line 1789 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 349 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 354 "bajj-er_parse.y" /* yacc.c:1646  */
     {
    CodeNode *temp = new CodeNode;
    temp->name = std::string("c");
@@ -1792,11 +1799,11 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
    node->name = temp->name;
    (yyval.codenode) = node;
 }
-#line 1796 "y.tab.c" /* yacc.c:1646  */
+#line 1803 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 358 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 363 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 // printf("exp -> exp MINUS term\n`");
    CodeNode *temp = new CodeNode;
@@ -1807,68 +1814,71 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
    node->name = temp->name;
    (yyval.codenode) = node;
 }
-#line 1811 "y.tab.c" /* yacc.c:1646  */
+#line 1818 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 368 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 373 "bajj-er_parse.y" /* yacc.c:1646  */
     {
    CodeNode *term = (yyvsp[0].codenode);
    (yyval.codenode) = term;
 }
-#line 1820 "y.tab.c" /* yacc.c:1646  */
+#line 1827 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 374 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 379 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("bool_exp -> L_PAREN exp comp exp R_PAREN\n");}
-#line 1826 "y.tab.c" /* yacc.c:1646  */
+#line 1833 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 375 "bajj-er_parse.y" /* yacc.c:1646  */
-    {}
-#line 1832 "y.tab.c" /* yacc.c:1646  */
+#line 380 "bajj-er_parse.y" /* yacc.c:1646  */
+    {
+CodeNode *node = (yyvsp[-1].codenode);
+(yyval.codenode) = node;
+}
+#line 1842 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 378 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 386 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> LESS\n");}
-#line 1838 "y.tab.c" /* yacc.c:1646  */
+#line 1848 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 379 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 387 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> GREATER\n");}
-#line 1844 "y.tab.c" /* yacc.c:1646  */
+#line 1854 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 380 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 388 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> EQUAL\n");}
-#line 1850 "y.tab.c" /* yacc.c:1646  */
+#line 1860 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 381 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 389 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> LE_EQ\n");}
-#line 1856 "y.tab.c" /* yacc.c:1646  */
+#line 1866 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 382 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 390 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> GE_EQ\n");}
-#line 1862 "y.tab.c" /* yacc.c:1646  */
+#line 1872 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 383 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 391 "bajj-er_parse.y" /* yacc.c:1646  */
     {printf("comp -> NOT_EQUAL\n");}
-#line 1868 "y.tab.c" /* yacc.c:1646  */
+#line 1878 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 387 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 395 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 // printf("term -> term MULTI factor\n");
    CodeNode *temp = new CodeNode;
@@ -1879,11 +1889,11 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
    node->name = temp->name;
    (yyval.codenode) = node;
 }
-#line 1883 "y.tab.c" /* yacc.c:1646  */
+#line 1893 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 397 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 405 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 // printf("term -> term DIVISION factor\n");
    CodeNode *temp = new CodeNode;
@@ -1894,60 +1904,60 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
    node->name = temp->name;
    (yyval.codenode) = node;
 }
-#line 1898 "y.tab.c" /* yacc.c:1646  */
+#line 1908 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 407 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 415 "bajj-er_parse.y" /* yacc.c:1646  */
     {
    CodeNode *factor = (yyvsp[0].codenode);
    (yyval.codenode) = factor;
 }
-#line 1907 "y.tab.c" /* yacc.c:1646  */
+#line 1917 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 414 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 422 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("factor->L_PAREN exp R_PAREN\n");
 }
-#line 1915 "y.tab.c" /* yacc.c:1646  */
+#line 1925 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 417 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 425 "bajj-er_parse.y" /* yacc.c:1646  */
     {
   CodeNode *node = new CodeNode;
   node->name = (yyvsp[0].op_val);
   node->code = "";
   (yyval.codenode) = node;
 }
-#line 1926 "y.tab.c" /* yacc.c:1646  */
+#line 1936 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 423 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 431 "bajj-er_parse.y" /* yacc.c:1646  */
     {
   CodeNode *node = new CodeNode;
   node->name = (yyvsp[0].op_val);
   node->code = "";
   (yyval.codenode) = node;
 }
-#line 1937 "y.tab.c" /* yacc.c:1646  */
+#line 1947 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 429 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 437 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("factor -> function_call\n");
  CodeNode *node = (yyvsp[0].codenode);
  (yyval.codenode) = node;
 }
-#line 1947 "y.tab.c" /* yacc.c:1646  */
+#line 1957 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 436 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 444 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //Done?
 //printf("declaration -> NUM ID\n");
@@ -1957,11 +1967,11 @@ numDec->name = var_name;
 numDec->code = std::string(". ") + var_name + std::string("\n");
 (yyval.codenode) = numDec;
 }
-#line 1961 "y.tab.c" /* yacc.c:1646  */
+#line 1971 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 448 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 456 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //Done?
 CodeNode *node = new CodeNode;
@@ -1970,11 +1980,11 @@ node->code = std::string("param ") + expr->name + std::string("\n");
 node->code += expr->code;
 (yyval.codenode) = node;
 }
-#line 1974 "y.tab.c" /* yacc.c:1646  */
+#line 1984 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 456 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 464 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //Done?
 CodeNode *node = new CodeNode;
@@ -1984,21 +1994,21 @@ node->code = std::string("param ") + expr->name + std::string("\n");
 node->code += expr->code  + nParam->code; 
 (yyval.codenode) = node;
 }
-#line 1988 "y.tab.c" /* yacc.c:1646  */
+#line 1998 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 465 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 473 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //should be empty
 CodeNode *node = new CodeNode;
 (yyval.codenode) = node;
 }
-#line 1998 "y.tab.c" /* yacc.c:1646  */
+#line 2008 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 473 "bajj-er_parse.y" /* yacc.c:1646  */
+#line 481 "bajj-er_parse.y" /* yacc.c:1646  */
     {
 //printf("function_call -> ID L_PAREN exp R_PAREN\n");
 //CHECK TODO
@@ -2023,11 +2033,11 @@ node->name = tempB.str();
 //std::cout << "code from func: " << node->code << std::endl;
 (yyval.codenode) = node;
 }
-#line 2027 "y.tab.c" /* yacc.c:1646  */
+#line 2037 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2031 "y.tab.c" /* yacc.c:1646  */
+#line 2041 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2255,7 +2265,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 499 "bajj-er_parse.y" /* yacc.c:1906  */
+#line 507 "bajj-er_parse.y" /* yacc.c:1906  */
 
 
 int  main() {

@@ -272,20 +272,25 @@ std::stringstream ifState;
 std::stringstream skip;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
+//std::cout << std::string("going into bool: ") << std::endl;
 CodeNode * boolExp =  $2;
 node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
+//std::cout << std::string("going into statments: ") << std::endl;
 node->code += $4->code;
 node->code += std::string(": ") + skip.str() + std::string("\n");
 node->code += $6->code;
-std::cout << std::string("this is our elsify <-: ") << std::endl; 
 $$ = node;
 }
 ;
 
-elsify: elif SEMICOLON elsify {printf("elsify -> elif SEMICOLON elsify\n");}
-| else SEMICOLON{printf("elsify -> else SEMICOLON\n");}
+elsify: elif  elsify {printf("elsify -> elif SEMICOLON elsify\n");}
+| else {
+//printf("elsify -> else SEMICOLON\n");
+CodeNode *node = $1;
+$$ = node;
+}
 | %empty {
 //printf("elsify->epsilon\n");
 CodeNode *node = new CodeNode;
@@ -372,7 +377,10 @@ exp: exp PLUS term{
 ;
 
 bool_exp: L_PAREN exp comp exp R_PAREN {printf("bool_exp -> L_PAREN exp comp exp R_PAREN\n");}
-| L_PAREN exp R_PAREN {}
+| L_PAREN exp R_PAREN {
+CodeNode *node = $2;
+$$ = node;
+}
 ;
 
 comp: LESS {printf("comp -> LESS\n");}

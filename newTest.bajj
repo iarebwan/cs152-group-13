@@ -1,7 +1,11 @@
 function main(){
-
-if(1){
-output(1);
+num a = 0;
+if(a){
+output(a);
+}
+else{
+a = a + 1;
+output(a);
 };
 
 };
