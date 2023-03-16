@@ -2078,28 +2078,20 @@ CodeNode *node = new CodeNode;
 std::string func = (yyvsp[-3].op_val);
 CodeNode *params = (yyvsp[-1].codenode);
 
-//std::cout << "param code: " << params->code << std::endl;
-//temp
-std::stringstream tempB;
-tempB << std::string("_temp") << temp++;
-
-//tempDec
-CodeNode *tempNode = new CodeNode;
-tempNode->name = tempB.str();
-tempNode->code += std::string(". ") + tempB.str() + std::string("\n");
+std::string temp = create_temp();
 
 //code
-node->code = params->code + tempNode->code;
-node->code += std::string("call ") + func + std::string(", ") + tempB.str() + std::string("\n");
-node->name = tempB.str();
+node->code = params->code + decl_temp_code(temp);
+node->code += std::string("call ") + func + std::string(", ") + temp + std::string("\n");
+node->name = temp;
 //std::cout << "code from func: " << node->code << std::endl;
 (yyval.codenode) = node;
 }
-#line 2099 "y.tab.c" /* yacc.c:1646  */
+#line 2091 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2103 "y.tab.c" /* yacc.c:1646  */
+#line 2095 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2327,7 +2319,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 569 "bajj-er_parse.y" /* yacc.c:1906  */
+#line 561 "bajj-er_parse.y" /* yacc.c:1906  */
 
 
 int  main() {
