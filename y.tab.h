@@ -86,7 +86,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 72 "bajj-er_parse.y" /* yacc.c:1909  */
+#line 73 "bajj-er_parse.y" /* yacc.c:1909  */
 
   char* op_val;
   struct CodeNode *codenode;

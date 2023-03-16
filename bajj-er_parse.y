@@ -24,6 +24,7 @@ int numTemp = 0;
 int symNum = -1;
 std::vector<std::vector<SymNode*> > symTable;
 bool lock = false;
+bool isMain = false;
 
 
 //testing
@@ -111,6 +112,10 @@ prog_start : %empty {
 //printf("we be parsing \n");
 //printf("prog_start->functions\n");
 CodeNode *code_node = $1;
+if(isMain == false){
+std::cout << std::string("Error: No main function declared") << std::endl;
+exit(0);
+}
 printf("%s\n", code_node->code.c_str());
 
 }   
@@ -139,6 +144,9 @@ lock = false;
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
 node->code ="";
+if(func_name == std::string("main")){
+isMain = true;
+} 
 
 // ADD Function NAME
 node->code += std::string("func ") + func_name + std::string("\n");
