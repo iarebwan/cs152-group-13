@@ -1,0 +1,9 @@
+function main(){
+num a;
+num b;
+num c;
+a = 100;
+b = 50;
+c = a + b;
+output(c);
+};
