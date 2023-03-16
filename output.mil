@@ -9,9 +9,9 @@ ret _temp0
 endfunc
 func mult
 . a
-= a, $3
+= a, $1
 . b
-= b, $2
+= b, $0
 . _temp1
 * _temp1, a, b
 ret _temp1

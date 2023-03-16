@@ -118,6 +118,7 @@ node->code += statements->code;
 //endfunc
 node->code += std::string("endfunc\n");
 $$ = node;
+cur_arg = 0;
 };
 
 args: declaration COMMA args {
