@@ -1,7 +1,26 @@
+param code: param 1
+param 2
+
+code from func: param 1
+param 2
+. _temp0
+call add, _temp0
+
+func_call code: param 1
+param 2
+. _temp0
+call add, _temp0
+
+going into statement SEMICOLON
+we are out from statement
+going into statement SEMICOLON
+we are out from statement
+we be parsing 
 func main
 . a
-+ c, 1, 2
-= a, c
+. _temp0
++ _temp0, 1, 2
+= a, _temp0
 param 1
 param 2
 . _temp0
@@ -17,3 +36,4 @@ func add
 = p, 1
 ret p
 endfunc
+
