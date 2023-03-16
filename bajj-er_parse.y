@@ -627,7 +627,7 @@ symTemp->type = "arr";
 ;
 
 declaration: NUM ID L_BRACKET NUMBER R_BRACKET {
-printf("declaration -> NUM ID L_BRACKET R_BRACKET\n");
+//printf("declaration -> NUM ID L_BRACKET R_BRACKET\n");
 if(lock == false){
   symNum++;
   std::vector<SymNode*> tempVec;
@@ -636,6 +636,8 @@ if(lock == false){
 }
 std::string var_name = $2;
 std::string size = $4;
+
+
 CodeNode *arrDec = new CodeNode;
 arrDec->name = var_name;
 arrDec->code = std::string(".[] ") + var_name + std::string(", ") + size + std::string("\n");
