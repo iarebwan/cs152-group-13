@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "y.tab.h"
+#include <cstdlib>
 
 extern FILE* yyin;
 extern int yylex(void);
@@ -24,6 +25,7 @@ int numTemp = 0;
 int symNum = -1;
 std::vector<std::vector<SymNode*> > symTable;
 bool lock = false;
+bool isMain = false;
 
 
 //testing
@@ -48,11 +50,21 @@ bool check_decl(SymNode *Check){
     if(symTable.at(symNum).at(i)->name == Check->name){
       std::string temp = Check->name.c_str();
       printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(symNum).at(i)->name.c_str());
+      printf("Vec size %d and symNum is at %d", symTable.size(), symNum);
+
       return false;
     }
  
   }
 return true;
+}
+
+void print_symTables(std::vector<SymNode*> symTables) {
+  printf("symbol table:\n");
+  for(int i = 0; i < symTables.size(); i++) {
+    printf("function: %s\n", symTables[i]->name.c_str());
+  }
+  printf("\n");
 }
 
 std::string create_temp() {
@@ -111,6 +123,10 @@ prog_start : %empty {
 //printf("we be parsing \n");
 //printf("prog_start->functions\n");
 CodeNode *code_node = $1;
+if(isMain == false){
+std::cout << std::string("Error: No main function declared") << std::endl;
+exit(0);
+}
 printf("%s\n", code_node->code.c_str());
 
 }   
@@ -139,6 +155,9 @@ lock = false;
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
 node->code ="";
+if(func_name == std::string("main")){
+isMain = true;
+} 
 
 // ADD Function NAME
 node->code += std::string("func ") + func_name + std::string("\n");
@@ -365,8 +384,10 @@ std::stringstream skip;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
 //std::cout << std::string("going into bool: ") << std::endl;
-CodeNode * boolExp =  $2;
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+// std::cout << "test test" << std::endl;
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 //std::cout << std::string("going into statments: ") << std::endl;
@@ -410,12 +431,12 @@ CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
 std::stringstream start;
-CodeNode * boolExp =  $2;
+node->code += $2->code;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
 start << std::string("label") << labelNum++;
 node->code += std::string(": ") + start.str();
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n");
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 node->code += $4->code;
@@ -488,8 +509,6 @@ exp: exp PLUS term{
 }
 ;
 
-
-
 bool_exp: L_PAREN exp GREATER exp R_PAREN {
   CodeNode *node = new CodeNode;
   std::string temp = create_temp();
@@ -515,12 +534,20 @@ bool_exp: L_PAREN exp GREATER exp R_PAREN {
   $$ = node;
 }
 | L_PAREN exp LE_EQ exp R_PAREN {
-  CodeNode *node = new CodeNode;
-  std::string temp = create_temp();
-  node->code = $2->code + $4->code + decl_temp_code(temp);
-  node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
-  node->name = temp;
-  $$ = node;
+   CodeNode *node = new CodeNode;
+   CodeNode *src1 = $2;
+   CodeNode *src2 = $4;
+   std::string temp = create_temp();
+   node->code = $2->code + $4->code + decl_temp_code(temp);
+   node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+  // CodeNode *node = new CodeNode;
+  // std::string temp = create_temp();
+  // node->code = $2->code + $4->code + decl_temp_code(temp);
+  // node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  // node->name = temp;
+  // $$ = node;
 }
 | L_PAREN exp GE_EQ exp R_PAREN {
   CodeNode *node = new CodeNode;
@@ -582,10 +609,6 @@ term: term MULTI factor {
 }
 ;
 
-
-
-
-
 factor: L_PAREN exp R_PAREN  {
 //printf("factor->L_PAREN exp R_PAREN\n");
 CodeNode *fact = $2;
@@ -644,7 +667,7 @@ symTemp->type = "arr";
 ;
 
 declaration: NUM ID L_BRACKET NUMBER R_BRACKET {
-printf("declaration -> NUM ID L_BRACKET R_BRACKET\n");
+//printf("declaration -> NUM ID L_BRACKET R_BRACKET\n");
 if(lock == false){
   symNum++;
   std::vector<SymNode*> tempVec;
@@ -653,6 +676,15 @@ if(lock == false){
 }
 std::string var_name = $2;
 std::string size = $4;
+
+int len = std::atoi(size.c_str());
+//std::cout << len << std::endl;
+
+if(len <= 0){
+std::cout << std::string("ERROR:Array size cannot be less 1") << std::endl;
+exit(0);
+}
+
 CodeNode *arrDec = new CodeNode;
 arrDec->name = var_name;
 arrDec->code = std::string(".[] ") + var_name + std::string(", ") + size + std::string("\n");
