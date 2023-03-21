@@ -149,6 +149,7 @@ $$ = node;
 
 function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
 //printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
+lock = false;
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
 node->code ="";
