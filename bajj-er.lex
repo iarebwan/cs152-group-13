@@ -10,7 +10,7 @@ int colnum = 1;
 DIGIT [0-9]
 ALPHA [a-zA-Z]
 NUM {DIGIT}+("."{DIGIT}+)?
-ID ({ALPHA}+{DIGIT}*)+
+ID ({ALPHA}+_*+{DIGIT}*)+
 NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%

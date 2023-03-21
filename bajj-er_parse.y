@@ -57,6 +57,14 @@ bool check_decl(SymNode *Check){
 return true;
 }
 
+void print_symTables(std::vector<SymNode*> symTables) {
+  printf("symbol table:\n");
+  for(int i = 0; i < symTables.size(); i++) {
+    printf("function: %s\n", symTables[i]->name.c_str());
+  }
+  printf("\n");
+}
+
 std::string create_temp() {
   std::stringstream ssm;
   ssm << std::string("_temp") << numTemp++;
@@ -141,7 +149,6 @@ $$ = node;
 
 function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
 //printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
-lock = false;
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
 node->code ="";
@@ -374,8 +381,10 @@ std::stringstream skip;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
 //std::cout << std::string("going into bool: ") << std::endl;
-CodeNode * boolExp =  $2;
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+// std::cout << "test test" << std::endl;
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 //std::cout << std::string("going into statments: ") << std::endl;
@@ -419,12 +428,12 @@ CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
 std::stringstream start;
-CodeNode * boolExp =  $2;
+node->code += $2->code;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
 start << std::string("label") << labelNum++;
 node->code += std::string(": ") + start.str();
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n");
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 node->code += $4->code;
@@ -497,8 +506,6 @@ exp: exp PLUS term{
 }
 ;
 
-
-
 bool_exp: L_PAREN exp GREATER exp R_PAREN {
   CodeNode *node = new CodeNode;
   std::string temp = create_temp();
@@ -524,12 +531,20 @@ bool_exp: L_PAREN exp GREATER exp R_PAREN {
   $$ = node;
 }
 | L_PAREN exp LE_EQ exp R_PAREN {
-  CodeNode *node = new CodeNode;
-  std::string temp = create_temp();
-  node->code = $2->code + $4->code + decl_temp_code(temp);
-  node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
-  node->name = temp;
-  $$ = node;
+   CodeNode *node = new CodeNode;
+   CodeNode *src1 = $2;
+   CodeNode *src2 = $4;
+   std::string temp = create_temp();
+   node->code = $2->code + $4->code + decl_temp_code(temp);
+   node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+  // CodeNode *node = new CodeNode;
+  // std::string temp = create_temp();
+  // node->code = $2->code + $4->code + decl_temp_code(temp);
+  // node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  // node->name = temp;
+  // $$ = node;
 }
 | L_PAREN exp GE_EQ exp R_PAREN {
   CodeNode *node = new CodeNode;
@@ -590,10 +605,6 @@ term: term MULTI factor {
    $$ = factor;
 }
 ;
-
-
-
-
 
 factor: L_PAREN exp R_PAREN  {
 //printf("factor->L_PAREN exp R_PAREN\n");
@@ -691,12 +702,6 @@ symTable.at(symNum).push_back(symTemp);
 | NUM ID {
 //Done?
 //printf("declaration -> NUM ID\n");
-if(lock == false){
-  symNum++;
-  std::vector<SymNode*> tempVec;
-  symTable.push_back(tempVec);
-  lock = true;
-}
 std::string var_name = $2;
 CodeNode *numDec = new CodeNode;
 numDec->name = var_name;

@@ -1,41 +1,35 @@
-func add
-. e
-= e, $1
-. f
-= f, $0
+func fibonacci
+. k
+= k, $0
 . _temp0
-+ _temp0, e, f
-ret _temp0
-endfunc
-func mult
-. g
-= g, $1
-. h
-= h, $0
+<= _temp0, k, 1
+?:= label0, _temp0
+:= label1
+: label0
+ret 1
+: label1
+param _temp1
 . _temp1
-* _temp1, g, h
-ret _temp1
-endfunc
-func main
-. a
-. b
-. c
-. d
-= a, 100
-= b, 50
-param a
-param b
+- _temp1, k, 1
 . _temp2
-call add, _temp2
-= c, _temp2
-.> c
-param c
+call fibonacci, _temp2
 param _temp3
 . _temp3
-+ _temp3, a, b
+- _temp3, k, 2
 . _temp4
-call mult, _temp4
-= d, _temp4
-.> d
+call fibonacci, _temp4
+. _temp5
++ _temp5, _temp2, _temp4
+ret _temp5
+endfunc
+func main
+. n
+. fib_n
+.< n
+param n
+. _temp6
+call fibonacci, _temp6
+= fib_n, _temp6
+.> fib_n
 endfunc
 
