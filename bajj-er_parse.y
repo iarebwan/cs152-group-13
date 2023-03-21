@@ -21,20 +21,15 @@ char *identToken;
 int numberToken;
 int labelNum = 0;
 int numTemp = 0;
-int symNum = -1;
-std::vector<std::vector<SymNode*> > symTable;
-bool lock = false;
-
+std::vector<SymNode*> symTable;
 
 //testing
 int numFunc = 0;
 //
 
 bool check_table(SymNode *Check){
-//printf("Vec size %d", symTable.size());
-  for(int i = 0; i < symTable.at(symNum).size(); i++){
-    
-    if(symTable.at(symNum).at(i)->name == Check->name && symTable.at(symNum).at(i)->type == Check->type){
+  for(int i = 0; i < symTable.size(); i++){
+    if(symTable.at(i)->name == Check->name && symTable.at(i)->type == Check->type){
       return true;
     }
   }
@@ -43,16 +38,23 @@ printf("VarName: %s Does not exist or has been declared as a different type\n", 
 return false;
 }
 bool check_decl(SymNode *Check){
-//printf("Vec size %d", symTable.size());
-  for(int i = 0; i < symTable.at(symNum).size(); i++){
-    if(symTable.at(symNum).at(i)->name == Check->name){
+  for(int i = 0; i < symTable.size(); i++){
+    if(symTable.at(i)->name == Check->name){
       std::string temp = Check->name.c_str();
-      printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(symNum).at(i)->name.c_str());
+      printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(i)->name.c_str());
       return false;
     }
  
   }
 return true;
+}
+
+void print_symTables(std::vector<SymNode*> symTables) {
+  printf("symbol table:\n");
+  for(int i = 0; i < symTables.size(); i++) {
+    printf("function: %s\n", symTables[i]->name.c_str());
+  }
+  printf("\n");
 }
 
 std::string create_temp() {
@@ -76,7 +78,7 @@ std::string decl_temp_code(std::string &temp){
 
 %define parse.error verbose
 %start prog_start
-%token MOD RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR BREAK CONTINUE
+%token MOD RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
 
 %token <op_val> ID
 %type <codenode> num
@@ -135,7 +137,6 @@ $$ = node;
 
 function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
 //printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
-lock = false;
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
 node->code ="";
@@ -154,14 +155,6 @@ node->code += statements->code;
 node->code += std::string("endfunc\n");
 $$ = node;
 cur_arg = 0;
-SymNode* symTemp = new SymNode;
-  symTemp->name = $2;
-  symTemp->type = "func";
-
-  if(check_decl(symTemp) == false){
-
-  exit(0);
- }
 };
 
 args: declaration COMMA args {
@@ -270,15 +263,6 @@ CodeNode *node = new CodeNode;
 node->code = $6->code;
 node->code += std::string("[]= ") + var_name + std::string(", ") + ind + std::string(", ") + $6->name + std::string("\n");
 $$ = node;
-SymNode* symTemp = new SymNode;
-  symTemp->name = $1;
-  symTemp->type = "arr";
-
-  if(check_table(symTemp) == false){
-
-  printf("Variable has not been declared or incompatible variables");
-  exit(0);
- }
 }
 
 | ID ASSIGN exp  
@@ -291,15 +275,6 @@ CodeNode *node = new CodeNode;
 node->code = $3->code;
 node->code += std::string("= ") + var_name + std::string(", ") + $3->name + std::string("\n");
 $$ = node;
-SymNode* symTemp = new SymNode;
-  symTemp->name = $1;
-  symTemp->type = "num";
-
-  if(check_table(symTemp) == false){
-
-  printf("Variable has not been declared or incompatible variables");
-  exit(0);
- }
 }
 | ID ASSIGN function_call {
 CodeNode *node = new CodeNode;
@@ -365,8 +340,10 @@ std::stringstream skip;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
 //std::cout << std::string("going into bool: ") << std::endl;
-CodeNode * boolExp =  $2;
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+// std::cout << "test test" << std::endl;
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 //std::cout << std::string("going into statments: ") << std::endl;
@@ -410,12 +387,12 @@ CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
 std::stringstream start;
-CodeNode * boolExp =  $2;
+node->code += $2->code;
 ifState << std::string("label") << labelNum++;
 skip << std::string("label") << labelNum++;
 start << std::string("label") << labelNum++;
 node->code += std::string(": ") + start.str();
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n");
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 node->code += $4->code;
@@ -488,8 +465,6 @@ exp: exp PLUS term{
 }
 ;
 
-
-
 bool_exp: L_PAREN exp GREATER exp R_PAREN {
   CodeNode *node = new CodeNode;
   std::string temp = create_temp();
@@ -515,12 +490,20 @@ bool_exp: L_PAREN exp GREATER exp R_PAREN {
   $$ = node;
 }
 | L_PAREN exp LE_EQ exp R_PAREN {
-  CodeNode *node = new CodeNode;
-  std::string temp = create_temp();
-  node->code = $2->code + $4->code + decl_temp_code(temp);
-  node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
-  node->name = temp;
-  $$ = node;
+   CodeNode *node = new CodeNode;
+   CodeNode *src1 = $2;
+   CodeNode *src2 = $4;
+   std::string temp = create_temp();
+   node->code = $2->code + $4->code + decl_temp_code(temp);
+   node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+  // CodeNode *node = new CodeNode;
+  // std::string temp = create_temp();
+  // node->code = $2->code + $4->code + decl_temp_code(temp);
+  // node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  // node->name = temp;
+  // $$ = node;
 }
 | L_PAREN exp GE_EQ exp R_PAREN {
   CodeNode *node = new CodeNode;
@@ -582,10 +565,6 @@ term: term MULTI factor {
 }
 ;
 
-
-
-
-
 factor: L_PAREN exp R_PAREN  {
 //printf("factor->L_PAREN exp R_PAREN\n");
 CodeNode *fact = $2;
@@ -645,12 +624,6 @@ symTemp->type = "arr";
 
 declaration: NUM ID L_BRACKET NUMBER R_BRACKET {
 printf("declaration -> NUM ID L_BRACKET R_BRACKET\n");
-if(lock == false){
-  symNum++;
-  std::vector<SymNode*> tempVec;
-  symTable.push_back(tempVec);
-  lock = true;
-}
 std::string var_name = $2;
 std::string size = $4;
 CodeNode *arrDec = new CodeNode;
@@ -667,18 +640,12 @@ if(check_decl(symTemp) == false){
   printf("Variable already declared");
   exit(0);
 }
-symTable.at(symNum).push_back(symTemp);
+symTable.push_back(symTemp);
 
 }
 | NUM ID {
 //Done?
 //printf("declaration -> NUM ID\n");
-if(lock == false){
-  symNum++;
-  std::vector<SymNode*> tempVec;
-  symTable.push_back(tempVec);
-  lock = true;
-}
 std::string var_name = $2;
 CodeNode *numDec = new CodeNode;
 numDec->name = var_name;
@@ -694,8 +661,7 @@ if(check_decl(symTemp) == false){
   printf("Variable already declared");
   exit(0);
 }
-//printf("Vec size %d", symTable.size());
-symTable.at(symNum).push_back(symTemp);
+symTable.push_back(symTemp);
 
 }
 ;
@@ -740,16 +706,6 @@ node->code += std::string("call ") + func + std::string(", ") + temp + std::stri
 node->name = temp;
 //std::cout << "code from func: " << node->code << std::endl;
 $$ = node;
-SymNode* symTemp = new SymNode;
-  symTemp->name = $1;
-  symTemp->type = "func";
-
-  if(check_table(symTemp) == false){
-
-  printf("Function has not been declared.");
-  exit(0);
- }
-
 }
 ;
 
