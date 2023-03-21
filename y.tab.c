@@ -2214,7 +2214,7 @@ int len = std::atoi(size.c_str());
 //std::cout << len << std::endl;
 
 if(len <= 0){
-std::cout << std::string("Array size cannot be less 1") << std::endl;
+std::cout << std::string("ERROR:Array size cannot be less 1") << std::endl;
 exit(0);
 }
 
