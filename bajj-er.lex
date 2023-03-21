@@ -10,7 +10,7 @@ int colnum = 1;
 DIGIT [0-9]
 ALPHA [a-zA-Z]
 NUM {DIGIT}+("."{DIGIT}+)?
-ID ({ALPHA}+{DIGIT}*)+
+ID ({ALPHA}+_*+{DIGIT}*)+
 NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
@@ -31,6 +31,7 @@ NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 "-" {colnum+= yyleng; return MINUS;}
 "*" {colnum+= yyleng; return MULTI;}
 "/" {colnum+= yyleng; return DIVISION;}
+"%" {colnum+= yyleng; return MOD;}
 "<" {colnum+= yyleng; return LESS;}
 ">"     {colnum+= yyleng; return GREATER;}
 "=="    {colnum+= yyleng; return EQUAL;}

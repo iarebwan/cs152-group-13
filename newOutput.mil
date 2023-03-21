@@ -1,0 +1,14 @@
+func main
+. a
+= a, 0
+?:= label0, a
+:= label1
+: label0
+.> a
+: label1
+. c
++ c, a, 1
+= a, c
+.> a
+endfunc
+

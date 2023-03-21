@@ -45,17 +45,17 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    RETURN = 258,
-    INPUT = 259,
-    OUTPUT = 260,
-    NUMBER = 261,
-    NUM = 262,
-    WHILE = 263,
-    IF = 264,
-    ELIF = 265,
-    ELSE = 266,
-    FUNC = 267,
-    ID = 268,
+    MOD = 258,
+    RETURN = 259,
+    INPUT = 260,
+    OUTPUT = 261,
+    NUMBER = 262,
+    NUM = 263,
+    WHILE = 264,
+    IF = 265,
+    ELIF = 266,
+    ELSE = 267,
+    FUNC = 268,
     PLUS = 269,
     MINUS = 270,
     MULTI = 271,
@@ -76,13 +76,25 @@ extern int yydebug;
     ASSIGN = 286,
     SEMICOLON = 287,
     COMMA = 288,
-    FOR = 289
+    FOR = 289,
+    ID = 290
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 74 "bajj-er_parse.y" /* yacc.c:1909  */
+
+  char* op_val;
+  struct CodeNode *codenode;
+
+#line 95 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

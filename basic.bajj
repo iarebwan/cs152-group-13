@@ -1,0 +1,5 @@
+function main(){
+num n;
+n = 150;
+output(n);
+};

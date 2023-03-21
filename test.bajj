@@ -1,0 +1,11 @@
+function main(){
+num a = 1 + 2;
+a = add(2,2);
+output(a);
+};
+
+function add(num b, num d){
+num p = b + d;
+return p;
+}; 
+
