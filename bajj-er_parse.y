@@ -31,6 +31,19 @@ bool isMain = false;
 //testing
 int numFunc = 0;
 //
+bool check_func(SymNode *Check){
+//printf("Vec size %d", symTable.size());
+  for(int i = 0; i < symTable.size(); i++){
+    for(int j = 0; j < symTable.at(i).size(); j++){
+      if(symTable.at(i).at(j)->name == Check->name && symTable.at(i).at(j)->type == Check->type){
+        return true;
+      }
+    }
+  }
+std::string temp = Check->name.c_str();
+printf("func: %s Does not exist or has been declared as a different type\n", temp.c_str());
+return false;
+}
 
 bool check_table(SymNode *Check){
 //printf("Vec size %d", symTable.size());
@@ -44,12 +57,15 @@ std::string temp = Check->name.c_str();
 printf("VarName: %s Does not exist or has been declared as a different type\n", temp.c_str());
 return false;
 }
+
 bool check_decl(SymNode *Check){
 //printf("Vec size %d", symTable.size());
   for(int i = 0; i < symTable.at(symNum).size(); i++){
     if(symTable.at(symNum).at(i)->name == Check->name){
       std::string temp = Check->name.c_str();
       printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(symNum).at(i)->name.c_str());
+      printf("Vec size %d and symNum is at %d", symTable.size(), symNum);
+
       return false;
     }
  
@@ -179,6 +195,8 @@ SymNode* symTemp = new SymNode;
 
   exit(0);
  }
+symTable.at(symNum).push_back(symTemp);
+
 };
 
 args: declaration COMMA args {
@@ -768,7 +786,7 @@ SymNode* symTemp = new SymNode;
   symTemp->name = $1;
   symTemp->type = "func";
 
-  if(check_table(symTemp) == false){
+  if(check_func(symTemp) == false){
 
   printf("Function has not been declared.");
   exit(0);

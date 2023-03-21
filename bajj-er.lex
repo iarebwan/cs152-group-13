@@ -14,6 +14,8 @@ ID ({ALPHA}+_*+{DIGIT}*)+
 NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
+"break"     {colnum+= yyleng; return BREAK;}
+"continue"     {colnum+= yyleng; return CONTINUE;}
 "return"    {colnum+= yyleng; return RETURN;}
 "input"    {colnum+= yyleng; return INPUT;}
 "output"    {colnum+= yyleng; return OUTPUT;}
