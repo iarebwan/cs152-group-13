@@ -21,15 +21,20 @@ char *identToken;
 int numberToken;
 int labelNum = 0;
 int numTemp = 0;
-std::vector<SymNode*> symTable;
+int symNum = -1;
+std::vector<std::vector<SymNode*> > symTable;
+bool lock = false;
+
 
 //testing
 int numFunc = 0;
 //
 
 bool check_table(SymNode *Check){
-  for(int i = 0; i < symTable.size(); i++){
-    if(symTable.at(i)->name == Check->name && symTable.at(i)->type == Check->type){
+printf("Vec size %d", symTable.size());
+  for(int i = 0; i < symTable.at(symNum).size(); i++){
+    
+    if(symTable.at(symNum).at(i)->name == Check->name && symTable.at(symNum).at(i)->type == Check->type){
       return true;
     }
   }
@@ -38,10 +43,11 @@ printf("VarName: %s Does not exist or has been declared as a different type\n", 
 return false;
 }
 bool check_decl(SymNode *Check){
-  for(int i = 0; i < symTable.size(); i++){
-    if(symTable.at(i)->name == Check->name){
+printf("Vec size %d", symTable.size());
+  for(int i = 0; i < symTable.at(symNum).size(); i++){
+    if(symTable.at(symNum).at(i)->name == Check->name){
       std::string temp = Check->name.c_str();
-      printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(i)->name.c_str());
+      printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(symNum).at(i)->name.c_str());
       return false;
     }
  
@@ -137,6 +143,7 @@ $$ = node;
 
 function: FUNC ID L_PAREN args R_PAREN L_C_BRACKET statements R_C_BRACKET SEMICOLON {
 //printf("function-> FUNC ID L_PAREN args R_PAREN L_C_BRACKET statments R_C_BRACKET SEMICOLON  \n");
+lock = false;
 CodeNode *node = new CodeNode;
 std::string func_name = $2;
 node->code ="";
@@ -154,7 +161,9 @@ node->code += statements->code;
 //endfunc
 node->code += std::string("endfunc\n");
 $$ = node;
+
 cur_arg = 0;
+
 };
 
 args: declaration COMMA args {
@@ -624,6 +633,12 @@ symTemp->type = "arr";
 
 declaration: NUM ID L_BRACKET NUMBER R_BRACKET {
 printf("declaration -> NUM ID L_BRACKET R_BRACKET\n");
+if(lock == false){
+  symNum++;
+  std::vector<SymNode*> tempVec;
+  symTable.push_back(tempVec);
+  lock = true;
+}
 std::string var_name = $2;
 std::string size = $4;
 CodeNode *arrDec = new CodeNode;
@@ -640,12 +655,19 @@ if(check_decl(symTemp) == false){
   printf("Variable already declared");
   exit(0);
 }
-symTable.push_back(symTemp);
+printf("Vec size %d", symNum);
+symTable.at(symNum).push_back(symTemp);
 
 }
 | NUM ID {
 //Done?
 //printf("declaration -> NUM ID\n");
+if(lock == false){
+  symNum++;
+  std::vector<SymNode*> tempVec;
+  symTable.push_back(tempVec);
+  lock = true;
+}
 std::string var_name = $2;
 CodeNode *numDec = new CodeNode;
 numDec->name = var_name;
@@ -661,7 +683,8 @@ if(check_decl(symTemp) == false){
   printf("Variable already declared");
   exit(0);
 }
-symTable.push_back(symTemp);
+printf("Vec size %d", symTable.size());
+symTable.at(symNum).push_back(symTemp);
 
 }
 ;
