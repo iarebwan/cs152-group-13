@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "y.tab.h"
+#include <cstdlib>
 
 extern FILE* yyin;
 extern int yylex(void);
@@ -662,6 +663,13 @@ if(lock == false){
 std::string var_name = $2;
 std::string size = $4;
 
+int len = std::atoi(size.c_str());
+//std::cout << len << std::endl;
+
+if(len <= 0){
+std::cout << std::string("ERROR:Array size cannot be less 1") << std::endl;
+exit(0);
+}
 
 CodeNode *arrDec = new CodeNode;
 arrDec->name = var_name;
