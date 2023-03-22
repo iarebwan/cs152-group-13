@@ -16,6 +16,7 @@ void yyerror(const char *msg);
 extern int yyparse();
 //extern int currline;
 extern int linenum;
+extern int loopCount;
 int cur_arg = 0;
 int temp = 0;
 char *identToken;
@@ -23,10 +24,11 @@ int numberToken;
 int labelNum = 0;
 int numTemp = 0;
 int symNum = -1;
+int loopNum = 0;
 std::vector<std::vector<SymNode*> > symTable;
 bool lock = false;
 bool isMain = false;
-
+bool wLock = false;
 
 //testing
 int numFunc = 0;
@@ -42,6 +44,7 @@ bool check_func(SymNode *Check){
   }
 std::string temp = Check->name.c_str();
 printf("func: %s Does not exist or has been declared as a different type\n", temp.c_str());
+printf("Line Number: %d\n", linenum);
 return false;
 }
 
@@ -280,6 +283,10 @@ $$ = node;
 | while {
 //printf("statement->while\n");
 //TODO PHASE 4
+CodeNode *w = $1;
+$$ = w;
+wLock = false;
+
 }
 | for {printf("statement->for\n");}
 | input {
@@ -412,11 +419,7 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
 node->code += $6->code;
 $$ = node;
 }
-
-
-
-
-
+;
 elsify: elif  elsify {printf("elsify -> elif SEMICOLON elsify\n");}
 | else {
 //printf("elsify -> else SEMICOLON\n");
@@ -447,18 +450,21 @@ CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
 std::stringstream start;
+ifState << std::string("loopbody") << loopCount - loopNum;
+skip << std::string("endloop") << loopCount - loopNum;
+start << std::string("beginloop") << loopCount - loopNum;
+node->code += std::string(": ") + start.str() + std::string("\n");
 node->code += $2->code;
-ifState << std::string("label") << labelNum++;
-skip << std::string("label") << labelNum++;
-start << std::string("label") << labelNum++;
-node->code += std::string(": ") + start.str();
 node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n");
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 node->code += $4->code;
 node->code += std::string(":= ") + start.str() + std::string("\n");
 node->code += std::string(": ") + skip.str() + std::string("\n");
+$$ = node;
+loopCount--;
 }
+
 ;
 
 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
@@ -791,12 +797,13 @@ $$ = node;
 SymNode* symTemp = new SymNode;
   symTemp->name = $1;
   symTemp->type = "func";
-
+  if(symNum != 0){
   if(check_func(symTemp) == false){
 
   printf("Function has not been declared.");
   exit(0);
  }
+}
 
 }
 ;
