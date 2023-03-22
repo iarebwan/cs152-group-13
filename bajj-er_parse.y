@@ -31,6 +31,7 @@ bool isMain = false;
 bool wLock = false;
 bool notCool = false;
 
+
 //testing
 int numFunc = 0;
 //
@@ -399,6 +400,7 @@ $$ = node;
 }
 ;
 
+
 if: IF bool_exp L_C_BRACKET statements R_C_BRACKET {
 //printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
 CodeNode *node = new CodeNode;
@@ -410,6 +412,7 @@ skip << std::string("endif") << labelNum;
 // CodeNode * boolExp =  $2;
 node->code += $2->code;
 node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 
 node->code += std::string(": ") + ifState.str() + std::string("\n");
@@ -449,6 +452,7 @@ node->code += $4->code;
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 
 //std::cout << std::string("going into statments: ") << std::endl;
+
 if(wLock == true){
   std::stringstream elseMan;
   elseMan << std::string("else") << labelNum;
@@ -603,6 +607,7 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
 $$ = node;
 labelNum++;
 }
+
 
 
 ;
