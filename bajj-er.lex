@@ -5,21 +5,24 @@
 #include "y.tab.h"
 int linenum = 1;
 int colnum = 1;
+int loopCount = -1;
 %}
 
 DIGIT [0-9]
 ALPHA [a-zA-Z]
 NUM {DIGIT}+("."{DIGIT}+)?
-ID ({ALPHA}+{DIGIT}*)+
+ID ({ALPHA}+_*+{DIGIT}*)+
 NUMERROR ({NUM}{ALPHA}+{NUM}?)+
 
 %%
+"break"     {colnum+= yyleng; return BREAK;}
+"continue"     {colnum+= yyleng; return CONTINUE;}
 "return"    {colnum+= yyleng; return RETURN;}
 "input"    {colnum+= yyleng; return INPUT;}
 "output"    {colnum+= yyleng; return OUTPUT;}
 "for"	{colnum+= yyleng; return FOR;}
 "num" {colnum+= yyleng; return NUM;}
-"while" {colnum+= yyleng; return WHILE;}
+"while" {colnum+= yyleng; loopCount++; return WHILE;}
 "if" {colnum+= yyleng; return IF;}
 "elif" {colnum+= yyleng; return ELIF;}
 "else" {colnum+= yyleng; return ELSE;}
