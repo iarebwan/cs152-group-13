@@ -1,5 +1,3 @@
-function test(){
-num n;
-n[20] = 150;
-output(n);
+function main(){
+num n[0];
 };

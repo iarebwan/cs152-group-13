@@ -77,7 +77,9 @@ extern int yydebug;
     SEMICOLON = 287,
     COMMA = 288,
     FOR = 289,
-    ID = 290
+    BREAK = 290,
+    CONTINUE = 291,
+    ID = 292
   };
 #endif
 
@@ -86,12 +88,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 73 "bajj-er_parse.y" /* yacc.c:1909  */
+#line 102 "bajj-er_parse.y" /* yacc.c:1909  */
 
   char* op_val;
   struct CodeNode *codenode;
 
-#line 95 "y.tab.h" /* yacc.c:1909  */
+#line 97 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

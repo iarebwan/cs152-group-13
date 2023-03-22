@@ -29,6 +29,8 @@ std::vector<std::vector<SymNode*> > symTable;
 bool lock = false;
 bool isMain = false;
 bool wLock = false;
+bool notCool = false;
+
 
 //testing
 int numFunc = 0;
@@ -193,7 +195,6 @@ cur_arg = 0;
 SymNode* symTemp = new SymNode;
   symTemp->name = $2;
   symTemp->type = "func";
-
   if(check_decl(symTemp) == false){
 
   exit(0);
@@ -244,6 +245,7 @@ CodeNode *node = new CodeNode;
 node->code = $1->code;
 //printf("we are out from statement\n");
 $$ = node;
+
 }
 | statement SEMICOLON statements {
 //printf("statements -> statement SEMICOLON statement\n");
@@ -398,11 +400,41 @@ $$ = node;
 }
 ;
 
-if: IF bool_exp L_C_BRACKET statements elsify R_C_BRACKET {
+
+if: IF bool_exp L_C_BRACKET statements R_C_BRACKET {
 //printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
 CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+
+// std::cout << "test test" << std::endl;
+node->code += std::string(": ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+
+$$ = node;
+labelNum++;
+}
+
+
+
+| IF bool_exp L_C_BRACKET statements elsify R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+
 ifState << std::string("if_true") << labelNum;
 skip << std::string("endif") << labelNum;
 //std::cout << std::string("going into bool: ") << std::endl;
@@ -414,11 +446,13 @@ if(wLock == true){
   elseMan << std::string("else") << labelNum;
   node->code += std::string(":= ") + elseMan.str() + std::string("\n");
 }
+node->code += std::string(": ") + ifState.str() + std::string("\n");
 node->code += $4->code;
 // std::cout << "test test" << std::endl;
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
 
 //std::cout << std::string("going into statments: ") << std::endl;
+
 if(wLock == true){
   std::stringstream elseMan;
   elseMan << std::string("else") << labelNum;
@@ -430,6 +464,152 @@ node->code += std::string(": ") + skip.str() + std::string("\n");
 $$ = node;
 labelNum++;
 }
+
+| IF bool_exp L_C_BRACKET statements BREAK SEMICOLON R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+notCool = true;
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream breaker;
+
+breaker << std::string("endloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + breaker.str() + std::string("\n");
+// std::cout << "test test" << std::endl;
+node->code += std::string(": ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+
+$$ = node;
+labelNum++;
+}
+
+
+| IF bool_exp L_C_BRACKET statements BREAK SEMICOLON elsify R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream breaker;
+
+breaker << std::string("endloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(":= ") + elseMan.str() + std::string("\n");
+}
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + breaker.str() + std::string("\n");
+
+// std::cout << "test test" << std::endl;
+
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(": ") + elseMan.str() + std::string("\n");
+}
+node->code += $7->code;
+node->code += std::string(": ") + skip.str() + std::string("\n");
+
+$$ = node;
+labelNum++;
+}
+
+| IF bool_exp L_C_BRACKET statements CONTINUE SEMICOLON R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+notCool = true;
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream cont;
+
+cont << std::string("beginloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + cont.str() + std::string("\n");
+// std::cout << "test test" << std::endl;
+node->code += std::string(": ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+
+$$ = node;
+labelNum++;
+}
+
+| IF bool_exp L_C_BRACKET statements CONTINUE SEMICOLON elsify R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream cont;
+
+cont << std::string("endloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(":= ") + elseMan.str() + std::string("\n");
+}
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + cont.str() + std::string("\n");
+
+// std::cout << "test test" << std::endl;
+
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(": ") + elseMan.str() + std::string("\n");
+}
+node->code += $7->code;
+node->code += std::string(": ") + skip.str() + std::string("\n");
+
+$$ = node;
+labelNum++;
+}
+
+
+
 ;
 elsify: elif  elsify {printf("elsify -> elif SEMICOLON elsify\n");}
 | else {
@@ -462,6 +642,7 @@ wLock = true;
 
 while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {
 //printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");
+notCool = false;
 CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
@@ -813,6 +994,7 @@ $$ = node;
 SymNode* symTemp = new SymNode;
   symTemp->name = $1;
   symTemp->type = "func";
+
   if(symNum != 0){
   if(check_func(symTemp) == false){
 

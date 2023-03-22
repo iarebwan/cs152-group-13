@@ -1,0 +1,12 @@
+function main(){
+num i;
+i = 0;
+while (1 <= 10){
+output(i);
+if(i > 2){
+break;
+};
+i = i +1;
+};
+
+};
