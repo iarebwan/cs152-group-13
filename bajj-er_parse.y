@@ -16,6 +16,7 @@ void yyerror(const char *msg);
 extern int yyparse();
 //extern int currline;
 extern int linenum;
+extern int loopCount;
 int cur_arg = 0;
 int temp = 0;
 char *identToken;
@@ -23,14 +24,30 @@ int numberToken;
 int labelNum = 0;
 int numTemp = 0;
 int symNum = -1;
+int loopNum = 0;
 std::vector<std::vector<SymNode*> > symTable;
 bool lock = false;
 bool isMain = false;
-
+bool wLock = false;
+bool notCool = false;
 
 //testing
 int numFunc = 0;
 //
+bool check_func(SymNode *Check){
+//printf("Vec size %d", symTable.size());
+  for(int i = 0; i < symTable.size(); i++){
+    for(int j = 0; j < symTable.at(i).size(); j++){
+      if(symTable.at(i).at(j)->name == Check->name && symTable.at(i).at(j)->type == Check->type){
+        return true;
+      }
+    }
+  }
+std::string temp = Check->name.c_str();
+printf("func: %s Does not exist or has been declared as a different type\n", temp.c_str());
+printf("Line Number: %d\n", linenum);
+return false;
+}
 
 bool check_table(SymNode *Check){
 //printf("Vec size %d", symTable.size());
@@ -44,17 +61,28 @@ std::string temp = Check->name.c_str();
 printf("VarName: %s Does not exist or has been declared as a different type\n", temp.c_str());
 return false;
 }
+
 bool check_decl(SymNode *Check){
 //printf("Vec size %d", symTable.size());
   for(int i = 0; i < symTable.at(symNum).size(); i++){
     if(symTable.at(symNum).at(i)->name == Check->name){
       std::string temp = Check->name.c_str();
       printf("VarName: %s already exists with variable %s \n", temp.c_str(), symTable.at(symNum).at(i)->name.c_str());
+      printf("Vec size %d and symNum is at %d", symTable.size(), symNum);
+
       return false;
     }
  
   }
 return true;
+}
+
+void print_symTables(std::vector<SymNode*> symTables) {
+  printf("symbol table:\n");
+  for(int i = 0; i < symTables.size(); i++) {
+    printf("function: %s\n", symTables[i]->name.c_str());
+  }
+  printf("\n");
 }
 
 std::string create_temp() {
@@ -78,7 +106,7 @@ std::string decl_temp_code(std::string &temp){
 
 %define parse.error verbose
 %start prog_start
-%token MOD RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR
+%token MOD RETURN INPUT OUTPUT NUMBER NUM WHILE IF ELIF ELSE FUNC PLUS MINUS MULTI DIVISION LESS GREATER EQUAL NOT_EQUAL LE_EQ GE_EQ COMMENT L_BRACKET R_BRACKET L_C_BRACKET R_C_BRACKET L_PAREN R_PAREN ASSIGN SEMICOLON COMMA FOR BREAK CONTINUE
 
 %token <op_val> ID
 %type <codenode> num
@@ -166,11 +194,12 @@ cur_arg = 0;
 SymNode* symTemp = new SymNode;
   symTemp->name = $2;
   symTemp->type = "func";
-
   if(check_decl(symTemp) == false){
 
   exit(0);
  }
+symTable.at(symNum).push_back(symTemp);
+
 };
 
 args: declaration COMMA args {
@@ -215,6 +244,7 @@ CodeNode *node = new CodeNode;
 node->code = $1->code;
 //printf("we are out from statement\n");
 $$ = node;
+
 }
 | statement SEMICOLON statements {
 //printf("statements -> statement SEMICOLON statement\n");
@@ -254,6 +284,9 @@ $$ = node;
 | while {
 //printf("statement->while\n");
 //TODO PHASE 4
+CodeNode *w = $1;
+$$ = w;
+
 }
 | for {printf("statement->for\n");}
 | input {
@@ -366,32 +399,217 @@ $$ = node;
 }
 ;
 
-if: IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify{
+if: IF bool_exp L_C_BRACKET statements R_C_BRACKET {
 //printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
 CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
-ifState << std::string("label") << labelNum++;
-skip << std::string("label") << labelNum++;
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
 //std::cout << std::string("going into bool: ") << std::endl;
-CodeNode * boolExp =  $2;
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n"); 
-node->code +=  std::string(": ") + ifState.str() + std::string("\n");
-//std::cout << std::string("going into statments: ") << std::endl;
+
+node->code += std::string(": ") + ifState.str() + std::string("\n");
 node->code += $4->code;
-node->code += std::string(": ") + skip.str() + std::string("\n");
-node->code += $6->code;
+
+// std::cout << "test test" << std::endl;
+node->code += std::string(": ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+
 $$ = node;
+labelNum++;
 }
 
 
 
+| IF bool_exp L_C_BRACKET statements elsify R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(":= ") + elseMan.str() + std::string("\n");
+}
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+// std::cout << "test test" << std::endl;
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(": ") + elseMan.str() + std::string("\n");
+}
+node->code += $5->code;
+node->code += std::string(": ") + skip.str() + std::string("\n");
+
+$$ = node;
+labelNum++;
+}
+
+| IF bool_exp L_C_BRACKET statements BREAK SEMICOLON R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+notCool = true;
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream breaker;
+
+breaker << std::string("endloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + breaker.str() + std::string("\n");
+// std::cout << "test test" << std::endl;
+node->code += std::string(": ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+
+$$ = node;
+labelNum++;
+}
 
 
+| IF bool_exp L_C_BRACKET statements BREAK SEMICOLON elsify R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream breaker;
+
+breaker << std::string("endloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(":= ") + elseMan.str() + std::string("\n");
+}
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + breaker.str() + std::string("\n");
+
+// std::cout << "test test" << std::endl;
+
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(": ") + elseMan.str() + std::string("\n");
+}
+node->code += $7->code;
+node->code += std::string(": ") + skip.str() + std::string("\n");
+
+$$ = node;
+labelNum++;
+}
+
+| IF bool_exp L_C_BRACKET statements CONTINUE SEMICOLON R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+notCool = true;
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream cont;
+
+cont << std::string("beginloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + cont.str() + std::string("\n");
+// std::cout << "test test" << std::endl;
+node->code += std::string(": ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+
+$$ = node;
+labelNum++;
+}
+
+| IF bool_exp L_C_BRACKET statements CONTINUE SEMICOLON elsify R_C_BRACKET {
+//printf("if -> IF bool_exp L_C_BRACKET statements R_C_BRACKET elsify\n");
+CodeNode *node = new CodeNode;
+std::stringstream ifState;
+std::stringstream skip;
+std::stringstream cont;
+
+cont << std::string("endloop") << loopCount;
+
+ifState << std::string("if_true") << labelNum;
+skip << std::string("endif") << labelNum;
+//std::cout << std::string("going into bool: ") << std::endl;
+// CodeNode * boolExp =  $2;
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(":= ") + elseMan.str() + std::string("\n");
+}
+node->code += std::string(": ") + ifState.str() + std::string("\n");
+node->code += $4->code;
+node->code += std::string(":= ") + cont.str() + std::string("\n");
+
+// std::cout << "test test" << std::endl;
+
+node->code += std::string(":= ") + skip.str() + std::string("\n"); 
+
+//std::cout << std::string("going into statments: ") << std::endl;
+if(wLock == true){
+  std::stringstream elseMan;
+  elseMan << std::string("else") << labelNum;
+  node->code += std::string(": ") + elseMan.str() + std::string("\n");
+}
+node->code += $7->code;
+node->code += std::string(": ") + skip.str() + std::string("\n");
+
+$$ = node;
+labelNum++;
+}
+
+
+;
 elsify: elif  elsify {printf("elsify -> elif SEMICOLON elsify\n");}
 | else {
 //printf("elsify -> else SEMICOLON\n");
+
 CodeNode *node = $1;
 $$ = node;
 }
@@ -408,29 +626,37 @@ elif: ELIF bool_exp L_C_BRACKET statements R_C_BRACKET {printf("elif -> elif boo
 else: ELSE L_C_BRACKET statements R_C_BRACKET {
 //printf("else -> else L_C_BRACKET statements R_C_BRACKET\n");
 //should just push up the code since it is else statement (must be run if no other options)
+std::stringstream elseMan;
+elseMan << std::string(": else") << labelNum;
+//printf("else check");
 CodeNode *node = $3;
 $$ = node;
+wLock = true;
 }
 ;
 
 while: WHILE bool_exp L_C_BRACKET statements R_C_BRACKET {
 //printf("while -> WHILE bool_exp L_C_BRACKET statement R_C_BRACKET\n");
+notCool = false;
 CodeNode *node = new CodeNode;
 std::stringstream ifState;
 std::stringstream skip;
 std::stringstream start;
-CodeNode * boolExp =  $2;
-ifState << std::string("label") << labelNum++;
-skip << std::string("label") << labelNum++;
-start << std::string("label") << labelNum++;
-node->code += std::string(": ") + start.str();
-node->code += std::string("?:= ") + ifState.str() + std::string(", ") + boolExp->name + std::string("\n");
+ifState << std::string("loopbody") << loopCount - loopNum;
+skip << std::string("endloop") << loopCount - loopNum;
+start << std::string("beginloop") << loopCount - loopNum;
+node->code += std::string(": ") + start.str() + std::string("\n");
+node->code += $2->code;
+node->code += std::string("?:= ") + ifState.str() + std::string(", ") + $2->name + std::string("\n");
 node->code += std::string(":= ") + skip.str() + std::string("\n");
 node->code +=  std::string(": ") + ifState.str() + std::string("\n");
 node->code += $4->code;
 node->code += std::string(":= ") + start.str() + std::string("\n");
 node->code += std::string(": ") + skip.str() + std::string("\n");
+$$ = node;
+loopCount--;
 }
+
 ;
 
 for: FOR num SEMICOLON bool_exp ID ASSIGN exp L_C_BRACKET statements R_C_BRACKET{printf("for -> FOR num ASSIGN NUMBER SEMICOLON bool_exp SEMICOLON num ASSIGN exp L_C_BRACKET statements R_C_BRACKET\n");}
@@ -497,8 +723,6 @@ exp: exp PLUS term{
 }
 ;
 
-
-
 bool_exp: L_PAREN exp GREATER exp R_PAREN {
   CodeNode *node = new CodeNode;
   std::string temp = create_temp();
@@ -524,12 +748,20 @@ bool_exp: L_PAREN exp GREATER exp R_PAREN {
   $$ = node;
 }
 | L_PAREN exp LE_EQ exp R_PAREN {
-  CodeNode *node = new CodeNode;
-  std::string temp = create_temp();
-  node->code = $2->code + $4->code + decl_temp_code(temp);
-  node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
-  node->name = temp;
-  $$ = node;
+   CodeNode *node = new CodeNode;
+   CodeNode *src1 = $2;
+   CodeNode *src2 = $4;
+   std::string temp = create_temp();
+   node->code = $2->code + $4->code + decl_temp_code(temp);
+   node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+   node->name = temp;
+   $$ = node;
+  // CodeNode *node = new CodeNode;
+  // std::string temp = create_temp();
+  // node->code = $2->code + $4->code + decl_temp_code(temp);
+  // node->code += std::string("<= ") + temp + std::string(", ") + $2->name + std::string(", ") + $4->name + std::string("\n");
+  // node->name = temp;
+  // $$ = node;
 }
 | L_PAREN exp GE_EQ exp R_PAREN {
   CodeNode *node = new CodeNode;
@@ -590,10 +822,6 @@ term: term MULTI factor {
    $$ = factor;
 }
 ;
-
-
-
-
 
 factor: L_PAREN exp R_PAREN  {
 //printf("factor->L_PAREN exp R_PAREN\n");
@@ -762,11 +990,13 @@ SymNode* symTemp = new SymNode;
   symTemp->name = $1;
   symTemp->type = "func";
 
-  if(check_table(symTemp) == false){
+  if(symNum != 0){
+  if(check_func(symTemp) == false){
 
   printf("Function has not been declared.");
   exit(0);
  }
+}
 
 }
 ;

@@ -3,11 +3,11 @@ func fibonacci
 = k, $0
 . _temp0
 <= _temp0, k, 1
-?:= label0, _temp0
-:= label1
-: label0
+?:= if_true0, _temp0
+:= endif0
+: if_true0
 ret 1
-: label1
+: endif0
 param _temp1
 . _temp1
 - _temp1, k, 1
